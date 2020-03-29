@@ -8,6 +8,7 @@
         Title="Evidence prasat" Height="800" Width="1200" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource DefaultWindow}" Icon="Pig\Img\pigIcon.ico">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="*" />
