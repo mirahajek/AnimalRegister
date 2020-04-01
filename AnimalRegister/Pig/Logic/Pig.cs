@@ -10,7 +10,7 @@ namespace AnimalRegister.Pig.Logic
     {
         public static int ID = 0;
         /// <summary>
-        /// Vnitřní identifikátor prasete
+        /// Vnitřní identifikátor prase
         /// </summary>
         public int Id { get;  set; }
         /// <summary>

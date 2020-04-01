@@ -57,25 +57,25 @@
         <TextBlock Grid.Row="5"  Text="Datum narození *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="6" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum ve formátu 12.12.2020"/>
 
         <TextBlock Grid.Row="7"  Text="Evidenční číslo *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="8" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding RegisterNumber, Mode=OneTime}"
                  ToolTip="Čísla nebo písmena či kombinace obojího"/>
 
         <TextBlock Grid.Row="10"  Text="Pojmenování"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="11" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding Name, Mode=OneTime}"
                  ToolTip="Pojmenování zvířete dle chovatele"/>
 
         <TextBlock Grid.Row="12" Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="13" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
-                  Text="{Binding Part1WorkContent, Mode=OneWay}" TextWrapping="Wrap"
+                  Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap"
                  ToolTip="Libovolný text doplňující informace ke zvířeti"/>
 
         <Button Name="saveButton" Margin="10,5,5,5"

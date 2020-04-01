@@ -22,14 +22,23 @@ namespace AnimalRegister.Pig.Winds
     {
         private Validator validator;
 
-        public AddSawPig(Validator validator)
+        private VM_PigSaw viewModel;
+
+        public AddSawPig(Validator validator, VM_PigSaw viewModel)
         {
             InitializeComponent();
+            pigTypeComboBox.ItemsSource = viewModel.PigType;
+            motherComboBox.ItemsSource = viewModel.Mothers;
             this.validator = validator;
+            this.viewModel = viewModel;
+
+            DataContext = viewModel;
+
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+
             Close();
         }
     }

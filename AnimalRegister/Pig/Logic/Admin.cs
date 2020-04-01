@@ -12,16 +12,26 @@ namespace AnimalRegister.Pig.Logic
     /// </summary>
     enum Category
     {
-        [Description("Krmivo")]
         Feeding,
-        [Description("Stavby")]
         Buildings,
-        [Description("Vybavení")]
         Equipment,
-        [Description("Zvířata")]
         Animals,
-        [Description("Rostliny")]
         Plant,
+    }
+
+    /// <summary>
+    /// Enum pro výběr, zda se jedná o Prasnici nebo ostatní prase k chovu
+    /// </summary>
+    enum TypePig
+    {
+        Saw,
+        OtherPig
+    }
+
+    enum TypePig_Czech
+    {
+        Prasnice,
+        Ostatni
     }
 
     /// <summary>
@@ -60,6 +70,8 @@ namespace AnimalRegister.Pig.Logic
             Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
             Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
         }
+
+
 
         #region Graphic methods
 

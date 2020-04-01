@@ -10,22 +10,39 @@ namespace AnimalRegister.Pig.Logic
 {
     public class Validator
     {
+        /// <summary>
+        /// Plátno pro vykreslení ostatních prasat
+        /// </summary>
         private Canvas canvasPig;
+        /// <summary>
+        /// Plátno pro vykreslení prasnic
+        /// </summary>
         private Canvas canvasSaw;
+        /// <summary>
+        /// Instance správce aplikace
+        /// </summary>
         private Admin admin;
+        /// <summary>
+        /// Aktuální strana výpisu prasat a prasnic - úvodní strana
+        /// </summary>
         private int recordsActualPage;
 
+        /// <summary>
+        /// Nastavení canvasů pro vykreslení informací - plátno pro ostatní prasat a plátno pro prasnice
+        /// </summary>
+        /// <param name="canvasPig">Plátno pro ostatní prasata</param>
+        /// <param name="canvasSaw">Plátno pro prasnice</param>
         public void DefineCanvas(Canvas canvasPig, Canvas canvasSaw)
         {
             if (canvasPig != null)
                 this.canvasPig = canvasPig;
             else
-                throw new ArgumentException("");
+                throw new ArgumentException("Nepodařilo se načíst plátno pro vykreslení informací. Prosím restartujte aplikaci.");
 
             if (canvasSaw != null)
                 this.canvasSaw = canvasSaw;
             else
-                throw new ArgumentException("");
+                throw new ArgumentException("Nepodařilo se načíst plátno pro vykreslení informací. Prosím restartujte aplikaci.");
         }
 
         public Validator()
@@ -34,6 +51,35 @@ namespace AnimalRegister.Pig.Logic
             admin = new Admin();
         }
 
+        public VM_PigSaw DefineVM_PigSaw()
+        {
+            List<string> mothersName = new List<string>();
+            foreach(Saw saw in admin.Saws)
+            {
+                mothersName.Add(saw.Name);
+            }
+
+            return new VM_PigSaw(null, null, mothersName);
+        }
+
+        /// <summary>
+        /// Přidání / úprava prasnice nebo prasete
+        /// </summary>
+        /// <param name="typePig">Prasnice / ostatní prase</param>
+        /// <param name="motherId">Id v ComboBoxu pro výběr matky</param>
+        /// <param name="dateBorn">Datum narození prasete</param>
+        /// <param name="registerNumber">Registrační číslo prasete</param>
+        /// <param name="name">Pojmenování prasete</param>
+        /// <param name="description">Podrobný popis prasete</param>
+        public void AddEditSawPig(int typePig, int motherId, string dateBorn, string registerNumber, string name, string description)
+        {
+
+        }
+
+
+        /// <summary>
+        /// Vloží záznamy prasnice na plátno a zarovná je
+        /// </summary>
         public void ConstructGraphicSawList()
         {
             List<GraphicPigSawRecord> graphic = admin.ConstructGraphicSawList();
