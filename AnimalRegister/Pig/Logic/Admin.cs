@@ -28,6 +28,9 @@ namespace AnimalRegister.Pig.Logic
         OtherPig
     }
 
+    /// <summary>
+    /// České názvy možností prasate
+    /// </summary>
     enum TypePig_Czech
     {
         Prasnice,

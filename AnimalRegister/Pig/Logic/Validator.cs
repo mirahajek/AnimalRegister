@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using AnimalRegister.Pig.Winds;
 
 namespace AnimalRegister.Pig.Logic
 {
@@ -45,13 +46,20 @@ namespace AnimalRegister.Pig.Logic
                 throw new ArgumentException("Nepodařilo se načíst plátno pro vykreslení informací. Prosím restartujte aplikaci.");
         }
 
+        /// <summary>
+        /// Základní konstruktor
+        /// </summary>
         public Validator()
         {
             recordsActualPage = 0;
             admin = new Admin();
         }
 
-        public VM_PigSaw DefineVM_PigSaw()
+        /// <summary>
+        /// Metoda pro vytvoření View modelu Prase / Prasnice, pro jejich úpravu 
+        /// </summary>
+        /// <returns>View model</returns>
+        public VM_PigSaw DefineVM_PigSaw(Pig pig)
         {
             List<string> mothersName = new List<string>();
             foreach(Saw saw in admin.Saws)
@@ -59,7 +67,10 @@ namespace AnimalRegister.Pig.Logic
                 mothersName.Add(saw.Name);
             }
 
-            return new VM_PigSaw(null, null, mothersName);
+            if(pig is Saw)
+                return new VM_PigSaw(null, pig as Saw, mothersName);
+            else
+                return new VM_PigSaw(pig, null, mothersName);
         }
 
         /// <summary>
@@ -99,6 +110,7 @@ namespace AnimalRegister.Pig.Logic
             int b = 0;
             foreach(GraphicPigSawRecord rec in graphic)
             {
+                rec.RecordClick += GraphicRecordClick;
                 List<object> elements = rec.ReturnAllAtributs();
                 foreach (object obj in elements)
                 {
@@ -111,6 +123,19 @@ namespace AnimalRegister.Pig.Logic
             }
             
         }
+
+        /// <summary>
+        /// Kliknutí na grafický záznam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraphicRecordClick(object sender, EventArgs e)
+        {
+            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(sender as Pig));
+            window.Show();
+        }
+
+
 
         public void ConstructGraphicRecords(bool first, bool rotate, bool rotateUp)
         {

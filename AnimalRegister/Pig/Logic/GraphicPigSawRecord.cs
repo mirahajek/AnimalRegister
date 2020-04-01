@@ -12,6 +12,8 @@ namespace AnimalRegister.Pig.Logic
 {
     public class GraphicPigSawRecord
     {
+        public event EventHandler RecordClick;
+
         private Rectangle top;
         private Rectangle down;
         private Image leftImage;
@@ -85,6 +87,18 @@ namespace AnimalRegister.Pig.Logic
 
             };
 
+            down.MouseDown += Down_MouseDown;
+
+        }
+
+        /// <summary>
+        /// Obsluha události kliknutí na spodní obdelník, vyvolá se událost celé třídy, kterou odchytne správce
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Down_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            RecordClick(Animal, EventArgs.Empty);
         }
 
         /// <summary>
