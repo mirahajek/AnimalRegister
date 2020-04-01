@@ -29,7 +29,8 @@ namespace AnimalRegister
             InitializeComponent();
             validator = new Validator();
             validator.DefineCanvas(pigCanvas, sawCanvas);
-            validator.ConstructGraphicSawList();
+ 
+            validator.ConstructGraphicPigSawList();
         }
 
         private void OverviewButton_Click(object sender, RoutedEventArgs e)

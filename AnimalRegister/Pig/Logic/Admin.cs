@@ -62,16 +62,16 @@ namespace AnimalRegister.Pig.Logic
             Pigs = new List<Pig>();
             Saws = new List<Saw>();
 
-            Saws.Add(new Saw(DateTime.Now, "Jsm sd pokusna svine 123", "Baaruska","Pokus"));
-            Saws.Add(new Saw(DateTime.Now, "Jsm sd pokusna svine 123", "Baaruska", "Pokus"));
-            Saws.Add(new Saw(DateTime.Now, "Jsm sd pokusna svine 123", "Baaruska", "Pokus"));
-            Saws.Add(new Saw(DateTime.Now, "Jsm sd pokusna svine 123", "Baaruska", "Pokus"));
+            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 1", "Maruska","Nema nohu"));
+            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 2", "Baruska", "Ma o nohu naivc"));
+            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 3", "Haluska", "Mozna neexistuje"));
+            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 4", "Kovadluska", "Pokus"));
 
 
-            Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
-            Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
-            Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
-            Pigs.Add(new Pig(DateTime.Now, "Ahj 123 456 555", false, null));
+            Pigs.Add(new Pig(DateTime.Now, "Prsatako 1", false, Saws[0]));
+            Pigs.Add(new Pig(DateTime.Now, "ID pras 2", false, Saws[1]));
+            Pigs.Add(new Pig(DateTime.Now, "Id pras 3", false, Saws[2]));
+            Pigs.Add(new Pig(DateTime.Now, "ID pras 4", false, Saws[3]));
         }
 
 

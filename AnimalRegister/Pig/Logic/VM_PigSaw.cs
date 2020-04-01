@@ -18,32 +18,69 @@ namespace AnimalRegister.Pig.Logic
         private Saw ViewSaw;
 
         /// <summary>
+        /// True - uprava * False - novy
+        /// </summary>
+        public bool State { get; private set; }
+
+        /// <summary>
         /// Konstruktor View modelu
         /// </summary>
         /// <param name="pig">Zobrazované prase</param>
         /// <param name="saw">Zobrazovaná prasnice</param>
         /// <param name="mothers">Pole jmen prasnic uložených v aplikaci</param>
-        public VM_PigSaw(Pig pig, Saw saw, List<string> mothers)
+        public VM_PigSaw(Pig pig, Saw saw, List<string> mothers, int selectMotherId)
         {
             ViewPig = pig;
             ViewSaw = saw;
 
             Mothers = mothers;
+            SelectMother = selectMotherId;
+            State = true;
+        }
+
+
+        public VM_PigSaw(List<string> mothers)
+        {
+            Mothers = mothers;
+            State = false;
         }
 
         /// <summary>
-        /// Pole jmen prasnic v systému
+        /// Pole jmen prasnic v systému ** data pro ComboBox
         /// </summary>
         public List<string> Mothers { get; private set; }
 
         /// <summary>
-        /// Typ - Prasnice / Ostatní prase
+        /// Typ - Prasnice / Ostatní prase ** data pro ComboBox
         /// </summary>
         public string[] PigType
         {
             get
             {
                 return Enum.GetNames(typeof(TypePig_Czech));
+            }
+        }
+
+        /// <summary>
+        /// Id vybrané prasnice - pozice v ComboBoxu
+        /// </summary>
+        public int SelectMother { get; private set; }
+
+        /// <summary>
+        /// Id vybraného typu prasete ** 0 - Prasnice / 1 - Ostatní
+        /// </summary>
+        public int SelectType
+        {
+            get
+            {
+                if (ViewPig != null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 
@@ -61,7 +98,6 @@ namespace AnimalRegister.Pig.Logic
                 else
                 {
                     return ViewSaw.Born.ToShortDateString();
-                    
                 }
             }
         }

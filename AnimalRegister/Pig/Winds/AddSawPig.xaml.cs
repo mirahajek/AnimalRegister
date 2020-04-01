@@ -24,6 +24,11 @@ namespace AnimalRegister.Pig.Winds
 
         private VM_PigSaw viewModel;
 
+        /// <summary>
+        /// Konstruktor pro úpravu prasete / prasnice
+        /// </summary>
+        /// <param name="validator"></param>
+        /// <param name="viewModel"></param>
         public AddSawPig(Validator validator, VM_PigSaw viewModel)
         {
             InitializeComponent();
@@ -32,8 +37,18 @@ namespace AnimalRegister.Pig.Winds
             this.validator = validator;
             this.viewModel = viewModel;
 
-            DataContext = viewModel;
-
+            if (viewModel.State)
+            {
+                pigTypeComboBox.SelectedIndex = viewModel.SelectType;            
+                motherComboBox.SelectedIndex = viewModel.SelectMother;
+                
+                DataContext = viewModel;
+                // Skrytí comboBoxu pro výběr matky, pokud se jedná o prasnici
+                if (viewModel.SelectType == 0)
+                {
+                    motherComboBox.Opacity = 0.5;
+                }
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

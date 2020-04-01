@@ -62,15 +62,27 @@ namespace AnimalRegister.Pig.Logic
         public VM_PigSaw DefineVM_PigSaw(Pig pig)
         {
             List<string> mothersName = new List<string>();
+            // Získání jmen všech prasnic v chovu
             foreach(Saw saw in admin.Saws)
             {
                 mothersName.Add(saw.Name);
             }
+            
+            // Jedná se o úpravu stávajícího záznamu
+            if(pig != null)
+            {
+                // Pokud se jedná o Prasnici, vytvoří se View model pro ni
+                if (pig is Saw)
+                    return new VM_PigSaw(null, pig as Saw, mothersName, -1);
+                else
+                {
+                    // Nalezení id matky v kolekci PRasnic
+                    int selectMotherId = admin.Saws.FindIndex(a => a.Id == pig.Mother.Id);
+                    return new VM_PigSaw(pig, null, mothersName, selectMotherId);
+                }
+            }
 
-            if(pig is Saw)
-                return new VM_PigSaw(null, pig as Saw, mothersName);
-            else
-                return new VM_PigSaw(pig, null, mothersName);
+            return new VM_PigSaw(mothersName);   
         }
 
         /// <summary>
@@ -87,20 +99,22 @@ namespace AnimalRegister.Pig.Logic
 
         }
 
-
         /// <summary>
-        /// Vloží záznamy prasnice na plátno a zarovná je
+        /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
         /// </summary>
-        public void ConstructGraphicSawList()
+        /// <returns></returns>
+        public void ConstructGraphicPigSawList()
         {
-            List<GraphicPigSawRecord> graphic = admin.ConstructGraphicSawList();
-
+            // Kolekce grafických záznam pro PRASE i PRASNICE
+            List<GraphicPigSawRecord> graphicSaw = admin.ConstructGraphicSawList();
+            List<GraphicPigSawRecord> graphicPig = admin.ConstructGraphicPigList();
+            // Souřadnice od vrchu pro všechny prvky grafického záznamu
             int[] top =
             {
                 140,170,
                 142,175,200,225
             };
-
+            // Souřadnice od leva pro všechny prvky grafického záznamu
             int[] left =
             {
                 10,10,
@@ -108,7 +122,8 @@ namespace AnimalRegister.Pig.Logic
             };
             int a = 0;
             int b = 0;
-            foreach(GraphicPigSawRecord rec in graphic)
+            // Vykreslení prasnic
+            foreach (GraphicPigSawRecord rec in graphicSaw)
             {
                 rec.RecordClick += GraphicRecordClick;
                 List<object> elements = rec.ReturnAllAtributs();
@@ -119,9 +134,22 @@ namespace AnimalRegister.Pig.Logic
                 }
                 a = 0;
                 b++;
-                
             }
-            
+
+            a = 0; b = 0;
+            // Vykreslení prasat
+            foreach (GraphicPigSawRecord rec in graphicPig)
+            {
+                rec.RecordClick += GraphicRecordClick;
+                List<object> elements = rec.ReturnAllAtributs();
+                foreach (object obj in elements)
+                {
+                    CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
+                    a++;
+                }
+                a = 0;
+                b++;
+            }
         }
 
         /// <summary>
