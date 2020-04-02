@@ -36,7 +36,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Pohlaví * True - muž, False - žena
         /// </summary>
-        public bool Sex { get; set; }
+        public Sex Sex { get; set; }
         /// <summary>
         /// Kolekce veterinárních záznamů kusu
         /// </summary>
@@ -59,7 +59,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo</param>
         /// <param name="sex">Pohlaví * True - muž * False - žena</param>
         /// <param name="mother">Matka - prasnice</param>
-        public Pig(DateTime born, string registerNumber, bool sex, Saw mother)
+        public Pig(DateTime born, string registerNumber, Sex sex, Saw mother)
         {
             Id = ID;
             ID++;
@@ -75,11 +75,11 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         /// <param name="born">Datum narození</param>
         /// <param name="registerNumber">Registrační číslo</param>
-        /// <param name="sex">Pohlaví * True - muž * False - žena</param>
+        /// <param name="sex">Pohlaví * 0 - žena  * 1 - muž</param>
         /// <param name="mother">Matka - prasnice</param>
         /// <param name="despription">Doplňující popis ke zvířeti</param>
         /// <param name="name">Pojmenování zvířete</param>
-        public Pig(DateTime born, string registerNumber, bool sex, Saw mother, string name, string despription)
+        public Pig(DateTime born, string registerNumber, Sex sex, Saw mother, string name, string despription)
         {
             Id = ID;
             ID++;

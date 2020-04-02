@@ -73,9 +73,34 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Zobrazované zvíře je ostatní PRASE
                 if (ViewPig != null)
                 {
                     return 1;
+                }
+                // Prasnice
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Vybrané pohlaví zvířete
+        /// </summary>
+        public int SelectSex
+        {
+            get
+            {
+                if (ViewPig != null)
+                {
+                    // Ostatní zvíře je prasnice
+                    if (ViewPig.Sex == Sex.Saw)
+                        return 0;
+                    // Ostatní zvíře je kanec
+                    else
+                        return 1;
                 }
                 else
                 {

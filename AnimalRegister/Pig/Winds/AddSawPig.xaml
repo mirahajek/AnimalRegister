@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-        Title="Přidej / uprav prase" Height="800" Width="400"
+        Title="Přidej / uprav prase" Height="850" Width="400"
         WindowStartupLocation="CenterScreen" Style="{DynamicResource DefaultWindow}"
         Icon="..\Img\pigIcon.ico">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
@@ -32,7 +34,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="9" Style="{DynamicResource Medium}" Margin="10,5,10,5">
+        <Grid Grid.Row="11" Style="{DynamicResource Medium}" Margin="10,5,10,5">
             <TextBlock Text="Nepovinné údaje" FontSize="25" FontWeight="Bold"
                        HorizontalAlignment="Center" Foreground="White"/>
         </Grid>
@@ -53,28 +55,36 @@
         <ComboBox Grid.Row="4" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
                   FontWeight="Bold" Name="motherComboBox" SelectedIndex="0" Background="White">
         </ComboBox>
-
-        <TextBlock Grid.Row="5"  Text="Datum narození *"
+        
+        <TextBlock Grid.Row="5" Margin="10,0,10,0" Text="Pohlaví"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="6" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <ComboBox Grid.Row="6" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+                  FontWeight="Bold" Name="sexComboBox" SelectedIndex="0" Background="White">
+            <ComboBoxItem Content="Prasnice" />
+            <ComboBoxItem Content="Kanec" />
+        </ComboBox>
+
+        <TextBlock Grid.Row="7"  Text="Datum narození *"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <TextBox Grid.Row="8" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum ve formátu 12.12.2020"/>
 
-        <TextBlock Grid.Row="7"  Text="Evidenční číslo *"
+        <TextBlock Grid.Row="9"  Text="Evidenční číslo *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="8" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="10" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding RegisterNumber, Mode=OneTime}"
                  ToolTip="Čísla nebo písmena či kombinace obojího"/>
 
-        <TextBlock Grid.Row="10"  Text="Pojmenování"
+        <TextBlock Grid.Row="12"  Text="Pojmenování"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="11" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="13" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Name, Mode=OneTime}"
                  ToolTip="Pojmenování zvířete dle chovatele"/>
 
-        <TextBlock Grid.Row="12" Text="Popis"
+        <TextBlock Grid.Row="14" Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="13" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="15" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
                   Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap"
                  ToolTip="Libovolný text doplňující informace ke zvířeti"/>
 

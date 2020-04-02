@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Xml.Serialization;
 
 namespace AnimalRegister.Pig.Logic
 {
@@ -38,6 +41,15 @@ namespace AnimalRegister.Pig.Logic
     }
 
     /// <summary>
+    /// Pohlaví prase ** 0 - Prasnice a 1 - Kanec
+    /// </summary>
+    public enum Sex
+    {
+        Saw,
+        Boar
+    }
+
+    /// <summary>
     /// Třída správce, kde bude veškerá logika
     /// </summary>
     public class Admin
@@ -51,6 +63,11 @@ namespace AnimalRegister.Pig.Logic
         /// Kolekce chovných prasnic
         /// </summary>
         public List<Saw> Saws { get; private set; }
+
+        private string pathBase;
+        private string pathId;
+        private string pathPigs;
+        private string pathSaws;
         /// <summary>
         /// Konstruktor
         /// </summary>
@@ -58,20 +75,40 @@ namespace AnimalRegister.Pig.Logic
         {
             // Takto ziskam pocet prvku v ENUM
             int a = Enum.GetValues(typeof(Category)).Length;
-            Veterinary vet = new Veterinary();
+
             Pigs = new List<Pig>();
             Saws = new List<Saw>();
 
+            /*
             Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 1", "Maruska","Nema nohu"));
             Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 2", "Baruska", "Ma o nohu naivc"));
             Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 3", "Haluska", "Mozna neexistuje"));
             Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 4", "Kovadluska", "Pokus"));
 
 
-            Pigs.Add(new Pig(DateTime.Now, "Prsatako 1", false, Saws[0]));
-            Pigs.Add(new Pig(DateTime.Now, "ID pras 2", false, Saws[1]));
-            Pigs.Add(new Pig(DateTime.Now, "Id pras 3", false, Saws[2]));
-            Pigs.Add(new Pig(DateTime.Now, "ID pras 4", false, Saws[3]));
+            Pigs.Add(new Pig(DateTime.Now, "Prsatako 1", Sex.Boar, Saws[0]));
+            Pigs.Add(new Pig(DateTime.Now, "ID pras 2", Sex.Boar, Saws[1]));
+            Pigs.Add(new Pig(DateTime.Now, "Id pras 3", Sex.Saw, Saws[2]));
+            Pigs.Add(new Pig(DateTime.Now, "ID pras 4", Sex.Saw, Saws[3]));
+            */
+
+            try
+            {
+                pathBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AnimalRegister");
+                if (!Directory.Exists(pathBase))
+                    Directory.CreateDirectory(pathBase);
+
+                pathId = Path.Combine(pathBase, "IDs");
+                pathPigs = Path.Combine(pathBase, "Pigs");
+                pathSaws = Path.Combine(pathBase, "Saws");
+            }
+            catch 
+            {
+                MessageBox.Show("Nepodařilo se načíst složku pro získání dat aplikace", "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            LoadIDs();
+            LoadPigSaws();
         }
 
 
@@ -160,7 +197,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
-        public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description, Pig editPig)
+        public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description, Pig editPig, Sex sex)
         {
             // Nové zvíře
             if(operation == 0)
@@ -174,7 +211,7 @@ namespace AnimalRegister.Pig.Logic
                 // Ostatní
                 else
                 {
-                    Pigs.Add(new Pig(dateBorn, registerNumber, true, mother, name, description));
+                    Pigs.Add(new Pig(dateBorn, registerNumber,sex, mother, name, description));
                 }
             }
             // Úprava stávajícího
@@ -202,17 +239,86 @@ namespace AnimalRegister.Pig.Logic
                     editPig.Mother = mother;
                 }
             }
+
+            SaveIDs();
+            SavePigSaws();
         }
-
-
-
-
         #endregion
 
 
         #region Save/ Load
 
+        /// <summary>
+        /// Uložení ID - prasat, porodů a veterinárních záznamů
+        /// </summary>
+        private void SaveIDs()
+        {
+            using(StreamWriter writter = new StreamWriter(pathId))
+            {
+                writter.WriteLine(Pig.ID);
+                writter.WriteLine(Birth.ID);
+                writter.WriteLine(Veterinary.ID);
+            }
+        }
 
+        /// <summary>
+        /// Uložení prasat a prasnic na C- appData
+        /// </summary>
+        private void SavePigSaws()
+        {
+            XmlSerializer xml_pig = new XmlSerializer(Pigs.GetType());
+            XmlSerializer xml_saw = new XmlSerializer(Saws.GetType());
+
+            using (StreamWriter writter = new StreamWriter(pathSaws))
+            {
+                xml_saw.Serialize(writter, Saws);
+            }
+
+            using (StreamWriter writter = new StreamWriter(pathPigs))
+            {
+                xml_pig.Serialize(writter, Pigs);
+            }
+        }
+
+        /// <summary>
+        /// Načtení IDs - Prase, porody a veterina
+        /// </summary>
+        private void LoadIDs()
+        {
+            using (StreamReader reader = new StreamReader(pathId))
+            {
+                int.TryParse(reader.ReadLine(),out Pig.ID);
+                int.TryParse(reader.ReadLine(), out Birth.ID);
+                int.TryParse(reader.ReadLine(), out Veterinary.ID);
+            }
+        }
+
+        private void LoadPigSaws()
+        {
+            XmlSerializer xml_pig = new XmlSerializer(Pigs.GetType());
+            XmlSerializer xml_saw = new XmlSerializer(Saws.GetType());
+
+            if (File.Exists(pathSaws))
+            {
+                using (StreamReader reader = new StreamReader(pathSaws))
+                {
+                    Saws = (List<Saw>)xml_saw.Deserialize(reader);
+                }
+            }
+            else
+                Saws = new List<Saw>();
+
+            if (File.Exists(pathPigs))
+            {
+                using (StreamReader reader = new StreamReader(pathPigs))
+                {
+                    Pigs = (List<Pig>)xml_pig.Deserialize(reader);
+                }
+            }
+            else
+                Pigs = new List<Pig>();
+
+        }
 
         #endregion
 

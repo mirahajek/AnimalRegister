@@ -97,7 +97,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
-        public void AddEditSawPig(byte operation ,int typePig, int motherId, string dateBorn, string registerNumber, string name, string description)
+        public void AddEditSawPig(byte operation ,int typePig, int motherId, string dateBorn, string registerNumber, string name, string description, int sex)
         {
             //Pomocné proměnné
             DateTime born = DateTime.Now;
@@ -119,15 +119,22 @@ namespace AnimalRegister.Pig.Logic
             // Ošetření evidenčního čísla
             if (registerNumber == "")
                 throw new ArgumentException("Nezadal jsi žádné registrační číslo prasete");
+            //
+            Sex sex_help = Sex.Saw;
+            if (sex == -1)
+                throw new ArgumentException("Nevybral jsi pohlaví zvířete");
+            else
+                sex_help = (Sex)sex;
+
             // Nové zvíře
             if (operation == 0)
             {
-                admin.AddEditSawPig(0, type, motherId, born, registerNumber, name, description,null);
+                admin.AddEditSawPig(0, type, motherId, born, registerNumber, name, description,null, sex_help);
             }
             // Úprava stávajícího
             else if (operation == 1 && editPig != null)
             {
-                admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description,editPig);
+                admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description,editPig, sex_help);
                 ConstructGraphicPigSawList();
             }
             else

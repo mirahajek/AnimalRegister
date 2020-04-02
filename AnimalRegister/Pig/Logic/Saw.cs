@@ -11,15 +11,15 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Počet živých selat při porodu CELKEM
         /// </summary>
-        public int TotalLive { get; private set; }
+        public int TotalLive { get; set; }
         /// <summary>
         /// Počet mrtvých selat při porodu CELKEM
         /// </summary>
-        public int TotalDeath { get; private set; }
+        public int TotalDeath { get; set; }
         /// <summary>
         /// Počet odchovaných selat CELKEM
         /// </summary>
-        public int TotalReared { get; private set; }
+        public int TotalReared { get; set; }
         private List<Birth> birthRecords;
         /// <summary>
         /// Kolekce porodních záznamů
@@ -58,7 +58,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="born">Datum narození</param>
         /// <param name="registerNumber">Registrační číslo prasnice</param>
         /// <param name="name">Pojmenování prasnice</param>
-        public Saw(DateTime born, string registerNumber) : base(born, registerNumber, false, null)
+        public Saw(DateTime born, string registerNumber) : base(born, registerNumber, Sex.Saw, null)
         {
             Born = born;
             RegisterNumber = registerNumber;
@@ -72,7 +72,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo prasnice</param>
         /// <param name="name">Pojmenování prasnice</param>
         /// <param name="desc">Doplňující popis k prasnici</param>
-        public Saw(DateTime born, string registerNumber, string name, string desc) : base(born, registerNumber, false, null,name,desc)
+        public Saw(DateTime born, string registerNumber, string name, string desc) : base(born, registerNumber, Sex.Saw, null,name,desc)
         {
             Born = born;
             RegisterNumber = registerNumber;

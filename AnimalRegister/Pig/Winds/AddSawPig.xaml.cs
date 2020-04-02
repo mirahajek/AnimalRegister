@@ -39,6 +39,7 @@ namespace AnimalRegister.Pig.Winds
             // do chovu než prasnice
             pigTypeComboBox.SelectedIndex = 1;
             motherComboBox.SelectedIndex = -1;
+            sexComboBox.SelectedIndex = -1;
             this.validator = validator;
             this.viewModel = viewModel;
             // Úprava stávajícího prasete
@@ -46,6 +47,7 @@ namespace AnimalRegister.Pig.Winds
             {
                 pigTypeComboBox.SelectedIndex = viewModel.SelectType;            
                 motherComboBox.SelectedIndex = viewModel.SelectMother;
+                sexComboBox.SelectedIndex = viewModel.SelectSex;
                 
                 DataContext = viewModel;
                 // Skrytí comboBoxu pro výběr matky, pokud se jedná o prasnici
@@ -69,7 +71,7 @@ namespace AnimalRegister.Pig.Winds
                 try
                 {
                     validator.AddEditSawPig(0, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
-                        nameTextBox.Text, descriptionTextBox.Text);
+                        nameTextBox.Text, descriptionTextBox.Text,sexComboBox.SelectedIndex);
                     Close();
                 }
                 catch (Exception ex)
@@ -83,7 +85,7 @@ namespace AnimalRegister.Pig.Winds
                 try
                 {
                     validator.AddEditSawPig(1, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
-                        nameTextBox.Text, descriptionTextBox.Text);
+                        nameTextBox.Text, descriptionTextBox.Text, sexComboBox.SelectedIndex);
                     Close();
                 }
                 catch (Exception ex)
