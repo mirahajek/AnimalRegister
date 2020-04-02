@@ -60,9 +60,6 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="name">Pojmenování prasnice</param>
         public Saw(DateTime born, string registerNumber) : base(born, registerNumber, false, null)
         {
-            Id = ID;
-            ID++;
-
             Born = born;
             RegisterNumber = registerNumber;
         }
@@ -77,9 +74,6 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="desc">Doplňující popis k prasnici</param>
         public Saw(DateTime born, string registerNumber, string name, string desc) : base(born, registerNumber, false, null,name,desc)
         {
-            Id = ID;
-            ID++;
-
             Born = born;
             RegisterNumber = registerNumber;
             Name = name;

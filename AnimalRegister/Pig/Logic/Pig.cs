@@ -92,6 +92,9 @@ namespace AnimalRegister.Pig.Logic
             Description = despription;
         }
 
+        /// <summary>
+        /// Prázdný konstruktor pro XML serializer
+        /// </summary>
         public Pig()
         {
 

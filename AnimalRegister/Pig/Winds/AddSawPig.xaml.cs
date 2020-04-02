@@ -41,7 +41,7 @@ namespace AnimalRegister.Pig.Winds
             motherComboBox.SelectedIndex = -1;
             this.validator = validator;
             this.viewModel = viewModel;
-
+            // Úprava stávajícího prasete
             if (viewModel.State)
             {
                 pigTypeComboBox.SelectedIndex = viewModel.SelectType;            
@@ -56,17 +56,40 @@ namespace AnimalRegister.Pig.Winds
             }
         }
 
+        /// <summary>
+        /// Uložení zadaných dat do okna - tlačítko ULOŽ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            // Nové zvíře
+            if(viewModel == null)
             {
-                validator.AddEditSawPig(0, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
-                    nameTextBox.Text, descriptionTextBox.Text);
-                Close();
+                try
+                {
+                    validator.AddEditSawPig(0, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
+                        nameTextBox.Text, descriptionTextBox.Text);
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            catch (Exception ex)
+            // Úprava stávajícího
+            else
             {
-                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+                try
+                {
+                    validator.AddEditSawPig(1, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
+                        nameTextBox.Text, descriptionTextBox.Text);
+                    Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
 
             

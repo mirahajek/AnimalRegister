@@ -28,6 +28,8 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         private int recordsActualPage;
 
+
+        private Pig editPig; 
         /// <summary>
         /// Nastavení canvasů pro vykreslení informací - plátno pro ostatní prasat a plátno pro prasnice
         /// </summary>
@@ -117,14 +119,16 @@ namespace AnimalRegister.Pig.Logic
             // Ošetření evidenčního čísla
             if (registerNumber == "")
                 throw new ArgumentException("Nezadal jsi žádné registrační číslo prasete");
-
+            // Nové zvíře
             if (operation == 0)
             {
-                admin.AddEditSawPig(0, type, motherId, born, registerNumber, name, description);
+                admin.AddEditSawPig(0, type, motherId, born, registerNumber, name, description,null);
             }
-            else if (operation == 1)
+            // Úprava stávajícího
+            else if (operation == 1 && editPig != null)
             {
-                admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description);
+                admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description,editPig);
+                ConstructGraphicPigSawList();
             }
             else
                 throw new ArgumentException("Nelze provést zadanou operaci. Lze pouze 0 nebo 1 (Nový záznam / úprava)");
@@ -153,6 +157,7 @@ namespace AnimalRegister.Pig.Logic
             };
             int a = 0;
             int b = 0;
+
             // Vykreslení prasnic
             foreach (GraphicPigSawRecord rec in graphicSaw)
             {
@@ -191,6 +196,7 @@ namespace AnimalRegister.Pig.Logic
         private void GraphicRecordClick(object sender, EventArgs e)
         {
             AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(sender as Pig));
+            editPig = sender as Pig;
             window.Show();
         }
 

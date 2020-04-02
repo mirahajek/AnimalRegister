@@ -84,14 +84,19 @@ namespace AnimalRegister.Pig.Logic
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicSawList()
         {
-            List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
-            foreach (Saw saw in Saws)
+            if (Saws.Count > 0)
             {
-                graphicRecords.Add(new GraphicPigSawRecord(saw));
+                List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
+                foreach (Saw saw in Saws)
+                {
+                    graphicRecords.Add(new GraphicPigSawRecord(saw));
+                }
+                // Nastavení strany pro každý jednotlivý záznam
+                UpdateSetPage(graphicRecords);
+                return graphicRecords;
             }
-            // Nastavení strany pro každý jednotlivý záznam
-            UpdateSetPage(graphicRecords);
-            return graphicRecords;
+            else
+                return null;
         }
 
         /// <summary>
@@ -100,14 +105,19 @@ namespace AnimalRegister.Pig.Logic
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicPigList()
         {
-            List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
-            foreach (Pig pig in Pigs)
+            if (Pigs.Count > 0)
             {
-                graphicRecords.Add(new GraphicPigSawRecord(pig));
+                List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
+                foreach (Pig pig in Pigs)
+                {
+                    graphicRecords.Add(new GraphicPigSawRecord(pig));
+                }
+                // Nastavení strany pro každý jednotlivý záznam
+                UpdateSetPage(graphicRecords);
+                return graphicRecords;
             }
-            // Nastavení strany pro každý jednotlivý záznam
-            UpdateSetPage(graphicRecords);
-            return graphicRecords;
+            else
+                return null;
         }
 
         /// <summary>
@@ -150,28 +160,47 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
-        public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description)
+        public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description, Pig editPig)
         {
-            Saw mother = Saws[0];
-            if(motherId >= 0 && motherId < Saws.Count)
-            {
-                mother = Saws[motherId];
-            }
-
+            // Nové zvíře
             if(operation == 0)
             {
-                if(type == TypePig.Saw)
+                Saw mother = Saws[motherId];
+                // Prasnice
+                if (type == TypePig.Saw)
                 {
                     Saws.Add(new Saw(dateBorn, registerNumber, name, description));
                 }
+                // Ostatní
                 else
                 {
                     Pigs.Add(new Pig(dateBorn, registerNumber, true, mother, name, description));
                 }
             }
+            // Úprava stávajícího
             else if(operation == 1)
             {
+                // Prasnice
+                if (editPig is Saw)
+                { 
+                    // Změna parametrů konkrétní PRASNICE
+                    Saw editSaw = editPig as Saw;
+                    editSaw.Name = name;
+                    editSaw.RegisterNumber = registerNumber;
+                    editSaw.Born = dateBorn;
+                    editSaw.Description = description;
+                }
+                // Ostatní
+                else
+                {
+                    Saw mother = Saws[motherId];
 
+                    editPig.Name = name;
+                    editPig.RegisterNumber = registerNumber;
+                    editPig.Born = dateBorn;
+                    editPig.Description = description;
+                    editPig.Mother = mother;
+                }
             }
         }
 
