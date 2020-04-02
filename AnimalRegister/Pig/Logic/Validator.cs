@@ -88,15 +88,46 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Přidání / úprava prasnice nebo prasete
         /// </summary>
+        /// <param name="operation">0 - Nové prase, 1 - úprava stávajcího</param>
         /// <param name="typePig">Prasnice / ostatní prase</param>
         /// <param name="motherId">Id v ComboBoxu pro výběr matky</param>
         /// <param name="dateBorn">Datum narození prasete</param>
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
-        public void AddEditSawPig(int typePig, int motherId, string dateBorn, string registerNumber, string name, string description)
+        public void AddEditSawPig(byte operation ,int typePig, int motherId, string dateBorn, string registerNumber, string name, string description)
         {
+            //Pomocné proměnné
+            DateTime born = DateTime.Now;
+            TypePig type = (TypePig)typePig;
+            // Uživatel nevybral prasnici ani ostatní
+            if (typePig == -1)
+                throw new ArgumentException("Nevybral jsi zda se jedná o prasnici / ostatní prase");
+            // Uživatel vybral matku pro prasnici
+            if (typePig == 0 && motherId != -1)
+                throw new ArgumentException("Nemůžeš vybrat matku pro chovnou PRASNICI");
 
+            // Ošetření datumu
+            if (!DateTime.TryParse(dateBorn, out born))
+                throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020");
+            else if (dateBorn == "")
+                throw new ArgumentException("Nezadal jsi datum narození");
+            else if (born > DateTime.Now.AddDays(10))
+                throw new ArgumentException("Zadal jsi datum do budoucnosti více jak 10 dní");
+            // Ošetření evidenčního čísla
+            if (registerNumber == "")
+                throw new ArgumentException("Nezadal jsi žádné registrační číslo prasete");
+
+            if (operation == 0)
+            {
+                admin.AddEditSawPig(0, type, motherId, born, registerNumber, name, description);
+            }
+            else if (operation == 1)
+            {
+                admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description);
+            }
+            else
+                throw new ArgumentException("Nelze provést zadanou operaci. Lze pouze 0 nebo 1 (Nový záznam / úprava)");
         }
 
         /// <summary>

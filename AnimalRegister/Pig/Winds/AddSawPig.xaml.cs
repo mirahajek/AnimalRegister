@@ -32,8 +32,13 @@ namespace AnimalRegister.Pig.Winds
         public AddSawPig(Validator validator, VM_PigSaw viewModel)
         {
             InitializeComponent();
+            // Zdroj dat pro ComboBoxy
             pigTypeComboBox.ItemsSource = viewModel.PigType;
             motherComboBox.ItemsSource = viewModel.Mothers;
+            // Nastavení počítku ComboBoxů, tak aby bylo vybráno ostatní, jelikož se bude častěji přidávat prase 
+            // do chovu než prasnice
+            pigTypeComboBox.SelectedIndex = 1;
+            motherComboBox.SelectedIndex = -1;
             this.validator = validator;
             this.viewModel = viewModel;
 
@@ -53,8 +58,18 @@ namespace AnimalRegister.Pig.Winds
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                validator.AddEditSawPig(0, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
+                    nameTextBox.Text, descriptionTextBox.Text);
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
-            Close();
+            
         }
     }
 }

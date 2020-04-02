@@ -10,7 +10,7 @@ namespace AnimalRegister.Pig.Logic
     /// <summary>
     /// Kategorie pro finance
     /// </summary>
-    enum Category
+    public enum Category
     {
         Feeding,
         Buildings,
@@ -22,7 +22,7 @@ namespace AnimalRegister.Pig.Logic
     /// <summary>
     /// Enum pro výběr, zda se jedná o Prasnici nebo ostatní prase k chovu
     /// </summary>
-    enum TypePig
+    public enum TypePig
     {
         Saw,
         OtherPig
@@ -31,7 +31,7 @@ namespace AnimalRegister.Pig.Logic
     /// <summary>
     /// České názvy možností prasate
     /// </summary>
-    enum TypePig_Czech
+    public enum TypePig_Czech
     {
         Prasnice,
         Ostatni
@@ -141,42 +141,40 @@ namespace AnimalRegister.Pig.Logic
         #region Add/Edit/Remove Pig or Saw
 
         /// <summary>
-        /// Přidání nového kusu prasete pro výkrm apod.
+        /// Přidání / úprava prasnice nebo prasete
         /// </summary>
-        /// <param name="choice">0 - Nové zvíře (zákl. údaje), 1 - Nové zvíře (kompletní údaje), 2 - Úprava stávajícího zvířete</param>
-        /// <param name="born">Datum narození</param>
-        /// <param name="registerNumber">Evidenční číslo dle chovatele</param>
-        /// <param name="sex">Pohlaví</param>
-        /// <param name="mother">Matka</param>
-        /// <param name="name">Pojmenování zvířete</param>
-        /// <param name="description">Popis</param>
-        public void AddEditPig(byte choice, DateTime born, string registerNumber, bool sex, Saw mother, string name, string description)
+        /// <param name="operation">0 - Nové prase, 1 - úprava stávajcího</param>
+        /// <param name="typePig">Prasnice / ostatní prase</param>
+        /// <param name="motherId">Id v ComboBoxu pro výběr matky</param>
+        /// <param name="dateBorn">Datum narození prasete</param>
+        /// <param name="registerNumber">Registrační číslo prasete</param>
+        /// <param name="name">Pojmenování prasete</param>
+        /// <param name="description">Podrobný popis prasete</param>
+        public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description)
         {
-            if (choice == 0)
-                Pigs.Add(new Pig(born, registerNumber, sex, mother));
-            else if (choice == 1)
+            Saw mother = Saws[0];
+            if(motherId >= 0 && motherId < Saws.Count)
+            {
+                mother = Saws[motherId];
+            }
+
+            if(operation == 0)
+            {
+                if(type == TypePig.Saw)
+                {
+                    Saws.Add(new Saw(dateBorn, registerNumber, name, description));
+                }
+                else
+                {
+                    Pigs.Add(new Pig(dateBorn, registerNumber, true, mother, name, description));
+                }
+            }
+            else if(operation == 1)
             {
 
             }
         }
 
-        /// <summary>
-        /// Přidání nového kusu prasete pro výkrm apod.
-        /// </summary>
-        /// <param name="choice">0 - Nové zvíře (zákl. údaje), 1 - Nové zvíře (kompletní údaje), 2 - Úprava stávajícího zvířete</param>
-        /// <param name="born">Datum narození</param>
-        /// <param name="registerNumber">Evidenční číslo dle chovatele</param>
-        /// <param name="name">Pojmenování zvířete</param>
-        /// <param name="description">Popis</param>
-        public void AddEditSaw(byte choice, DateTime born, string registerNumber, string name, string description)
-        {
-            if (choice == 0)
-                Saws.Add(new Saw(born, registerNumber));
-            else if (choice == 1)
-            {
-
-            }
-        }
 
 
 
