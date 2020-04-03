@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\App.xaml
-7635333952
+9-713799982
 
-19324053677
+21-93679833
 131569487696
-MainWindow.xaml;Pig\Winds\AddSawPig.xaml;Style\ButtonStyle.xaml;Style\GridStyle.xaml;Style\TextBlockStyle.xaml;Style\TextBoxStyle.xaml;Style\WindowStyle.xaml;
+MainWindow.xaml;Pig\Winds\AddSawPig.xaml;Pig\Winds\BirthWindow.xaml;Pig\Winds\VeterinaryWindow.xaml;Style\ButtonStyle.xaml;Style\GridStyle.xaml;Style\TextBlockStyle.xaml;Style\TextBoxStyle.xaml;Style\WindowStyle.xaml;
 
 True
 

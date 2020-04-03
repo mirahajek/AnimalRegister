@@ -1,0 +1,181 @@
+﻿<Window x:Class="AnimalRegister.Pig.Winds.BirthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
+        mc:Ignorable="d"
+        Title="Porody" Height="460" Width="800" WindowStartupLocation="CenterScreen"
+        >
+    <Grid Style="{DynamicResource Light}" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15"/>
+
+        </Grid.ColumnDefinitions>
+
+        <!-- Tlačítka pro Ulož a Odeber -->
+        <StackPanel Grid.Row="12" Orientation="Horizontal" HorizontalAlignment="Center"
+                    Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Bottom">
+            <Button Name="saveButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Ulož"
+                Click="SaveButton_Click" IsDefault="True"
+            />
+
+            <Button Name="removeButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Odeber"
+                Click="RemoveButton_Click"
+            />
+        </StackPanel>
+
+        <Image Source="..\Img\pigAdd.png" Grid.Row="1" Grid.Column="0"
+               Margin="45,10,10,10" MinWidth="150" MinHeight="140" Grid.ColumnSpan="2"
+               Grid.RowSpan="5"/>
+
+        <!-- Leva strana OKNA-->
+        <TextBlock Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" Text="Výběr porodu pro zobrazení"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <ComboBox Grid.Row="7" Grid.Column="1" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+                  FontWeight="Bold" Name="birthSelectComboBox" SelectedIndex="0" Background="White"
+                  SelectionChanged="BirthSelectComboBox_SelectionChanged"
+                  ToolTip="Vyber pokud chceš zobrazit / upravit existující záznam. Pro nový záznam ponech nevybráno!">
+        </ComboBox>
+
+        <TextBlock Grid.Row="8" Grid.Column="1"  Text="Datum kontroly březosti"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <TextBox Grid.Row="9" Grid.Column="1" Name="datePregnancyCheckTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Vypočítané datum, kdy má proběhnout kontrola březosti" Focusable="False"/>
+
+        <TextBlock Grid.Row="10" Grid.Column="1" Margin="10,0,10,0" Text="Kontrola březosti"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <ComboBox Grid.Row="11" Grid.Column="1" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+                  FontWeight="Bold" Name="pregnancyCheckComboBox" SelectedIndex="0" Background="White"
+                  ToolTip="Zda byla provedena kontrola březosti">
+        </ComboBox>
+
+        <!-- Konec leve strany -->
+
+        
+        
+        <!-- Prava strana-->
+        <TextBlock Grid.Row="2" Grid.Column="3"  Text="Datum zapuštění"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <TextBox Grid.Row="3" Grid.Column="3" Name="dateRecessedTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Datum zapuštění ve formátu 12.12.2020"/>
+
+
+        <Grid Grid.Row="4" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Datum narození" Style="{DynamicResource NadpisTextBoxu}"/>
+            <TextBlock Text=" - plánované" Grid.Row="1" Style="{DynamicResource NadpisTextBoxu}"/>
+            <TextBlock Text=" - skutečné" Grid.Row="1" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
+        </Grid>
+
+        <Grid Grid.Row="5" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Name="bornPlanTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Vypočítáné datum porodu - 115 dní od zapuštění" Focusable="False"/>
+
+            <TextBox Grid.Column="1" Name="bornRealTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+
+                 ToolTip="Zadejte skutečné datum porodu ve formátu 12.12.2020"/>
+        </Grid>
+        <!-- Konec prava strana -->
+
+        <!-- Sekce selata-->
+        <Grid Grid.Column="3" Grid.Row="6" Grid.RowSpan="2" Style="{DynamicResource Medium}" Margin="10,10,10,15"
+              >
+            <TextBlock Text="Informace selata" FontSize="25" FontWeight="Bold"
+                       HorizontalAlignment="Center" Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="8" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Živá" Style="{DynamicResource NadpisTextBoxu}"/>
+            <TextBlock Text="Mrtvá" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
+        </Grid>
+
+        <Grid Grid.Row="9" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Name="liveTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Počet živých selat při porodu"/>
+
+            <TextBox Grid.Column="1" Name="deadTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Počet mrtvých selat při porodu"/>
+        </Grid>
+
+        <Grid Grid.Row="10" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Odchovaná" Style="{DynamicResource NadpisTextBoxu}"/>
+            <TextBlock Text="Předchozí porod" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
+        </Grid>
+
+        <Grid Grid.Row="11" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Name="rearedTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Počet odchovaných selat - zadáno při odstavu selat od Matky"/>
+
+            <TextBox Grid.Column="1" Name="previousBirthTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 ToolTip="Živá / mrtvá / odchovaná"/>
+        </Grid>
+
+        <!-- Konec sekce selata-->
+    </Grid>
+</Window>

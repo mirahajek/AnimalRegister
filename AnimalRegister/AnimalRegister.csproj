@@ -71,6 +71,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pig\Winds\BirthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pig\Winds\VeterinaryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Style\ButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,6 +112,12 @@
     <Compile Include="Pig\Logic\VM_PigSaw.cs" />
     <Compile Include="Pig\Winds\AddSawPig.xaml.cs">
       <DependentUpon>AddSawPig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pig\Winds\BirthWindow.xaml.cs">
+      <DependentUpon>BirthWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pig\Winds\VeterinaryWindow.xaml.cs">
+      <DependentUpon>VeterinaryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

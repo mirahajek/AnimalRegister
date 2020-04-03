@@ -139,11 +139,15 @@ namespace AnimalRegister.Pig.Winds
 
         private void VeterinaryButton_Click(object sender, RoutedEventArgs e)
         {
-
+            VeterinaryWindow window = new VeterinaryWindow();
+            window.Show();
         }
 
         private void BirthButton_Click(object sender, RoutedEventArgs e)
         {
+            BirthWindow window = new BirthWindow();
+            window.Show();
+
 
         }
     }

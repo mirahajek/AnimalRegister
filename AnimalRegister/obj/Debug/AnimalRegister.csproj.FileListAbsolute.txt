@@ -21,3 +21,7 @@ d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\AddSawPig.baml
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Style\TextBlockStyle.baml
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Style\TextBoxStyle.baml
+d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\BirthWindow.g.cs
+d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\VeterinaryWindow.g.cs
+d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\BirthWindow.baml
+d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\VeterinaryWindow.baml

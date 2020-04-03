@@ -84,8 +84,8 @@
         </Grid>
 
 
-        <Image Source="..\Img\pigAdd.png" Grid.Row="0" Grid.Column="0"
-               Margin="10" MinWidth="170" MinHeight="170" Grid.ColumnSpan="2"
+        <Image Source="..\Img\pigAdd.png" Grid.Row="1" Grid.Column="0"
+               Margin="45,10,10,10" MinWidth="170" MinHeight="170" Grid.ColumnSpan="2"
                Grid.RowSpan="8"/>
 
         <!---->
