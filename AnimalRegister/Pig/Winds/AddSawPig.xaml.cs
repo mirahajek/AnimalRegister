@@ -66,7 +66,7 @@ namespace AnimalRegister.Pig.Winds
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Nové zvíře
-            if(viewModel == null)
+            if(!viewModel.State)
             {
                 try
                 {
@@ -95,6 +95,19 @@ namespace AnimalRegister.Pig.Winds
             }
 
             
+        }
+
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                validator.RemoveSawPig();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

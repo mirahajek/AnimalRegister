@@ -243,10 +243,43 @@ namespace AnimalRegister.Pig.Logic
             SaveIDs();
             SavePigSaws();
         }
+
+        /// <summary>
+        /// Odebrání záznamu zvířete
+        /// </summary>
+        /// <param name="removedPig">Odebíráné zvíře</param>
+        public void RemoveSawPig(Pig removedPig)
+        {
+            if (removedPig != null)
+            {
+                // Vyhledání prasete z kolekce, které odpovídá ID
+                var query = (from p in Pigs
+                            where (p.Id == removedPig.Id)
+                            select p).First();
+                // Odebrání prasete z kolekce
+                Pig pig = query;
+                if(query != null)
+                {
+                    Pigs.Remove(pig);
+                }
+            }
+            // Uložení ID a prasat
+            SaveIDs();
+            SavePigSaws();
+        }
         #endregion
 
 
         #region Save/ Load
+
+        /// <summary>
+        /// Uloží všechna data aplikace
+        /// </summary>
+        public void SaveAll()
+        {
+            SaveIDs();
+            SavePigSaws();
+        }
 
         /// <summary>
         /// Uložení ID - prasat, porodů a veterinárních záznamů
@@ -266,14 +299,15 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         private void SavePigSaws()
         {
+            // Serializéry pro prasata a prasnice
             XmlSerializer xml_pig = new XmlSerializer(Pigs.GetType());
             XmlSerializer xml_saw = new XmlSerializer(Saws.GetType());
-
+            // Prasnice
             using (StreamWriter writter = new StreamWriter(pathSaws))
             {
                 xml_saw.Serialize(writter, Saws);
             }
-
+            // Ostatní
             using (StreamWriter writter = new StreamWriter(pathPigs))
             {
                 xml_pig.Serialize(writter, Pigs);
@@ -293,11 +327,14 @@ namespace AnimalRegister.Pig.Logic
             }
         }
 
+        /// <summary>
+        /// Načtení dat o PRASNICE a Ostatní prasata
+        /// </summary>
         private void LoadPigSaws()
         {
             XmlSerializer xml_pig = new XmlSerializer(Pigs.GetType());
             XmlSerializer xml_saw = new XmlSerializer(Saws.GetType());
-
+            // Prasnice
             if (File.Exists(pathSaws))
             {
                 using (StreamReader reader = new StreamReader(pathSaws))
@@ -308,6 +345,7 @@ namespace AnimalRegister.Pig.Logic
             else
                 Saws = new List<Saw>();
 
+            // Ostatní prasata
             if (File.Exists(pathPigs))
             {
                 using (StreamReader reader = new StreamReader(pathPigs))

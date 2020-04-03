@@ -135,18 +135,59 @@ namespace AnimalRegister.Pig.Logic
             else if (operation == 1 && editPig != null)
             {
                 admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description,editPig, sex_help);
-                ConstructGraphicPigSawList();
             }
             else
                 throw new ArgumentException("Nelze provést zadanou operaci. Lze pouze 0 nebo 1 (Nový záznam / úprava)");
+
+            ConstructGraphicPigSawList(true, false, false);
+        }
+
+        /// <summary>
+        /// Odebrání záznamu zvířete
+        /// </summary>
+        /// <param name="removedPig">Odebíráné zvíře</param>
+        public void RemoveSawPig()
+        {
+            if (editPig != null)
+                admin.RemoveSawPig(editPig);
+            else
+                throw new ArgumentException("Musíš nejprve vybrat prase, které chceš odebrat!");
+
+            ConstructGraphicPigSawList(true,false,false);
+
         }
 
         /// <summary>
         /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
         /// </summary>
         /// <returns></returns>
-        public void ConstructGraphicPigSawList()
+        public void ConstructGraphicPigSawList(bool first, bool rotate, bool rotateUp)
         {
+            // Jedná se o první stranu denních záznamů
+            //      - uložení hodnot z ComboBoxů -- rok a měsíc
+            if (first)
+            {
+                recordsActualPage = 0;
+            }
+            // Přetečení - první strana a rotace nahoru -- poslední strana, tedy pátá
+            if (recordsActualPage == 0 && rotate && rotateUp)
+            {
+                recordsActualPage = 4;
+            }
+            // Rotace kolečkem nahoru -- snížení aktuální strany
+            else if (rotate && rotateUp)
+            {
+                recordsActualPage--;
+            }
+
+            // Aktuální strana 5 - a rotace dolů -- přetečení na první stranu, tedy Id - 0
+            if (recordsActualPage == 4 && rotate && !rotateUp)
+                recordsActualPage = 0;
+            else if (rotate && !rotateUp)
+            {
+                recordsActualPage++;
+            }
+
             // Kolekce grafických záznam pro PRASE i PRASNICE
             List<GraphicPigSawRecord> graphicSaw = admin.ConstructGraphicSawList();
             List<GraphicPigSawRecord> graphicPig = admin.ConstructGraphicPigList();
@@ -165,33 +206,42 @@ namespace AnimalRegister.Pig.Logic
             int a = 0;
             int b = 0;
 
+            canvasPig.Children.Clear();
+            canvasSaw.Children.Clear();
+
             // Vykreslení prasnic
             foreach (GraphicPigSawRecord rec in graphicSaw)
             {
-                rec.RecordClick += GraphicRecordClick;
-                List<object> elements = rec.ReturnAllAtributs();
-                foreach (object obj in elements)
+                if(rec.Page == recordsActualPage)
                 {
-                    CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
-                    a++;
+                    rec.RecordClick += GraphicRecordClick;
+                    List<object> elements = rec.ReturnAllAtributs();
+                    foreach (object obj in elements)
+                    {
+                        CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
+                        a++;
+                    }
+                    a = 0;
+                    b++;
                 }
-                a = 0;
-                b++;
             }
 
             a = 0; b = 0;
             // Vykreslení prasat
             foreach (GraphicPigSawRecord rec in graphicPig)
             {
-                rec.RecordClick += GraphicRecordClick;
-                List<object> elements = rec.ReturnAllAtributs();
-                foreach (object obj in elements)
+                if(rec.Page == recordsActualPage)
                 {
-                    CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
-                    a++;
+                    rec.RecordClick += GraphicRecordClick;
+                    List<object> elements = rec.ReturnAllAtributs();
+                    foreach (object obj in elements)
+                    {
+                        CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
+                        a++;
+                    }
+                    a = 0;
+                    b++;
                 }
-                a = 0;
-                b++;
             }
         }
 
@@ -266,6 +316,14 @@ namespace AnimalRegister.Pig.Logic
                 Canvas.SetRight(element as Button, setRight);
                 Canvas.SetBottom(element as Button, setBottom);
             }
+        }
+
+        /// <summary>
+        /// Uloží všechna data aplikace
+        /// </summary>
+        public void SaveAll()
+        {
+            admin.SaveAll();
         }
     }
 }

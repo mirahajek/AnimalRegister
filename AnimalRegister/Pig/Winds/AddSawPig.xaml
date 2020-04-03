@@ -88,10 +88,19 @@
                   Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap"
                  ToolTip="Libovolný text doplňující informace ke zvířeti"/>
 
-        <Button Name="saveButton" Margin="10,5,5,5"
+
+        <StackPanel Grid.Row="16" Orientation="Horizontal" HorizontalAlignment="Center">
+                    
+            <Button Name="saveButton" Margin="10,5,5,5"
                 Style="{DynamicResource SaveButton}" Content="Ulož"
-                Click="SaveButton_Click" IsDefault="True" Grid.Row="17"
-                />
+                Click="SaveButton_Click" IsDefault="True"
+            />
+        
+            <Button Name="removeButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Odeber"
+                Click="RemoveButton_Click" IsDefault="True"
+            />
+        </StackPanel>
 
     </Grid>
 </Window>
