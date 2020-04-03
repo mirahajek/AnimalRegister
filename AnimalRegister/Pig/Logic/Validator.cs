@@ -42,6 +42,8 @@ namespace AnimalRegister.Pig.Logic
             
             admin = new Admin();
             graphic = new Graphic();
+
+            AddEditBirth(0, "1.1.2020", "", "", "", "", 0, null, null);
         }
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace AnimalRegister.Pig.Logic
             graphic.ConstructGraphicPigSawList(first, rotate, rotateUp, graphicSaw, graphicPig);
         }
 
-
+        #region Add/Edit/Remove PigSaw
         /// <summary>
         /// Přidání / úprava prasnice nebo prasete
         /// </summary>
@@ -187,6 +189,64 @@ namespace AnimalRegister.Pig.Logic
 
         }
 
+        #endregion
+
+        #region Add/Edit/Remove BirthRecord
+
+        /// <summary>
+        /// Metoda pro přidání nebo úpravu záznamu porodu
+        /// </summary>
+        /// <param name="operation">0 - nový záznam, 1 - úprava stávajícího</param>
+        /// <param name="dateRecessed">Datum zapuštění</param>
+        /// <param name="live">Počet živých selat při porodu</param>
+        /// <param name="death">Počet mrtvých selat při porodu</param>
+        /// <param name="reared">Počet odchovaných selat při odstavu</param>
+        /// <param name="dateBirthReal">Skutečné datum porodu</param>
+        /// <param name="pregnancyCheck">Kontrola březosti</param>
+        /// <param name="editRecord">Upravovaný záznam</param>
+        public void AddEditBirth(byte operation, string dateRecessed, string live, string death, string reared, string dateBirthReal,
+            int pregnancyCheck, Birth editRecord, Pig relationalPig)
+        {
+            // Pomocné proměnné
+            bool pregnancyCheck_help = false;
+            DateTime dateRecessed_help = DateTime.Now;
+
+            // Datum porodu skutečné - kontrola pouze až uživatel něco zadá
+            if (!DateTime.TryParse(dateBirthReal, out DateTime dateBirthReal_help) && dateBirthReal != "")
+                throw new ArgumentException("Zadal jsi datum porodu, ve špatném formátu. Má vypadat jako 12.10.2020");
+
+            // Datum zapuštění - povinný parametr
+            if (dateRecessed == "")
+                throw new ArgumentException("Nezadal jsi datum zapuštění!");
+            else if (!DateTime.TryParse(dateRecessed, out dateRecessed_help))
+                throw new ArgumentException("Zadal jsi datum zapuštění ve špatném formátu. Má vypadat jako 12.10.2020");
+
+            // Ošetření situace, kdy uživatel něco zadal, ale nepodařilo se to převést - nepovinné parametry, proto jsou zkoumány až když je zapsáno
+            if (!int.TryParse(live, out int live_help) && live != "")
+                throw new ArgumentException("Nezadal jsi číslo do počtu živých selat! Zkus to znovu");
+
+            if (!int.TryParse(death, out int death_help) && death != "")
+                throw new ArgumentException("Nezadal jsi číslo do počtu mrtvých selat! Zkus to znovu");
+
+            if (!int.TryParse(reared, out int reared_help) && reared != "")
+                throw new ArgumentException("Nezadal jsi číslo do počtu odchovaných selat! Zkus to znovu");
+            //Kontrola březosti
+            if(pregnancyCheck == 1)
+                pregnancyCheck_help = true;
+            
+
+            if (operation == 0 && relationalPig != null)
+            {
+                admin.AddEditBirth(0, dateRecessed_help, live_help, death_help, reared_help, dateBirthReal_help, pregnancyCheck_help, null, relationalPig);
+            }
+            else if(operation == 1 && relationalPig != null && editRecord != null)
+            {
+
+            }
+
+        }
+
+        #endregion
 
         /// <summary>
         /// Uloží všechna data aplikace

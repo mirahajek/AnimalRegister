@@ -289,6 +289,27 @@ namespace AnimalRegister.Pig.Logic
         }
         #endregion
 
+        #region Add/Edit/Remove BirthRecords
+
+        /// <summary>
+        /// Metoda pro přidání nebo úpravu záznamu porodu
+        /// </summary>
+        /// <param name="operation">0 - nový záznam, 1 - úprava stávajícího</param>
+        /// <param name="dateRecessed">Datum zapuštění</param>
+        /// <param name="live">Počet živých selat při porodu</param>
+        /// <param name="death">Počet mrtvých selat při porodu</param>
+        /// <param name="reared">Počet odchovaných selat při odstavu</param>
+        /// <param name="dateBirthReal">Skutečné datum porodu</param>
+        /// <param name="pregnancyCheck">Kontrola březosti - Ano/Ne</param>
+        /// <param name="editRecord">Upravovaný záznam</param>
+        public void AddEditBirth(byte operation, DateTime dateRecessed, int live, int death, int reared, DateTime dateBirthReal, bool pregnancyCheck, Birth editRecord
+            ,Pig relationalPig)
+        {
+
+        }
+
+        #endregion
+
 
         #region Save/ Load
 

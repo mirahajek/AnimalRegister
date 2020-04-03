@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
         Title="Porody" Height="460" Width="800" WindowStartupLocation="CenterScreen"
-        >
+        Icon="..\Img\pigIcon.ico">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>

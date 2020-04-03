@@ -29,13 +29,9 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         public int Reared { get; set; }
         /// <summary>
-        /// Průběh porodu
-        /// </summary>
-        public string BirthProcess { get; set; }
-        /// <summary>
         /// Skutečné datum porodu
         /// </summary>
-        public DateTime DateBirth_real { get; set; }
+        public DateTime? DateBirth_real { get; set; }
         /// <summary>
         /// Plánované datum porodu
         /// </summary>
@@ -97,7 +93,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="birthProcess">Průběh porodu</param>
         /// <param name="dateBirth_real">Skutečné datum porodu</param>
         /// <param name="pregnancyCheck">Kontrola březosti</param>
-        public Birth(DateTime dateRecessed, int live, int death, int reared, string birthProcess, DateTime dateBirth_real, bool pregnancyCheck)
+        public Birth(DateTime dateRecessed, int live, int death, int reared, DateTime dateBirth_real, bool pregnancyCheck)
         {
             Id = ID;
             ID++;
@@ -106,7 +102,6 @@ namespace AnimalRegister.Pig.Logic
             Live = live;
             Death = death;
             Reared = reared;
-            BirthProcess = birthProcess;
             DateBirth_real = dateBirth_real;
             PregnancyCheck = pregnancyCheck;
         }

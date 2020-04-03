@@ -97,6 +97,11 @@ namespace AnimalRegister.Pig.Winds
             
         }
 
+        /// <summary>
+        /// Odebrání vybraného záznamu - tlačítko Odeber
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -119,6 +124,7 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void PigTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Prasnice - schová se možnost zadat matku a pohlaví, protože to není relevatní v tomto případě
             if(pigTypeComboBox.SelectedIndex == 0)
             {
                 motherDescTextBlock.Visibility = Visibility.Hidden;
@@ -127,6 +133,7 @@ namespace AnimalRegister.Pig.Winds
                 sexDescTextBlock.Visibility = Visibility.Hidden;
                 sexComboBox.Visibility = Visibility.Hidden;
             }
+            // Ostatní prase, zde je již důležité uchovat informaci o pohlaví a matce
             else
             {
                 motherDescTextBlock.Visibility = Visibility.Visible;
@@ -137,12 +144,22 @@ namespace AnimalRegister.Pig.Winds
             }
         }
 
+        /// <summary>
+        /// Zobrazení okna veterinárních záznamů - tlačítko Veterina
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void VeterinaryButton_Click(object sender, RoutedEventArgs e)
         {
             VeterinaryWindow window = new VeterinaryWindow();
             window.Show();
         }
 
+        /// <summary>
+        /// Zobrazení okna porodů - tlačítko Porod
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BirthButton_Click(object sender, RoutedEventArgs e)
         {
             BirthWindow window = new BirthWindow();
