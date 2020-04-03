@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-        Title="Přidej / uprav prase" Height="900" Width="400"
+        Title="Přidej / uprav prase" Height="440" Width="920"
         WindowStartupLocation="CenterScreen" Style="{DynamicResource DefaultWindow}"
         Icon="..\Img\pigIcon.ico">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            
             <RowDefinition Height="*"/>
+            
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
@@ -22,89 +25,117 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
 
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="150"/>
-
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="1.1*"/>
+            <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
 
-        <Grid Grid.Row="11" Style="{DynamicResource Medium}" Margin="10,5,10,5">
+        </Grid.ColumnDefinitions>
+        
+        <!-- Horní tlačítka pro Porod a Veterinu -->
+        <StackPanel Grid.Row="9" Orientation="Vertical" HorizontalAlignment="Center"
+                    Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+
+                <Button Name="veterinaryButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Veterina"
+                Click="VeterinaryButton_Click" IsDefault="True"
+            />
+
+                <Button Name="birthButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Porod"
+                Click="BirthButton_Click" IsDefault="True"
+            />
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Grid.Row="11" Orientation="Horizontal" HorizontalAlignment="Center"
+                    Grid.Column="2">
+
+                    <Button Name="saveButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Ulož"
+                Click="SaveButton_Click" IsDefault="True"
+            />
+
+                    <Button Name="removeButton" Margin="10,5,5,5"
+                Style="{DynamicResource SaveButton}" Content="Odeber"
+                Click="RemoveButton_Click" IsDefault="True"
+            />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+
+        <Grid Grid.Column="3" Grid.Row="1" Style="{DynamicResource Medium}" Margin="10,5,10,5">
+            <TextBlock Text="Povinné údaje" FontSize="25" FontWeight="Bold"
+                       HorizontalAlignment="Center" Foreground="White"/>
+        </Grid>
+
+
+        <Grid Grid.Column="4" Grid.Row="1"  Style="{DynamicResource Medium}" Margin="10,5,10,5">
             <TextBlock Text="Nepovinné údaje" FontSize="25" FontWeight="Bold"
                        HorizontalAlignment="Center" Foreground="White"/>
         </Grid>
 
+
         <Image Source="..\Img\pigAdd.png" Grid.Row="0" Grid.Column="0"
                Margin="10" MinWidth="170" MinHeight="170" Grid.ColumnSpan="2"
-               />
+               Grid.RowSpan="8"/>
 
         <!---->
-        <TextBlock Grid.Row="1" Margin="10,0,10,0" Text="Prasnice / ostatní"
+        <TextBlock Grid.Row="2" Grid.Column="3" Margin="10,0,10,0" Text="Prasnice / ostatní"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="2" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+        <ComboBox Grid.Row="3" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
                   FontWeight="Bold" Name="pigTypeComboBox" SelectedIndex="0" Background="White"
                   SelectionChanged="PigTypeComboBox_SelectionChanged"
                   ToolTip="První volba - chovná prasnice, Druhá - ostatní prase v chovu (prasnice nebo kanec)">
         </ComboBox>
 
-        <TextBlock Grid.Row="3" Margin="10,0,10,0" Text="Matka" Name="motherDescTextBlock"
+        <TextBlock Grid.Row="4" Grid.Column="3" Margin="10,0,10,0" Text="Matka" Name="motherDescTextBlock"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="4" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+        <ComboBox Grid.Row="5" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
                   FontWeight="Bold" Name="motherComboBox" SelectedIndex="0" Background="White"
                   ToolTip="Matka zadávaného prasete (jedna z chovných prasnic)">
         </ComboBox>
         
-        <TextBlock Grid.Row="5" Margin="10,0,10,0" Text="Pohlaví" Name="sexDescTextBlock"
+        <TextBlock Grid.Row="6" Grid.Column="3" Margin="10,0,10,0" Text="Pohlaví" Name="sexDescTextBlock"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="6" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
+        <ComboBox Grid.Row="7" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
                   FontWeight="Bold" Name="sexComboBox" SelectedIndex="0" Background="White"
                   ToolTip="Pohlaví zvířete (Prasnice nebo Kanec)">
             <ComboBoxItem Content="Prasnice" />
             <ComboBoxItem Content="Kanec" />
         </ComboBox>
 
-        <TextBlock Grid.Row="7"  Text="Datum narození *"
+        <TextBlock Grid.Row="8" Grid.Column="3"  Text="Datum narození"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="8" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="9" Grid.Column="3" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum narození ve formátu 12.12.2020"/>
 
-        <TextBlock Grid.Row="9"  Text="Evidenční číslo *"
+        <TextBlock Grid.Row="10" Grid.Column="3"  Text="Evidenční číslo"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="10" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="11" Grid.Column="3" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding RegisterNumber, Mode=OneTime}"
                  ToolTip="Čísla nebo písmena či kombinace obojího"/>
 
-        <TextBlock Grid.Row="12"  Text="Pojmenování"
+        <TextBlock Grid.Row="2" Grid.Column="4" Text="Pojmenování"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="13" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="3" Grid.Column="4" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Name, Mode=OneTime}"
                  ToolTip="Pojmenování zvířete dle chovatele"/>
 
-        <TextBlock Grid.Row="14" Text="Popis"
+        <TextBlock Grid.Row="4" Grid.Column="4" Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="15" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
-                  Text="{Binding Description, Mode=OneWay}" TextWrapping="Wrap" AcceptsReturn="True"
+        <TextBox Grid.Row="5" Grid.Column="4" Grid.RowSpan="7" Name="descriptionTextBox" 
+                 Style="{DynamicResource BasicInputTextBox}" Text="{Binding Description, Mode=OneWay}" 
+                 TextWrapping="Wrap" AcceptsReturn="True"
                  ToolTip="Libovolný text doplňující informace ke zvířeti. Nový řádek pomocí ENTER"/>
-
-
-        <StackPanel Grid.Row="16" Orientation="Horizontal" HorizontalAlignment="Center">
-                    
-            <Button Name="saveButton" Margin="10,5,5,5"
-                Style="{DynamicResource SaveButton}" Content="Ulož"
-                Click="SaveButton_Click" IsDefault="True"
-            />
-        
-            <Button Name="removeButton" Margin="10,5,5,5"
-                Style="{DynamicResource SaveButton}" Content="Odeber"
-                Click="RemoveButton_Click" IsDefault="True"
-            />
-        </StackPanel>
-
     </Grid>
 </Window>

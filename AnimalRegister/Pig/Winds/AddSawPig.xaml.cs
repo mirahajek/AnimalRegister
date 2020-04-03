@@ -136,5 +136,15 @@ namespace AnimalRegister.Pig.Winds
                 sexComboBox.Visibility = Visibility.Visible;
             }
         }
+
+        private void VeterinaryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BirthButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
