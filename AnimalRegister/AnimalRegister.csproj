@@ -95,6 +95,7 @@
   <ItemGroup>
     <Compile Include="Pig\Logic\Admin.cs" />
     <Compile Include="Pig\Logic\Birth.cs" />
+    <Compile Include="Pig\Logic\Graphic.cs" />
     <Compile Include="Pig\Logic\GraphicPigSawRecord.cs" />
     <Compile Include="Pig\Logic\Pig.cs" />
     <Compile Include="Pig\Logic\Saw.cs" />

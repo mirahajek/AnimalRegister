@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using AnimalRegister.Pig.Winds;
 
@@ -12,22 +14,11 @@ namespace AnimalRegister.Pig.Logic
     public class Validator
     {
         /// <summary>
-        /// Plátno pro vykreslení ostatních prasat
-        /// </summary>
-        private Canvas canvasPig;
-        /// <summary>
-        /// Plátno pro vykreslení prasnic
-        /// </summary>
-        private Canvas canvasSaw;
-        /// <summary>
         /// Instance správce aplikace
         /// </summary>
         private Admin admin;
-        /// <summary>
-        /// Aktuální strana výpisu prasat a prasnic - úvodní strana
-        /// </summary>
-        private int recordsActualPage;
 
+        private Graphic graphic;
 
         private Pig editPig; 
         /// <summary>
@@ -37,13 +28,8 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="canvasSaw">Plátno pro prasnice</param>
         public void DefineCanvas(Canvas canvasPig, Canvas canvasSaw)
         {
-            if (canvasPig != null)
-                this.canvasPig = canvasPig;
-            else
-                throw new ArgumentException("Nepodařilo se načíst plátno pro vykreslení informací. Prosím restartujte aplikaci.");
-
-            if (canvasSaw != null)
-                this.canvasSaw = canvasSaw;
+            if (canvasPig != null && canvasSaw != null)
+                graphic.DefineCanvas(canvasPig, canvasSaw);
             else
                 throw new ArgumentException("Nepodařilo se načíst plátno pro vykreslení informací. Prosím restartujte aplikaci.");
         }
@@ -53,8 +39,9 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         public Validator()
         {
-            recordsActualPage = 0;
+            
             admin = new Admin();
+            graphic = new Graphic();
         }
 
         /// <summary>
@@ -88,6 +75,45 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
+        /// Kliknutí na grafický záznam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraphicRecordClick(object sender, EventArgs e)
+        {
+            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(sender as Pig));
+            editPig = sender as Pig;
+            window.Show();
+        }
+
+
+        /// <summary>
+        /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
+        /// </summary>
+        /// <param name="first">Jedná se o první stranu</param>
+        /// <param name="rotate">Uživatel orotoval kolečko</param>
+        /// <param name="rotateUp">Uživatel otočil kolečkem nahoru</param>
+        public void ConstructGraphicPigSawList(bool first, bool rotate, bool rotateUp)
+        {
+            // Kolekce grafických záznamů, které budou vykresleni na plátno
+            List<GraphicPigSawRecord> graphicSaw = admin.ConstructGraphicSawList();
+            List<GraphicPigSawRecord> graphicPig = admin.ConstructGraphicPigList();
+            // Přidá obsluhu události při kliknutí na záznam
+            foreach (GraphicPigSawRecord rec in graphicSaw)
+            {
+                rec.RecordClick += GraphicRecordClick;
+            }
+            // Přidá obsluhu události při kliknutí na záznam
+            foreach(GraphicPigSawRecord rec in graphicPig)
+            {
+                rec.RecordClick += GraphicRecordClick;
+            }
+            // Zavolá metodu třídy graphic, která přidá všechny záznamy na plátna
+            graphic.ConstructGraphicPigSawList(first, rotate, rotateUp, graphicSaw, graphicPig);
+        }
+
+
+        /// <summary>
         /// Přidání / úprava prasnice nebo prasete
         /// </summary>
         /// <param name="operation">0 - Nové prase, 1 - úprava stávajcího</param>
@@ -119,12 +145,16 @@ namespace AnimalRegister.Pig.Logic
             // Ošetření evidenčního čísla
             if (registerNumber == "")
                 throw new ArgumentException("Nezadal jsi žádné registrační číslo prasete");
-            //
+
             Sex sex_help = Sex.Saw;
-            if (sex == -1)
-                throw new ArgumentException("Nevybral jsi pohlaví zvířete");
-            else
-                sex_help = (Sex)sex;
+            if (typePig == 1)
+            {
+                // Ošetření výběru pohlaví
+                if (sex == -1)
+                    throw new ArgumentException("Nevybral jsi pohlaví zvířete");
+                else
+                    sex_help = (Sex)sex;
+            }
 
             // Nové zvíře
             if (operation == 0)
@@ -157,166 +187,6 @@ namespace AnimalRegister.Pig.Logic
 
         }
 
-        /// <summary>
-        /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
-        /// </summary>
-        /// <returns></returns>
-        public void ConstructGraphicPigSawList(bool first, bool rotate, bool rotateUp)
-        {
-            // Jedná se o první stranu denních záznamů
-            //      - uložení hodnot z ComboBoxů -- rok a měsíc
-            if (first)
-            {
-                recordsActualPage = 0;
-            }
-            // Přetečení - první strana a rotace nahoru -- poslední strana, tedy pátá
-            if (recordsActualPage == 0 && rotate && rotateUp)
-            {
-                recordsActualPage = 4;
-            }
-            // Rotace kolečkem nahoru -- snížení aktuální strany
-            else if (rotate && rotateUp)
-            {
-                recordsActualPage--;
-            }
-
-            // Aktuální strana 5 - a rotace dolů -- přetečení na první stranu, tedy Id - 0
-            if (recordsActualPage == 4 && rotate && !rotateUp)
-                recordsActualPage = 0;
-            else if (rotate && !rotateUp)
-            {
-                recordsActualPage++;
-            }
-
-            // Kolekce grafických záznam pro PRASE i PRASNICE
-            List<GraphicPigSawRecord> graphicSaw = admin.ConstructGraphicSawList();
-            List<GraphicPigSawRecord> graphicPig = admin.ConstructGraphicPigList();
-            // Souřadnice od vrchu pro všechny prvky grafického záznamu
-            int[] top =
-            {
-                140,170,
-                142,175,200,225
-            };
-            // Souřadnice od leva pro všechny prvky grafického záznamu
-            int[] left =
-            {
-                10,10,
-                15,30,30,30
-            };
-            int a = 0;
-            int b = 0;
-
-            canvasPig.Children.Clear();
-            canvasSaw.Children.Clear();
-
-            // Vykreslení prasnic
-            foreach (GraphicPigSawRecord rec in graphicSaw)
-            {
-                if(rec.Page == recordsActualPage)
-                {
-                    rec.RecordClick += GraphicRecordClick;
-                    List<object> elements = rec.ReturnAllAtributs();
-                    foreach (object obj in elements)
-                    {
-                        CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
-                        a++;
-                    }
-                    a = 0;
-                    b++;
-                }
-            }
-
-            a = 0; b = 0;
-            // Vykreslení prasat
-            foreach (GraphicPigSawRecord rec in graphicPig)
-            {
-                if(rec.Page == recordsActualPage)
-                {
-                    rec.RecordClick += GraphicRecordClick;
-                    List<object> elements = rec.ReturnAllAtributs();
-                    foreach (object obj in elements)
-                    {
-                        CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
-                        a++;
-                    }
-                    a = 0;
-                    b++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Kliknutí na grafický záznam
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void GraphicRecordClick(object sender, EventArgs e)
-        {
-            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(sender as Pig));
-            editPig = sender as Pig;
-            window.Show();
-        }
-
-
-
-        public void ConstructGraphicRecords(bool first, bool rotate, bool rotateUp)
-        {
-            // Jedná se o první stranu denních záznamů
-            //      - uložení hodnot z ComboBoxů -- rok a měsíc
-            if (first)
-            {
-                recordsActualPage = 0;
-            }
-            // Přetečení - první strana a rotace nahoru -- poslední strana, tedy pátá
-            if (recordsActualPage == 0 && rotate && rotateUp)
-            {
-                recordsActualPage = 4;
-            }
-            // Rotace kolečkem nahoru -- snížení aktuální strany
-            else if (rotate && rotateUp)
-            {
-                recordsActualPage--;
-            }
-
-            // Aktuální strana 5 - a rotace dolů -- přetečení na první stranu, tedy Id - 0
-            if (recordsActualPage == 4 && rotate && !rotateUp)
-                recordsActualPage = 0;
-            else if (rotate && !rotateUp)
-            {
-                recordsActualPage++;
-            }
-        }
-
-        private void CanvasPositionAddObject(object element, Canvas canvas, int setLeft, int setTop, int setRight, int setBottom)
-        {
-            // Jedná se o obdelník
-            if (element is Rectangle)
-            {
-                canvas.Children.Add(element as Rectangle);
-                Canvas.SetLeft(element as Rectangle, setLeft);
-                Canvas.SetTop(element as Rectangle, setTop);
-                Canvas.SetRight(element as Rectangle, setRight);
-                Canvas.SetBottom(element as Rectangle, setBottom);
-            }
-            // Jedná se o TextBlock  
-            else if (element is TextBlock)
-            {
-                canvas.Children.Add(element as TextBlock);
-                Canvas.SetLeft(element as TextBlock, setLeft);
-                Canvas.SetTop(element as TextBlock, setTop);
-                Canvas.SetRight(element as TextBlock, setRight);
-                Canvas.SetBottom(element as TextBlock, setBottom);
-            }
-            // Jedná se o tlačítko
-            else if (element is Button)
-            {
-                canvas.Children.Add(element as Button);
-                Canvas.SetLeft(element as Button, setLeft);
-                Canvas.SetTop(element as Button, setTop);
-                Canvas.SetRight(element as Button, setRight);
-                Canvas.SetBottom(element as Button, setBottom);
-            }
-        }
 
         /// <summary>
         /// Uloží všechna data aplikace

@@ -31,7 +31,6 @@ namespace AnimalRegister
             validator.DefineCanvas(pigCanvas, sawCanvas);
  
             validator.ConstructGraphicPigSawList(true,false,false);
-            DefineHead();
         }
 
         private void OverviewButton_Click(object sender, RoutedEventArgs e)
@@ -59,10 +58,9 @@ namespace AnimalRegister
         {
             
             AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(null));
-            DefineHead();
+            
             window.Show();
         }
-
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -76,57 +74,11 @@ namespace AnimalRegister
                     rotateUpflag = true;
 
                 validator.ConstructGraphicPigSawList(false, true, rotateUpflag);
-                DefineHead();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
-
-        private void DefineHead()
-        {
-
-            Rectangle rect = new Rectangle
-            {
-                Height = 120,
-                Width = 400,
-                Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
-            };
-
-            TextBlock text = new TextBlock
-            {
-                Text = "Prasnice",
-                Width = 400,
-                Foreground = Brushes.White,
-                FontWeight = FontWeights.Bold,
-                FontSize = 35
-            };
-
-            Rectangle rectRight = new Rectangle
-            {
-                Height = 120,
-                Width = 400,
-                Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
-            };
-
-            TextBlock textRight = new TextBlock
-            {
-                Text = "Ostatní",
-                Width = 400,
-                Foreground = Brushes.White,
-                FontWeight = FontWeights.Bold,
-                FontSize = 35
-            };
-
-            sawCanvas.Children.Add(rect);
-            sawCanvas.Children.Add(text);
-
-            pigCanvas.Children.Add(rectRight);
-            pigCanvas.Children.Add(textRight);
-
-            Canvas.SetLeft(text, 20); Canvas.SetTop(text, 35);
-            Canvas.SetLeft(textRight, 20); Canvas.SetTop(textRight, 35);
         }
     }
 }

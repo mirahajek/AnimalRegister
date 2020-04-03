@@ -191,18 +191,19 @@ namespace AnimalRegister.Pig.Logic
         /// Přidání / úprava prasnice nebo prasete
         /// </summary>
         /// <param name="operation">0 - Nové prase, 1 - úprava stávajcího</param>
-        /// <param name="typePig">Prasnice / ostatní prase</param>
+        /// <param name="type">Prasnice / ostatní prase</param>
         /// <param name="motherId">Id v ComboBoxu pro výběr matky</param>
         /// <param name="dateBorn">Datum narození prasete</param>
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
+        /// <param name="editPig">Upravované prase</param>
+        /// <param name="sex">Pohlaví 0 - Prasnice, 1 - Kanec</param>
         public void AddEditSawPig(byte operation, TypePig type, int motherId, DateTime dateBorn, string registerNumber, string name, string description, Pig editPig, Sex sex)
         {
             // Nové zvíře
             if(operation == 0)
             {
-                Saw mother = Saws[motherId];
                 // Prasnice
                 if (type == TypePig.Saw)
                 {
@@ -211,6 +212,7 @@ namespace AnimalRegister.Pig.Logic
                 // Ostatní
                 else
                 {
+                    Saw mother = Saws[motherId];
                     Pigs.Add(new Pig(dateBorn, registerNumber,sex, mother, name, description));
                 }
             }
@@ -230,8 +232,9 @@ namespace AnimalRegister.Pig.Logic
                 // Ostatní
                 else
                 {
+                    // Vyhledání konkrétní matky v seznamu PRASNIC
                     Saw mother = Saws[motherId];
-
+                    // Úprava hodnot zadaného prasate
                     editPig.Name = name;
                     editPig.RegisterNumber = registerNumber;
                     editPig.Born = dateBorn;
@@ -252,15 +255,32 @@ namespace AnimalRegister.Pig.Logic
         {
             if (removedPig != null)
             {
-                // Vyhledání prasete z kolekce, které odpovídá ID
-                var query = (from p in Pigs
-                            where (p.Id == removedPig.Id)
-                            select p).First();
-                // Odebrání prasete z kolekce
-                Pig pig = query;
-                if(query != null)
+                if(removedPig is Saw)
                 {
-                    Pigs.Remove(pig);
+                    Saw removedSaw = (Saw)removedPig;
+                    // Vyhledání prasnice z kolekce, které odpovídá ID
+                    var query = (from s in Saws
+                                 where (s.Id == removedSaw.Id)
+                                 select s).First();
+                    // Odebrání prasnice z kolekce
+                    Saw saw = query;
+                    if (saw != null)
+                    {
+                        Saws.Remove(saw);
+                    }
+                }
+                else
+                {
+                    // Vyhledání prasete z kolekce, které odpovídá ID
+                    var query = (from p in Pigs
+                                 where (p.Id == removedPig.Id)
+                                 select p).First();
+                    // Odebrání prasete z kolekce
+                    Pig pig = query;
+                    if (pig != null)
+                    {
+                        Pigs.Remove(pig);
+                    }
                 }
             }
             // Uložení ID a prasat

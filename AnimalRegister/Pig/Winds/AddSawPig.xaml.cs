@@ -97,16 +97,43 @@ namespace AnimalRegister.Pig.Winds
             
         }
 
-
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 validator.RemoveSawPig();
+                Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            
+        }
+
+        /// <summary>
+        /// Změna výběru v ComboBoxu typu zvířete - Chovná prasnice / ostatní prasata
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PigTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(pigTypeComboBox.SelectedIndex == 0)
+            {
+                motherDescTextBlock.Visibility = Visibility.Hidden;
+                motherComboBox.Visibility = Visibility.Hidden;
+
+                sexDescTextBlock.Visibility = Visibility.Hidden;
+                sexComboBox.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                motherDescTextBlock.Visibility = Visibility.Visible;
+                motherComboBox.Visibility = Visibility.Visible;
+
+                sexDescTextBlock.Visibility = Visibility.Visible;
+                sexComboBox.Visibility = Visibility.Visible;
             }
         }
     }
