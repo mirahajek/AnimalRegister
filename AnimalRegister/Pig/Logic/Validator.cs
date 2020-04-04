@@ -39,18 +39,15 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         public Validator()
         {
-            
             admin = new Admin();
             graphic = new Graphic();
-
-            AddEditBirth(0, "1.1.2020", "", "", "", "", 0, null, null);
         }
 
         /// <summary>
         /// Metoda pro vytvoření View modelu Prase / Prasnice, pro jejich úpravu 
         /// </summary>
         /// <returns>View model</returns>
-        public VM_PigSaw DefineVM_PigSaw(Pig pig)
+        public VM_PigSaw DefineVM_PigSaw()
         {
             List<string> mothersName = new List<string>();
             // Získání jmen všech prasnic v chovu
@@ -60,20 +57,36 @@ namespace AnimalRegister.Pig.Logic
             }
             
             // Jedná se o úpravu stávajícího záznamu
-            if(pig != null)
+            if(editPig != null)
             {
                 // Pokud se jedná o Prasnici, vytvoří se View model pro ni
-                if (pig is Saw)
-                    return new VM_PigSaw(null, pig as Saw, mothersName, -1);
+                if (editPig is Saw)
+                    return new VM_PigSaw(null, editPig as Saw, mothersName, -1);
                 else
                 {
                     // Nalezení id matky v kolekci PRasnic
-                    int selectMotherId = admin.Saws.FindIndex(a => a.Id == pig.Mother.Id);
-                    return new VM_PigSaw(pig, null, mothersName, selectMotherId);
+                    int selectMotherId = admin.Saws.FindIndex(a => a.Id == editPig.Mother.Id);
+                    return new VM_PigSaw(editPig, null, mothersName, selectMotherId);
                 }
             }
 
             return new VM_PigSaw(mothersName);   
+        }
+
+        /// <summary>
+        /// Metoda pro vytvoření View modelu Prase / Prasnice, pro jejich úpravu 
+        /// </summary>
+        /// <returns>View model</returns>
+        public VM_Birth DefineVM_Birth()
+        {
+            List<Birth> sawBirth = new List<Birth>();
+            if (editPig is Saw)
+            {
+                Saw mother = (Saw)editPig;
+                return new VM_Birth(mother.BirthRecords);
+            }
+            else
+                throw new ArgumentException("Nelze zobrazit porody pro vybrané zvíře.");
         }
 
         /// <summary>
@@ -83,8 +96,8 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="e"></param>
         private void GraphicRecordClick(object sender, EventArgs e)
         {
-            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(sender as Pig));
             editPig = sender as Pig;
+            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw());
             window.Show();
         }
 
@@ -205,7 +218,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="pregnancyCheck">Kontrola březosti</param>
         /// <param name="editRecord">Upravovaný záznam</param>
         public void AddEditBirth(byte operation, string dateRecessed, string live, string death, string reared, string dateBirthReal,
-            int pregnancyCheck, Birth editRecord, Pig relationalPig)
+            int pregnancyCheck, Birth editRecord)
         {
             // Pomocné proměnné
             bool pregnancyCheck_help = false;
@@ -233,16 +246,29 @@ namespace AnimalRegister.Pig.Logic
             //Kontrola březosti
             if(pregnancyCheck == 1)
                 pregnancyCheck_help = true;
-            
 
-            if (operation == 0 && relationalPig != null)
+            // Vztažné prase je definováno - uživatel kliknul na seznam a k existujícímu praseti chce přidat záznam
+            if(editPig != null)
             {
-                admin.AddEditBirth(0, dateRecessed_help, live_help, death_help, reared_help, dateBirthReal_help, pregnancyCheck_help, null, relationalPig);
+                // Jedná se o prasnici
+                if (editPig is Saw)
+                {
+                    // Přidání nového záznamu
+                    if (operation == 0)
+                    {
+                        admin.AddEditBirth(0, dateRecessed_help, live_help, death_help, reared_help, dateBirthReal_help, pregnancyCheck_help, null, editPig);
+                    }
+                    // Úprava stávajícího
+                    else if (operation == 1 && editRecord != null)
+                    {
+                        admin.AddEditBirth(1, dateRecessed_help, live_help, death_help, reared_help, dateBirthReal_help, pregnancyCheck_help, editRecord, editPig);
+                    }
+                }
+                else
+                    throw new ArgumentException("Upravované zvíře není PRASNICE, proto nelze přidat porod"); 
             }
-            else if(operation == 1 && relationalPig != null && editRecord != null)
-            {
-
-            }
+            else
+                throw new ArgumentException("Nemůžeš přidat porod pro neexistující prace. Nejprve prase vytvoř!");
 
         }
 

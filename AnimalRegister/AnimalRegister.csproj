@@ -109,6 +109,7 @@
     <Compile Include="Pig\Logic\Saw.cs" />
     <Compile Include="Pig\Logic\Validator.cs" />
     <Compile Include="Pig\Logic\Veterinary.cs" />
+    <Compile Include="Pig\Logic\VM_Birth.cs" />
     <Compile Include="Pig\Logic\VM_PigSaw.cs" />
     <Compile Include="Pig\Winds\AddSawPig.xaml.cs">
       <DependentUpon>AddSawPig.xaml</DependentUpon>

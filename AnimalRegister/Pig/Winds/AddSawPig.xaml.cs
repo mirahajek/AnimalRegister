@@ -50,11 +50,12 @@ namespace AnimalRegister.Pig.Winds
                 sexComboBox.SelectedIndex = viewModel.SelectSex;
                 
                 DataContext = viewModel;
-                // Skrytí comboBoxu pro výběr matky, pokud se jedná o prasnici
-                if (viewModel.SelectType == 0)
+                // Skrytí tlačítka pro porody u ostatních prasat
+                if (viewModel.SelectType == 1)
                 {
-                    motherComboBox.Opacity = 0.5;
+                    birthButton.Visibility = Visibility.Hidden;
                 }
+
             }
         }
 
@@ -127,6 +128,8 @@ namespace AnimalRegister.Pig.Winds
             // Prasnice - schová se možnost zadat matku a pohlaví, protože to není relevatní v tomto případě
             if(pigTypeComboBox.SelectedIndex == 0)
             {
+                birthButton.Visibility = Visibility.Visible;
+
                 motherDescTextBlock.Visibility = Visibility.Hidden;
                 motherComboBox.Visibility = Visibility.Hidden;
 
@@ -136,6 +139,8 @@ namespace AnimalRegister.Pig.Winds
             // Ostatní prase, zde je již důležité uchovat informaci o pohlaví a matce
             else
             {
+                birthButton.Visibility = Visibility.Hidden;
+
                 motherDescTextBlock.Visibility = Visibility.Visible;
                 motherComboBox.Visibility = Visibility.Visible;
 
@@ -162,10 +167,8 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void BirthButton_Click(object sender, RoutedEventArgs e)
         {
-            BirthWindow window = new BirthWindow();
+            BirthWindow window = new BirthWindow(validator, validator.DefineVM_Birth());
             window.Show();
-
-
         }
     }
 }

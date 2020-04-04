@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-        Title="Přidej / uprav prase" Height="440" Width="920"
+        Title="Přidej / uprav prase" Height="440" Width="950"
         WindowStartupLocation="CenterScreen" Style="{DynamicResource DefaultWindow}"
         Icon="..\Img\pigIcon.ico">
     <Grid Style="{DynamicResource Light}" Margin="10">
@@ -29,7 +29,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="1.1*"/>
+            <ColumnDefinition Width="1.15*"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>

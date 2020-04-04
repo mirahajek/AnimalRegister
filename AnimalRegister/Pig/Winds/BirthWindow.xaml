@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
         Title="Porody" Height="460" Width="800" WindowStartupLocation="CenterScreen"
-        Icon="..\Img\pigIcon.ico">
+        Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -26,13 +26,13 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="0.7*"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="15"/>
-
         </Grid.ColumnDefinitions>
 
         <!-- Tlačítka pro Ulož a Odeber -->
@@ -56,23 +56,26 @@
         <!-- Leva strana OKNA-->
         <TextBlock Grid.Row="6" Grid.Column="1" Margin="10,0,10,0" Text="Výběr porodu pro zobrazení"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="7" Grid.Column="1" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
-                  FontWeight="Bold" Name="birthSelectComboBox" SelectedIndex="0" Background="White"
-                  SelectionChanged="BirthSelectComboBox_SelectionChanged"
-                  ToolTip="Vyber pokud chceš zobrazit / upravit existující záznam. Pro nový záznam ponech nevybráno!">
+        <ComboBox Grid.Row="7" Grid.Column="1" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="birthSelectComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="BirthSelectComboBox_SelectionChanged" 
+                  ToolTip="Vyber pokud chceš zobrazit / upravit existující záznam. Pro nový záznam ponech nevybráno!"
+                  >
         </ComboBox>
 
         <TextBlock Grid.Row="8" Grid.Column="1"  Text="Datum kontroly březosti"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="9" Grid.Column="1" Name="datePregnancyCheckTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DatePregnancyCheck, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Vypočítané datum, kdy má proběhnout kontrola březosti" Focusable="False"/>
 
         <TextBlock Grid.Row="10" Grid.Column="1" Margin="10,0,10,0" Text="Kontrola březosti"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="11" Grid.Column="1" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
-                  FontWeight="Bold" Name="pregnancyCheckComboBox" SelectedIndex="0" Background="White"
+        <ComboBox Grid.Row="11" Grid.Column="1" Margin="10,4,10,4" FontSize="13" SelectedIndex="{Binding PregnancyCheck, Mode=OneWay}"
+                  FontWeight="Bold" Name="pregnancyCheckComboBox" Background="White"
                   ToolTip="Zda byla provedena kontrola březosti">
+            <ComboBoxItem Content="Ne"/>
+            <ComboBoxItem Content="Ano" />
         </ComboBox>
 
         <!-- Konec leve strany -->
@@ -83,7 +86,7 @@
         <TextBlock Grid.Row="2" Grid.Column="3"  Text="Datum zapuštění"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="3" Name="dateRecessedTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum zapuštění ve formátu 12.12.2020"/>
 
 
@@ -109,11 +112,11 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Name="bornPlanTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DateBirth_plan, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Vypočítáné datum porodu - 115 dní od zapuštění" Focusable="False"/>
 
             <TextBox Grid.Column="1" Name="bornRealTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DateBirth_real, Mode=OneTime, StringFormat=dd.MM.yyyy}"
 
                  ToolTip="Zadejte skutečné datum porodu ve formátu 12.12.2020"/>
         </Grid>
@@ -143,11 +146,11 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Name="liveTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding Live, Mode=OneTime}"
                  ToolTip="Počet živých selat při porodu"/>
 
             <TextBox Grid.Column="1" Name="deadTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding Death, Mode=OneTime}"
                  ToolTip="Počet mrtvých selat při porodu"/>
         </Grid>
 
@@ -168,7 +171,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Name="rearedTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding Reared, Mode=OneTime}"
                  ToolTip="Počet odchovaných selat - zadáno při odstavu selat od Matky"/>
 
             <TextBox Grid.Column="1" Name="previousBirthTextBox" Style="{DynamicResource BasicInputTextBox}"

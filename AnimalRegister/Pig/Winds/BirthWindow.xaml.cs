@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AnimalRegister.Pig.Logic;
 
 namespace AnimalRegister.Pig.Winds
 {
@@ -19,19 +20,74 @@ namespace AnimalRegister.Pig.Winds
     /// </summary>
     public partial class BirthWindow : Window
     {
-        public BirthWindow()
+        /// <summary>
+        /// View model pro bindování dat a comboBoxů
+        /// </summary>
+        private VM_Birth viewModel;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Validator validator;
+
+        private Birth editRecord;
+
+        /// <summary>
+        /// Základní konstruktor
+        /// </summary>
+        public BirthWindow(Validator validator, VM_Birth viewModel)
         {
             InitializeComponent();
+            this.viewModel = viewModel;
+            this.validator = validator;
+            if (!viewModel.EditRecord)
+                birthSelectComboBox.DataContext = viewModel.SawBirth;
         }
 
+        /// <summary>
+        /// Uživatel vybral konkrétní porod - zobrazí se data ve všech polích
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BirthSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(birthSelectComboBox.SelectedItem != null)
+            {
+                editRecord = (Birth)birthSelectComboBox.SelectedItem;
+                viewModel.ChangeRecord(editRecord);
 
+                DataContext = viewModel;
+                birthSelectComboBox.DataContext = viewModel.SawBirth;
+            }
         }
 
+        /// <summary>
+        /// Uložení všech dat na disk a uzavření OKNA - tlačítko Ulož
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                // Nový záznam
+                if(editRecord == null)
+                {
+                    validator.AddEditBirth(0, dateRecessedTextBox.Text, liveTextBox.Text, deadTextBox.Text, rearedTextBox.Text, bornRealTextBox.Text
+                    , pregnancyCheckComboBox.SelectedIndex, null);
+                }
+                // Úprava stávajícího
+                else
+                {
+                    validator.AddEditBirth(1, dateRecessedTextBox.Text, liveTextBox.Text, deadTextBox.Text, rearedTextBox.Text, bornRealTextBox.Text
+                    , pregnancyCheckComboBox.SelectedIndex,editRecord);
+                }
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)

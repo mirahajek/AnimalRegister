@@ -57,7 +57,7 @@ namespace AnimalRegister
         private void AddPigButton_Click(object sender, RoutedEventArgs e)
         {
             
-            AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(null));
+            AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw());
             
             window.Show();
         }

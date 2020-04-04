@@ -305,7 +305,20 @@ namespace AnimalRegister.Pig.Logic
         public void AddEditBirth(byte operation, DateTime dateRecessed, int live, int death, int reared, DateTime dateBirthReal, bool pregnancyCheck, Birth editRecord
             ,Pig relationalPig)
         {
+            Saw saw = (Saw)relationalPig;
+            if (operation == 0)
+                saw.BirthRecords.Add(new Birth(dateRecessed, live, death, reared, dateBirthReal, pregnancyCheck));
+            else
+            {
+                editRecord.DateRecessed = dateRecessed;
+                editRecord.Live = live;
+                editRecord.Death = death;
+                editRecord.Reared = reared;
+                editRecord.DateBirth_real = dateBirthReal;
+                editRecord.PregnancyCheck = pregnancyCheck;
+            }
 
+            SaveAll();
         }
 
         #endregion

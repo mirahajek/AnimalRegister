@@ -105,5 +105,11 @@ namespace AnimalRegister.Pig.Logic
             DateBirth_real = dateBirth_real;
             PregnancyCheck = pregnancyCheck;
         }
+
+
+        public override string ToString()
+        {
+            return DateRecessed.ToShortDateString();
+        }
     }
 }
