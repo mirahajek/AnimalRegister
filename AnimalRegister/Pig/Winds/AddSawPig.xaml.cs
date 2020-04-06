@@ -42,6 +42,10 @@ namespace AnimalRegister.Pig.Winds
             sexComboBox.SelectedIndex = -1;
             this.validator = validator;
             this.viewModel = viewModel;
+            //Schování tlačítek při přidání nového zvířete, aby nebylo možné kliknout na porod a veterinu
+            birthButton.Visibility = Visibility.Hidden;
+            veterinaryButton.Visibility = Visibility.Hidden;
+
             // Úprava stávajícího prasete
             if (viewModel.State)
             {
@@ -54,8 +58,13 @@ namespace AnimalRegister.Pig.Winds
                 if (viewModel.SelectType == 1)
                 {
                     birthButton.Visibility = Visibility.Hidden;
+                    veterinaryButton.Visibility = Visibility.Visible;
                 }
-
+                else
+                {
+                    birthButton.Visibility = Visibility.Visible;
+                    veterinaryButton.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -156,7 +165,7 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void VeterinaryButton_Click(object sender, RoutedEventArgs e)
         {
-            VeterinaryWindow window = new VeterinaryWindow();
+            VeterinaryWindow window = new VeterinaryWindow(validator);
             window.Show();
         }
 

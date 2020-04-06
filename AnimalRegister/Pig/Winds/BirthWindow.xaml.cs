@@ -63,7 +63,7 @@ namespace AnimalRegister.Pig.Winds
 
                 DataContext = viewModel;
                 birthSelectComboBox.DataContext = viewModel.SawBirth;
-                // Obnovení dat v textBoxech a comboBoxu - nefungovalo mi PropertyChanged
+                // Obnovení dat v textBoxech a comboBoxu - nefungovalo PropertyChanged
                 dateRecessedTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 datePregnancyCheckTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
                 pregnancyCheckComboBox.GetBindingExpression(ComboBox.SelectedIndexProperty).UpdateTarget();
@@ -112,7 +112,18 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                if (editRecord != null)
+                {
+                    validator.RemoveBirth(editRecord);
+                }
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Zaplacená částka
         /// </summary>
-        public double Price { get; set; }
+        public int Price { get; set; }
         /// <summary>
         /// Účel záznamu
         /// </summary>
@@ -50,7 +50,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="purpose">Účel</param>
         /// <param name="tasks">Úkony</param>
         /// <param name="drugs">Léčivo</param>
-        public Veterinary(DateTime date, double price, string purpose, string tasks,string drugs)
+        public Veterinary(DateTime date, int price, string purpose, string tasks,string drugs)
         {
             Id = ID;
             ID++;
@@ -60,6 +60,15 @@ namespace AnimalRegister.Pig.Logic
             Purpose = purpose;
             Tasks = tasks;
             Drugs = drugs;
+        }
+
+        /// <summary>
+        /// Přetížený výpis
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Date.ToShortDateString();
         }
     }
 }

@@ -321,8 +321,62 @@ namespace AnimalRegister.Pig.Logic
             SaveAll();
         }
 
+        /// <summary>
+        /// Odebrání záznamu o porodu u nějaké prasnice
+        /// </summary>
+        /// <param name="record">Odebíráný záznam o porodu</param>
+        /// <param name="saw">Vztažná prasnice, která obsahuje zadaný záznam</param>
+        public void RemoveBirth(Birth record, Saw saw)
+        {
+            saw.BirthRecords.Remove(record);
+
+            SaveAll();
+        }
+
         #endregion
 
+        #region Add/Edit/Remove Veterinary
+        /// <summary>
+        /// Metoda pro přidání / úpravu veterinárního záznamu
+        /// </summary>
+        /// <param name="operation">0 - nový, 1 - úprava</param>
+        /// <param name="date">Datum návštěvy veterináře</param>
+        /// <param name="price">Částka zaplacená za ošetření</param>
+        /// <param name="purpose">Účel návstěvy veterináře</param>
+        /// <param name="drugs">Podané léčivo</param>
+        /// <param name="tasks">Provedené úkony a další poznámky k záznamu</param>
+        /// <param name="editPig">Vztažné prase</param>
+        public void AddEditVeterinary(int operation, DateTime date, int price, string purpose, string drugs, string tasks, Pig editPig, Veterinary record)
+        {
+            if(operation == 0)
+            {
+                editPig.VeterinaryRecords.Add(new Veterinary(date, price, purpose, tasks, drugs));
+            }
+            else if (operation == 1)
+            {
+                record.Date = date;
+                record.Price = price;
+                record.Purpose = purpose;
+                record.Drugs = drugs;
+                record.Tasks = tasks;
+            }
+
+            SaveAll();
+        }
+
+        /// <summary>
+        /// Metoda pro odebrání veterinárního záznamu
+        /// </summary>
+        /// <param name="record">Odebíraný veterinární záznam</param>
+        public void RemoveVeterinary(Veterinary record, Pig pig)
+        {
+            pig.VeterinaryRecords.Remove(record);
+
+            SaveAll();
+        }
+
+
+        #endregion
 
         #region Save/ Load
 

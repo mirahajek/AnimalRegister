@@ -47,8 +47,15 @@ namespace AnimalRegister.Pig.Logic
         /// Metoda pro vytvoření View modelu Prase / Prasnice, pro jejich úpravu 
         /// </summary>
         /// <returns>View model</returns>
-        public VM_PigSaw DefineVM_PigSaw()
+        /// <param name="newPigFlag">Informace o tom, zda se jedná o nové prase nebo se upravuje stávající</param>
+        public VM_PigSaw DefineVM_PigSaw(bool newPigFlag)
         {
+            if (newPigFlag)
+            {
+                // Smazání informací o upravovaném praseti, protože uživatel si přeje přidat nové zvíře
+                editPig = null;
+            }
+            // Kolekce obsahující jména všech prasnic v chovu
             List<string> mothersName = new List<string>();
             // Získání jmen všech prasnic v chovu
             foreach(Saw saw in admin.Saws)
@@ -69,8 +76,8 @@ namespace AnimalRegister.Pig.Logic
                     return new VM_PigSaw(editPig, null, mothersName, selectMotherId);
                 }
             }
-
-            return new VM_PigSaw(mothersName);   
+            else
+                return new VM_PigSaw(mothersName);   
         }
 
         /// <summary>
@@ -90,6 +97,20 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
+        /// Vrátí kolekci veterinárních záznamů pro konkrétní zvíře
+        /// </summary>
+        /// <returns>Kolekce veterinárních záznamů - data pro ComboBox</returns>
+        public List<Veterinary> Define_VeterinaryContext()
+        {
+            if (editPig != null)
+            {
+                return editPig.VeterinaryRecords;
+            }
+            else
+                return new List<Veterinary>();
+        }
+
+        /// <summary>
         /// Kliknutí na grafický záznam
         /// </summary>
         /// <param name="sender"></param>
@@ -97,7 +118,7 @@ namespace AnimalRegister.Pig.Logic
         private void GraphicRecordClick(object sender, EventArgs e)
         {
             editPig = sender as Pig;
-            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw());
+            AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(false));
             window.Show();
         }
 
@@ -270,6 +291,82 @@ namespace AnimalRegister.Pig.Logic
             else
                 throw new ArgumentException("Nemůžeš přidat porod pro neexistující prace. Nejprve prase vytvoř!");
 
+        }
+
+        /// <summary>
+        /// Odebrání záznamu o porodu u nějaké prasnice
+        /// </summary>
+        /// <param name="record">Odebíráný záznam o porodu</param>
+        public void RemoveBirth(Birth record)
+        {
+            if (record != null && editPig is Saw && editPig != null)
+            {
+                admin.RemoveBirth(record, (Saw)editPig);
+            }
+            else if (record == null)
+                throw new ArgumentException("Nejprve musíš vybrat záznam, který chceš odebrat!");
+            else
+                throw new ArgumentException("Něco se nepodařilo. Záznam nebyl odebrán. Zkuste to prosím znovu.");
+        }
+
+        #endregion
+
+        #region Add/Edit/Remove Veterinary
+
+        /// <summary>
+        /// Metoda pro přidání / úpravu veterinárního záznamu
+        /// </summary>
+        /// <param name="operation">0 - nový, 1 - úprava</param>
+        /// <param name="date">Datum návštěvy veterináře</param>
+        /// <param name="price">Částka zaplacená za ošetření</param>
+        /// <param name="purpose">Účel návstěvy veterináře</param>
+        /// <param name="drugs">Podané léčivo</param>
+        /// <param name="tasks">Provedené úkony a další poznámky k záznamu</param>
+        public void AddEditVeterinary(int operation, string date, string price, string purpose, string drugs, string tasks, Veterinary record)
+        {
+            // Ošetření datumu
+            if (!DateTime.TryParse(date, out DateTime date_help) && date != "")
+                throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020"); 
+            else if (date == "")
+                throw new ArgumentException("Nezadal jsi žádné datum veterinárního úkonu. Povinný parametr - označen *");
+            // Ošetření částky
+            if (!int.TryParse(price, out int price_help) && price != "")
+                throw new ArgumentException("Zadanou částku nelze převést na číslo. Zkus ji zadat znovu");
+            else if (price == "")
+                throw new ArgumentException("Nezadal jsi žádnou částku");
+            
+            // Ošetření účelu návštěvy
+            if (purpose == "")
+                throw new ArgumentException("Nezadal jsi žádný účel návštěvy veterináře");
+
+            // Nový záznam
+            if (operation == 0 && editPig != null)
+            {
+                admin.AddEditVeterinary(0, date_help, price_help, purpose, drugs, tasks, editPig, null);
+            }
+            // Úprava stávajícího
+            else if (operation == 1 && record != null && editPig != null)
+            {
+                admin.AddEditVeterinary(1, date_help, price_help, purpose, drugs, tasks, editPig, record);
+            }
+            else
+                throw new ArgumentException("Něco se nepodařilo, omlouváme se za problémy. Zkuste aplikaci restartovat.");
+        }
+
+        /// <summary>
+        /// Metoda pro odebrání veterinárního záznamu
+        /// </summary>
+        /// <param name="record">Odebíraný veterinární záznam</param>
+        public void RemoveVeterinary(Veterinary record)
+        {
+            if (record != null && editPig != null)
+            {
+                admin.RemoveVeterinary(record, editPig);
+            }
+            else if (editPig == null)
+                throw new ArgumentException("Něco se pokazilo. Zkuste to prosím znovu");
+            else
+                throw new ArgumentException("Nevybral jsi žádný záznam, který by bylo možné smazat.");
         }
 
         #endregion

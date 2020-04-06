@@ -39,7 +39,10 @@ namespace AnimalRegister.Pig.Logic
             State = true;
         }
 
-
+        /// <summary>
+        /// Konstruktor pro přidání nového prasete
+        /// </summary>
+        /// <param name="mothers"></param>
         public VM_PigSaw(List<string> mothers)
         {
             Mothers = mothers;

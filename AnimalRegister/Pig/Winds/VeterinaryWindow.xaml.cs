@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using AnimalRegister.Pig.Logic;
 
 namespace AnimalRegister.Pig.Winds
 {
@@ -19,9 +20,83 @@ namespace AnimalRegister.Pig.Winds
     /// </summary>
     public partial class VeterinaryWindow : Window
     {
-        public VeterinaryWindow()
+        /// <summary>
+        /// Instance validátoru pro práci s daty aplikace
+        /// </summary>
+        private Validator validator;
+
+        private Veterinary editRecord;
+
+        /// <summary>
+        /// Základní konstruktor
+        /// </summary>
+        /// <param name="validator"></param>
+        public VeterinaryWindow(Validator validator)
         {
             InitializeComponent();
+            this.validator = validator;
+            veterinarySelectComboBox.DataContext = validator.Define_VeterinaryContext();
+        }
+
+        /// <summary>
+        /// Uložení zadaných hodnot * uložení nového záznamu, nebo úprava stávajícího - tlačítko Ulož
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if(editRecord == null)
+                {
+                    validator.AddEditVeterinary(0, dateTextBox.Text, priceTextBox.Text, purposeTextBox.Text, drugsTextBox.Text, tasksTextBox.Text, null);
+                }
+                else
+                {
+                    validator.AddEditVeterinary(1, dateTextBox.Text, priceTextBox.Text, purposeTextBox.Text, drugsTextBox.Text, tasksTextBox.Text, editRecord);
+                }
+
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            
+
+        }
+
+        /// <summary>
+        /// Odebrání vybrného záznamu - tlačítko Odeber
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                validator.RemoveVeterinary(editRecord);
+
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VeterinarySelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(veterinarySelectComboBox.SelectedItem != null)
+            {
+                editRecord = (Veterinary)veterinarySelectComboBox.SelectedItem;
+            }
         }
     }
 }

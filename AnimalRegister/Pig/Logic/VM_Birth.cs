@@ -73,7 +73,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Datum zapuštění
         /// </summary>
-        public string DateRecessed { get; private set; }
+        public string DateRecessed
         {
             get
             {

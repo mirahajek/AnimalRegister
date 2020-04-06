@@ -85,7 +85,7 @@
         <TextBlock Grid.Row="2" Grid.Column="3"  Text="Datum zapuštění"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="3" Name="dateRecessedTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum zapuštění ve formátu 12.12.2020"/>
 
 

@@ -22,8 +22,14 @@ namespace AnimalRegister
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Instance validátoru, který kontroluje data a upozorňuje uživatele
+        /// </summary>
         private Validator validator; 
 
+        /// <summary>
+        /// Základní konstruktor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -33,35 +39,65 @@ namespace AnimalRegister
             validator.ConstructGraphicPigSawList(true,false,false);
         }
 
+        /// <summary>
+        /// Zobrazí základní přehled, tedy výpis záznamů prasat a prasnic na 5 stran. Začíná na první straně - tlačítko Přehled
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OverviewButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Zobrazení všech finančních záznamů - tlačítko Finance
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinanceButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Uložení všech dat a uzavření okna - tlačítko Ulož
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             validator.SaveAll();
             Close();
         }
 
+        /// <summary>
+        /// Přidání nového finančního záznamu - tlačítko Přidej
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddFinanceButton_Click(object sender, RoutedEventArgs e)
         {
           
         }
 
+        /// <summary>
+        /// Přidání nového prasete - tlačítko Přidej
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddPigButton_Click(object sender, RoutedEventArgs e)
         {
             
-            AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw());
+            AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(true));
             
             window.Show();
         }
 
+        /// <summary>
+        /// Rotace kolečka - možnost rotovat až na 5 stran. Při přetečení na první straně se skočí na poslední apod na poslední straně
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             try
