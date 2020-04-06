@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,9 @@ namespace AnimalRegister.Pig.Winds
         /// </summary>
         private Validator validator;
 
+        /// <summary>
+        /// Upravovaný záznam o porodu
+        /// </summary>
         private Birth editRecord;
 
         /// <summary>
@@ -51,13 +55,24 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void BirthSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(birthSelectComboBox.SelectedItem != null)
+            // Podmínka pro první spuštění, kdy ještě není vybráná žádná instance
+            if (birthSelectComboBox.SelectedItem != null)
             {
                 editRecord = (Birth)birthSelectComboBox.SelectedItem;
                 viewModel.ChangeRecord(editRecord);
 
                 DataContext = viewModel;
                 birthSelectComboBox.DataContext = viewModel.SawBirth;
+                // Obnovení dat v textBoxech a comboBoxu - nefungovalo mi PropertyChanged
+                dateRecessedTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                datePregnancyCheckTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                pregnancyCheckComboBox.GetBindingExpression(ComboBox.SelectedIndexProperty).UpdateTarget();
+                
+                bornPlanTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                bornRealTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                liveTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                deadTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
+                rearedTextBox.GetBindingExpression(TextBox.TextProperty).UpdateTarget();
             }
         }
 
@@ -90,6 +105,11 @@ namespace AnimalRegister.Pig.Winds
             }
         }
 
+        /// <summary>
+        /// Odebrání vybraného záznamu o porodu - tlačítko ODEBER
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
 

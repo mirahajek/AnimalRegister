@@ -26,7 +26,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="0.7*"/>
@@ -80,13 +80,12 @@
 
         <!-- Konec leve strany -->
 
-        
-        
+
         <!-- Prava strana-->
         <TextBlock Grid.Row="2" Grid.Column="3"  Text="Datum zapuštění"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="3" Name="dateRecessedTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy}"
+                 Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy, UpdateSourceTrigger=PropertyChanged}"
                  ToolTip="Datum zapuštění ve formátu 12.12.2020"/>
 
 
@@ -161,22 +160,19 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Odchovaná" Style="{DynamicResource NadpisTextBoxu}"/>
-            <TextBlock Text="Předchozí porod" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
         </Grid>
 
         <Grid Grid.Row="11" Grid.Column="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="212*" />
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="163*"/>
             </Grid.ColumnDefinitions>
 
             <TextBox Name="rearedTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Reared, Mode=OneTime}"
-                 ToolTip="Počet odchovaných selat - zadáno při odstavu selat od Matky"/>
+                 ToolTip="Počet odchovaných selat - zadáno při odstavu selat od Matky" Margin="10,4,9.925,3.321"/>
 
-            <TextBox Grid.Column="1" Name="previousBirthTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
-                 ToolTip="Živá / mrtvá / odchovaná"/>
         </Grid>
 
         <!-- Konec sekce selata-->

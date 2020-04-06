@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace AnimalRegister.Pig.Logic
 {
-    public class VM_Birth
+    public class VM_Birth 
     {
         /// <summary>
         /// Základní konstruktor - vyžaduje kolekci záznamů PRASNICE
@@ -72,7 +73,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Datum zapuštění
         /// </summary>
-        public string DateRecessed
+        public string DateRecessed { get; private set; }
         {
             get
             {
