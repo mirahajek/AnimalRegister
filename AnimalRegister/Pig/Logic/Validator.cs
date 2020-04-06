@@ -20,7 +20,9 @@ namespace AnimalRegister.Pig.Logic
 
         private Graphic graphic;
 
-        private Pig editPig; 
+        private Pig editPig;
+
+        private FinanceRecord editFinance;
         /// <summary>
         /// Nastavení canvasů pro vykreslení informací - plátno pro ostatní prasat a plátno pro prasnice
         /// </summary>
@@ -90,7 +92,15 @@ namespace AnimalRegister.Pig.Logic
             if (editPig is Saw)
             {
                 Saw mother = (Saw)editPig;
-                return new VM_Birth(mother.BirthRecords);
+                List<Birth> records = new List<Birth>();
+
+                var query = mother.BirthRecords.OrderByDescending(a => a.DateRecessed);
+
+                foreach(Birth rec in query)
+                {
+                    records.Add(rec);
+                }
+                return new VM_Birth(records);
             }
             else
                 throw new ArgumentException("Nelze zobrazit porody pro vybrané zvíře.");
@@ -104,7 +114,14 @@ namespace AnimalRegister.Pig.Logic
         {
             if (editPig != null)
             {
-                return editPig.VeterinaryRecords;
+                List<Veterinary> records = new List<Veterinary>();
+                var query = editPig.VeterinaryRecords.OrderByDescending(a => a.Date);
+                foreach(Veterinary rec in query)
+                {
+                    records.Add(rec);
+                }
+
+                return records;
             }
             else
                 return new List<Veterinary>();
@@ -119,6 +136,18 @@ namespace AnimalRegister.Pig.Logic
         {
             editPig = sender as Pig;
             AddSawPig window = new AddSawPig(this, DefineVM_PigSaw(false));
+            window.Show();
+        }
+
+        /// <summary>
+        /// Kliknutí na grafický záznam
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GraphicFinanceRecordClick(object sender, EventArgs e)
+        {
+            editFinance = sender as FinanceRecord;
+            AddFinanceWindow window = new AddFinanceWindow();
             window.Show();
         }
 
@@ -145,7 +174,28 @@ namespace AnimalRegister.Pig.Logic
                 rec.RecordClick += GraphicRecordClick;
             }
             // Zavolá metodu třídy graphic, která přidá všechny záznamy na plátna
-            graphic.ConstructGraphicPigSawList(first, rotate, rotateUp, graphicSaw, graphicPig);
+            graphic.ConstructGraphicPigSawFinanceList(0,first, rotate, rotateUp, graphicSaw, graphicPig,null);
+        }
+
+
+        /// <summary>
+        /// Vykreslí na canvas finanční transakce
+        /// </summary>
+        /// <param name="first">Jedná se o první stranu</param>
+        /// <param name="rotate">Uživatel rotoval kolečkem</param>
+        /// <param name="rotateUp">Rotoval nahoru</param>
+        public void ConstructGraphicFinance(bool first, bool rotate, bool rotateUp)
+        {
+            // Kolekce grafických záznamů, které budou vykresleni na plátno
+            List<FinanceGraphicRecord> graphicFinance = admin.ConstructGraphicFinance();
+            // Přidá obsluhu události při kliknutí na záznam
+            foreach (FinanceGraphicRecord rec in graphicFinance)
+            {
+                rec.GraphicRecordClick += GraphicFinanceRecordClick;
+            }
+
+            // Zavolá metodu třídy graphic, která přidá všechny záznamy na plátna
+            graphic.ConstructGraphicPigSawFinanceList(1,first, rotate, rotateUp, null, null, graphicFinance);
         }
 
         #region Add/Edit/Remove PigSaw

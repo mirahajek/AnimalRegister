@@ -13,13 +13,27 @@ namespace AnimalRegister.Pig.Logic
     /// <summary>
     /// Kategorie pro finance
     /// </summary>
-    public enum Category
+    public enum FinanceCategory
     {
         Feeding,
         Buildings,
         Equipment,
         Animals,
         Plant,
+        Machine,
+        Pond,
+        Other
+    }
+
+    /// <summary>
+    /// Typ transakce VÝDAJE - 0  / PŘÍJMY - 1 / OSTATNI - 2
+    /// </summary>
+    public enum FinanceTypeRecord
+    {
+        Income,
+        Costs,
+        Other
+
     }
 
     /// <summary>
@@ -55,6 +69,11 @@ namespace AnimalRegister.Pig.Logic
     public class Admin
     {
         /// <summary>
+        /// Kategorie pro finance - česky
+        /// </summary>
+        public static string[] FinanceCategory_Czech = { "Krmení", "Stavby", "Vybavení", "Zvířata", "Rostliny", "Stroje", "Rybník", "Ostatní" };
+
+        /// <summary>
         /// Kolekce prasat v chovu
         /// </summary>
         public List<Pig> Pigs { get; private set; }
@@ -64,33 +83,30 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         public List<Saw> Saws { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<FinanceRecord> FinanceRecords { get; private set; }
+
+        // Cesty pro uložení do souboru na disk C - appData - složka AnimalRegister
         private string pathBase;
         private string pathId;
         private string pathPigs;
         private string pathSaws;
+        private string pathFinance;
+
+
         /// <summary>
         /// Konstruktor
         /// </summary>
         public Admin()
         {
             // Takto ziskam pocet prvku v ENUM
-            int a = Enum.GetValues(typeof(Category)).Length;
+            int a = Enum.GetValues(typeof(FinanceCategory)).Length;
 
             Pigs = new List<Pig>();
             Saws = new List<Saw>();
-
-            /*
-            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 1", "Maruska","Nema nohu"));
-            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 2", "Baruska", "Ma o nohu naivc"));
-            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 3", "Haluska", "Mozna neexistuje"));
-            Saws.Add(new Saw(DateTime.Now, "Jsem pokusna svine 4", "Kovadluska", "Pokus"));
-
-
-            Pigs.Add(new Pig(DateTime.Now, "Prsatako 1", Sex.Boar, Saws[0]));
-            Pigs.Add(new Pig(DateTime.Now, "ID pras 2", Sex.Boar, Saws[1]));
-            Pigs.Add(new Pig(DateTime.Now, "Id pras 3", Sex.Saw, Saws[2]));
-            Pigs.Add(new Pig(DateTime.Now, "ID pras 4", Sex.Saw, Saws[3]));
-            */
+            FinanceRecords = new List<FinanceRecord>();
 
             try
             {
@@ -101,11 +117,38 @@ namespace AnimalRegister.Pig.Logic
                 pathId = Path.Combine(pathBase, "IDs");
                 pathPigs = Path.Combine(pathBase, "Pigs");
                 pathSaws = Path.Combine(pathBase, "Saws");
+                pathFinance = Path.Combine(pathBase, "Finance");
             }
             catch 
             {
                 MessageBox.Show("Nepodařilo se načíst složku pro získání dat aplikace", "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(700, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(800, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
+            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
 
             LoadIDs();
             LoadPigSaws();
@@ -129,7 +172,7 @@ namespace AnimalRegister.Pig.Logic
                     graphicRecords.Add(new GraphicPigSawRecord(saw));
                 }
                 // Nastavení strany pro každý jednotlivý záznam
-                UpdateSetPage(graphicRecords);
+                UpdateSetPage(graphicRecords,null);
                 return graphicRecords;
             }
             else
@@ -150,7 +193,28 @@ namespace AnimalRegister.Pig.Logic
                     graphicRecords.Add(new GraphicPigSawRecord(pig));
                 }
                 // Nastavení strany pro každý jednotlivý záznam
-                UpdateSetPage(graphicRecords);
+                UpdateSetPage(graphicRecords,null);
+                return graphicRecords;
+            }
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// Metoda vytvoří grafickou podobu všech transakcí uložených v kolekci
+        /// </summary>
+        /// <returns>Kolekce grafických financí</returns>
+        public List<FinanceGraphicRecord> ConstructGraphicFinance()
+        {
+            if (FinanceRecords.Count > 0)
+            {
+                List<FinanceGraphicRecord> graphicRecords = new List<FinanceGraphicRecord>();
+                foreach (FinanceRecord rec in FinanceRecords)
+                {
+                    graphicRecords.Add(new FinanceGraphicRecord(rec));
+                }
+                // Nastavení strany pro každý jednotlivý záznam
+                UpdateSetPage(null,graphicRecords);
                 return graphicRecords;
             }
             else
@@ -161,7 +225,7 @@ namespace AnimalRegister.Pig.Logic
         /// Metoda, která každé grafické podobě zvířete přidá stránku na které bude vykreslen
         /// </summary>
         /// <param name="graphicAnimals">Kolekce grafických zvířat, které se budou číslovat</param>
-        private void UpdateSetPage(List<GraphicPigSawRecord> graphicAnimals)
+        private void UpdateSetPage(List<GraphicPigSawRecord> graphicAnimals, List<FinanceGraphicRecord> graphicFinance)
         {
             if (graphicAnimals != null)
             {
@@ -179,7 +243,38 @@ namespace AnimalRegister.Pig.Logic
                             i++;
                     }
                 }
+            }
+            else if (graphicAnimals == null && graphicFinance != null)
+            {
+                int[] pageGraphicRecord_income = new int[5];
+                int[] pageGraphicRecord_costs = new int[5];
+                int i = 0;
+                int j = 0;
+                foreach (FinanceGraphicRecord rec in graphicFinance)
+                {
+                    // Osm záznamy na stranu
+                    if (pageGraphicRecord_income[i] < 8 && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
+                    {
+                        pageGraphicRecord_income[i]++;
+                        rec.Page = i;
 
+                        if (pageGraphicRecord_income[i] % 8 == 0)
+                            i++;
+                    }
+                }
+
+                foreach (FinanceGraphicRecord rec in graphicFinance)
+                {
+
+                    if (pageGraphicRecord_costs[j] < 8 && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
+                    {
+                        pageGraphicRecord_costs[j]++;
+                        rec.Page = j;
+
+                        if (pageGraphicRecord_costs[j] % 8 == 0)
+                            j++;
+                    }
+                }
             }
         }
 

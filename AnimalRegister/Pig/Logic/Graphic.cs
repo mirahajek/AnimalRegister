@@ -53,15 +53,17 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
         /// </summary>
+        /// <param name="operation">0 - zvířata * 1 - finance</param>
         /// <param name="first">Jedná se o první stranu</param>
         /// <param name="rotate">Uživatel orotoval kolečko</param>
         /// <param name="rotateUp">Uživatel otočil kolečkem nahoru</param>
         /// <param name="graphicSaw">Kolekce grafických záznamů Prasnic</param>
         /// <param name="graphicPig">Kolekce grafických záznamů Prasat</param>
-        public void ConstructGraphicPigSawList(bool first, bool rotate, bool rotateUp, List<GraphicPigSawRecord> graphicSaw, List<GraphicPigSawRecord> graphicPig)
+        /// <param name="graphicFinance">Kolekce grafických financí</param>
+        public void ConstructGraphicPigSawFinanceList(int operation ,bool first, bool rotate, bool rotateUp, List<GraphicPigSawRecord> graphicSaw, 
+            List<GraphicPigSawRecord> graphicPig, List<FinanceGraphicRecord> graphicFinance)
         {
-            // Jedná se o první stranu denních záznamů
-            //      - uložení hodnot z ComboBoxů -- rok a měsíc
+            // Jedná se o první stranu
             if (first)
             {
                 recordsActualPage = 0;
@@ -85,74 +87,140 @@ namespace AnimalRegister.Pig.Logic
                 recordsActualPage++;
             }
 
-            // Souřadnice od vrchu pro všechny prvky grafického záznamu
-            int[] top =
+            if(operation == 0)
             {
+                // Souřadnice od vrchu pro všechny prvky grafického záznamu
+                int[] top =
+                {
                 140,170,
                 142,175,200,225
-            };
-            // Souřadnice od leva pro všechny prvky grafického záznamu
-            int[] left =
-            {
+                };
+                // Souřadnice od leva pro všechny prvky grafického záznamu
+                int[] left =
+                {
                 10,10,
                 15,30,30,30
-            };
-            int a = 0;
-            int b = 0;
+                };
+                int a = 0;
+                int b = 0;
 
-            canvasPig.Children.Clear();
-            canvasSaw.Children.Clear();
-            DefineHead();
-            // Vykreslení prasnic
-            foreach (GraphicPigSawRecord rec in graphicSaw)
-            {
-                if (rec.Page == recordsActualPage)
+                canvasPig.Children.Clear();
+                canvasSaw.Children.Clear();
+                canvasSaw.Background = Brushes.White;
+                canvasPig.Background = Brushes.White;
+
+                DefineHead(0);
+                // Vykreslení prasnic
+                foreach (GraphicPigSawRecord rec in graphicSaw)
                 {
-                    List<object> elements = rec.ReturnAllAtributs();
-                    foreach (object obj in elements)
+                    if (rec.Page == recordsActualPage)
                     {
-                        CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
-                        a++;
+                        List<object> elements = rec.ReturnAllAtributs();
+                        foreach (object obj in elements)
+                        {
+                            CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
+                            a++;
+                        }
+                        a = 0;
+                        b++;
                     }
-                    a = 0;
-                    b++;
+                }
+
+                a = 0; b = 0;
+                // Vykreslení prasat
+                foreach (GraphicPigSawRecord rec in graphicPig)
+                {
+                    if (rec.Page == recordsActualPage)
+                    {
+                        List<object> elements = rec.ReturnAllAtributs();
+                        foreach (object obj in elements)
+                        {
+                            CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
+                            a++;
+                        }
+                        a = 0;
+                        b++;
+                    }
                 }
             }
 
-            a = 0; b = 0;
-            // Vykreslení prasat
-            foreach (GraphicPigSawRecord rec in graphicPig)
+            else if(operation == 1)
             {
-                if (rec.Page == recordsActualPage)
+                // Souřadnice od vrchu pro všechny prvky grafického záznamu
+                int[] top =
                 {
-                    List<object> elements = rec.ReturnAllAtributs();
-                    foreach (object obj in elements)
+                110,135,
+                112,140,112,140
+                };
+                // Souřadnice od leva pro všechny prvky grafického záznamu
+                int[] left =
+                {
+                10,10,
+                15,15,300, 300
+                };
+                // Smazání pláten + hlavička
+                canvasSaw.Children.Clear();
+                canvasPig.Children.Clear();
+                DefineHead(1);
+                // Pozadí na bílou barvu
+                canvasSaw.Background = Brushes.White;
+                canvasPig.Background = Brushes.White;
+
+                int a = 0; int b = 0;
+                // Vykreslení financi
+                foreach (FinanceGraphicRecord rec in graphicFinance)
+                {
+                    // Příjmy
+                    if (rec.Page == recordsActualPage && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
                     {
-                        CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
+                        List<object> elements = rec.ReturnAllAtributs();
+                        for(int i = 0; i < elements.Count; i++)
+                        {
+                            CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + a * 63, 0, 0);
+                        }
                         a++;
                     }
-                    a = 0;
-                    b++;
+                    // Výdaje
+                    else if (rec.Page == recordsActualPage && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
+                    {
+                        List<object> elements = rec.ReturnAllAtributs();
+                        for(int i = 0; i < elements.Count; i++)
+                        { 
+                            CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + b * 63, 0, 0);
+                        }
+                        b++;
+                    }
                 }
             }
+            
         }
 
         /// <summary>
         /// Metoda pro definice hlavičky záznamu
         /// </summary>
-        private void DefineHead()
+        /// <param name="type">0 - prasata, 1 - finance</param>
+        private void DefineHead(byte type)
         {
+            int height = 120;
+            string[] titles = { "Prasnice", "Ostatní" };
+            if (type == 1)
+            {
+                height = 100;
+                titles[0] = "Příjmy";
+                titles[1] = "Výdaje";
+            }
+                
 
             Rectangle rect = new Rectangle
             {
-                Height = 120,
+                Height = height,
                 Width = 400,
                 Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
             };
 
             TextBlock text = new TextBlock
             {
-                Text = "Prasnice",
+                Text = titles[0],
                 Width = 400,
                 Foreground = Brushes.White,
                 FontWeight = FontWeights.Bold,
@@ -161,14 +229,14 @@ namespace AnimalRegister.Pig.Logic
 
             Rectangle rectRight = new Rectangle
             {
-                Height = 120,
+                Height = height,
                 Width = 400,
                 Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
             };
 
             TextBlock textRight = new TextBlock
             {
-                Text = "Ostatní",
+                Text = titles[1],
                 Width = 400,
                 Foreground = Brushes.White,
                 FontWeight = FontWeights.Bold,
@@ -180,6 +248,8 @@ namespace AnimalRegister.Pig.Logic
 
             CanvasPositionAddObject(rectRight, canvasPig, 0, 0, 0, 0);
             CanvasPositionAddObject(textRight, canvasPig, 20, 35, 0, 0);
+
+
         }
 
         /// <summary>

@@ -25,7 +25,9 @@ namespace AnimalRegister
         /// <summary>
         /// Instance validátoru, který kontroluje data a upozorňuje uživatele
         /// </summary>
-        private Validator validator; 
+        private Validator validator;
+
+        private bool financeDataFlag;
 
         /// <summary>
         /// Základní konstruktor
@@ -35,7 +37,8 @@ namespace AnimalRegister
             InitializeComponent();
             validator = new Validator();
             validator.DefineCanvas(pigCanvas, sawCanvas);
- 
+
+            financeDataFlag = false;
             validator.ConstructGraphicPigSawList(true,false,false);
         }
 
@@ -46,7 +49,8 @@ namespace AnimalRegister
         /// <param name="e"></param>
         private void OverviewButton_Click(object sender, RoutedEventArgs e)
         {
-
+            validator.ConstructGraphicPigSawList(true, false, false);
+            financeDataFlag = false;
         }
 
         /// <summary>
@@ -56,7 +60,15 @@ namespace AnimalRegister
         /// <param name="e"></param>
         private void FinanceButton_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                validator.ConstructGraphicFinance(true,false,false);
+                financeDataFlag = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -87,7 +99,6 @@ namespace AnimalRegister
         /// <param name="e"></param>
         private void AddPigButton_Click(object sender, RoutedEventArgs e)
         {
-            
             AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(true));
             
             window.Show();
@@ -109,7 +120,10 @@ namespace AnimalRegister
                 if (e.Delta > 0)
                     rotateUpflag = true;
 
-                validator.ConstructGraphicPigSawList(false, true, rotateUpflag);
+                if (!financeDataFlag)
+                    validator.ConstructGraphicPigSawList(false, true, rotateUpflag);
+                else
+                    validator.ConstructGraphicFinance(false, true, rotateUpflag);
             }
             catch (Exception ex)
             {
