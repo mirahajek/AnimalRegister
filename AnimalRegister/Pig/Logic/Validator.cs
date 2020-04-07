@@ -147,7 +147,7 @@ namespace AnimalRegister.Pig.Logic
         private void GraphicFinanceRecordClick(object sender, EventArgs e)
         {
             editFinance = sender as FinanceRecord;
-            AddFinanceWindow window = new AddFinanceWindow();
+            AddFinanceWindow window = new AddFinanceWindow(this);
             window.Show();
         }
 
@@ -421,6 +421,75 @@ namespace AnimalRegister.Pig.Logic
 
         #endregion
 
+
+        #region Add/Edit/Remove FinanceRecord
+
+        /// <summary>
+        /// Metoda pro přidání nebo úpravu transakce
+        /// </summary>
+        /// <param name="operation">0 - nový záznam * 1 - úprava stávajícího</param>
+        /// <param name="date">Datum transakce</param>
+        /// <param name="name">Název transakce * MAX 50 znaků</param>
+        /// <param name="price">Částka transakce</param>
+        /// <param name="description">Popis transakce</param>
+        /// <param name="typeFinance">Příjmy / výdaje</param>
+        /// <param name="categoryId">Pořadí kategorie transakce</param>
+        /// <param name="animal">Pořadí zvířete, kterého se transakce týká</param>
+        /// <param name="editRecord">Záznam pro úpravu</param>
+        public void AddEditFinanceRecord(byte operation, string date, string name, string price, string description, int typeFinance, int categoryId, Pig animal,
+            FinanceRecord editRecord)
+        {
+            // Ošetření datumu - povinný údaj
+            if (!DateTime.TryParse(date, out DateTime date_help) && date != "")
+                throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020");
+            else if(date == "")
+                throw new ArgumentException("Nezadal jsi žádné datum transakce");
+            // Ošetření názvu transakce - povinný údaj
+            if (name.Count() > 50 && name != "")
+                throw new ArgumentException("Zadaný název transakce přesahuje 50 znaků. Prosím zkať jej");
+            else if (name == "")
+                throw new ArgumentException("Nezadal jsi název transakce");
+            // Ošetření částky transakce - povinný údaj
+            if (!int.TryParse(price, out int price_help) && price != "")
+                throw new ArgumentException("Zadal jsi hodnotu transakce ve špatném formátu. Povoleno je pouze celé číslo");
+            else if(price == "")
+                throw new ArgumentException("Nezadal jsi žádnou hodnotu transakce");
+            // Ošetření typu transakce - povinný údaj
+            if(typeFinance == -1)
+                throw new ArgumentException("Nevybral jsi typ transakce - příjem nebo výdaj");
+            // Ošetření kategorie transakce - povinný údaj
+            if(categoryId == -1)
+                throw new ArgumentException("Nevybral jsi žádnou kategorii. Naprav to a nějakou si zvol.");
+
+            int animalId = 0;
+            if (animal != null)
+                animalId = animal.Id;
+            // Nový záznam
+            if (operation == 0)
+            {
+                admin.AddEditFinanceRecord(0, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, null);
+            }
+            // Úprava stávajícího záznamu
+            else if(operation == 1)
+            {
+                admin.AddEditFinanceRecord(1, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, editRecord);
+            }
+        }
+
+
+        /// <summary>
+        /// Metoda pro odebrání transakce
+        /// </summary>
+        /// <param name="removeRecord">Záznam k odebrání</param>
+        public void RemoveFinanceRecord(FinanceRecord removeRecord)
+        {
+            if (removeRecord != null)
+                admin.RemoveFinanceRecord(removeRecord);
+            else
+                throw new ArgumentException("Nevybral jsi žádný záznam, který lze vymazat.");
+        }
+
+        #endregion
         /// <summary>
         /// Uloží všechna data aplikace
         /// </summary>

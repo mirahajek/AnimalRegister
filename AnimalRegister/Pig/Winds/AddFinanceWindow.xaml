@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-                Title="Přidání / úprava transakcí" Height="720" Width="400" WindowStartupLocation="CenterScreen"
+        Title="Přidání / úprava transakcí" Height="780" Width="420" WindowStartupLocation="CenterScreen"
         Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
 
             <RowDefinition Height="25"/>
@@ -19,24 +19,27 @@
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="80"/>
+
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
 
             <RowDefinition Height="50"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
         <!-- Tlačítka pro Ulož a Odeber -->
-        <StackPanel Grid.Row="14" Orientation="Horizontal" HorizontalAlignment="Center"
+        <StackPanel Grid.Row="16" Orientation="Horizontal" HorizontalAlignment="Center"
                     Grid.Column="1" VerticalAlignment="Bottom">
             <Button Name="saveButton" Margin="10,5,5,5"
                 Style="{DynamicResource SaveButton}" Content="Ulož"
@@ -49,56 +52,69 @@
             />
         </StackPanel>
 
-        <Image Source="..\Img\pigAdd.png" Grid.Row="1" Grid.Column="0"
+        <Image Source="..\Img\money.png" Grid.Row="1" Grid.Column="0"
                Margin="45,10,10,10" MinWidth="150" MinHeight="140" Grid.ColumnSpan="2"
                />
 
-        <!-- Combo box pro výběr záznamů -->
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="10,0,10,0" Text="Kategorie"
-                   Style="{DynamicResource NadpisTextBoxu}"/>
-        <ComboBox Grid.Row="3" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
-                  ItemsSource="{Binding Mode=OneWay}"
-                  FontWeight="Bold" Name="categoryComboBox" SelectedIndex="-1" Background="White"
-                  SelectionChanged="CategoryComboBox_SelectionChanged" 
-                  ToolTip="Vyber pokud chceš zobrazit / upravit existující záznam. Pro nový záznam ponech nevybráno!"
-                  >
-        </ComboBox>
 
         <!-- Datum, náklady, účel, léky a další info-->
-        <TextBlock Grid.Row="4" Grid.Column="1"  Text="Datum záznamu *"
+        <TextBlock Grid.Row="2" Grid.Column="1"  Text="Datum *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="5" Grid.Column="1" Name="dateTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="3" Grid.Column="1" Name="dateTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Date, Mode=OneWay, StringFormat=dd.MM.yyyy}"
-                 ToolTip="Datum veterinárního záznamu"/>
+                 ToolTip="Datum ve formátu 12.10.2020"/>
 
-        <TextBlock Grid.Row="6" Grid.Column="1"  Text="Náklady v CZK *"
+        <TextBlock Grid.Row="4" Grid.Column="1"  Text="Název *"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <TextBox Grid.Row="5" Grid.Column="1" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
+                 DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
+                 Text="{Binding Price, Mode=OneTime}"
+                 ToolTip="Krátký název charakterizující transakci" />
+
+        <TextBlock Grid.Row="6" Grid.Column="1"  Text="Částka *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="7" Grid.Column="1" Name="priceTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
-                 Text="{Binding Price, Mode=OneTime}"
-                 ToolTip="Vyplacená částka veterináři za léky a úkony" />
-
-        <TextBlock Grid.Row="8" Grid.Column="1"  Text="Účel návštěvy *"
-                   Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="9" Grid.Column="1" Name="purposeTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Purpose, Mode=OneTime}"
-                 ToolTip="Účel návštěvy - důvod proč byl veterinář zavolán * např. Očkování"/>
+                 ToolTip="Hodnota transakce - celé číslo"/>
 
-        <TextBlock Grid.Row="10" Grid.Column="1"  Text="Podané léky"
+        <TextBlock Grid.Row="8" Grid.Column="1"  Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="11" Grid.Column="1" Name="drugsTextBox" Style="{DynamicResource BasicInputTextBox}"
+        <TextBox Grid.Row="9" Grid.Column="1" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
-                 Text="{Binding Drugs, Mode=OneTime}"
-                 ToolTip="Podané léčivo zvířeti"/>
+                 Text="{Binding Drugs, Mode=OneTime}" AcceptsReturn="True" TextWrapping="Wrap"
+                 ToolTip="Detailnější popis k transakci"/>
 
-        <TextBlock Grid.Row="12" Grid.Column="1"  Text="Prováděné úkony"
+        <!-- ComboBoxy - typ transakce, kategorie, zvíře-->
+        <TextBlock Grid.Row="10" Grid.Column="1" Margin="10,0,10,0" Text="Příjmy / výdaje *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
-        <TextBox Grid.Row="13" Grid.Column="1" Name="tasksTextBox" Style="{DynamicResource BasicInputTextBox}"
-                 DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
-                 Text="{Binding Tasks, Mode=OneTime}"
-                 ToolTip="Detailní popis k prováděným úkonům a další informace, které chce chovatel zapsat" 
-                 AcceptsReturn="True"/>
+        <ComboBox Grid.Row="11" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
+                  FontWeight="Bold" Name="typeComboBox" SelectedIndex="-1" Background="White"
+                  ToolTip="Typ transakce, zda se jedná o příjem nebo výdaj. Vyber jednu z možností"
+                  >
+            <ComboBoxItem Content="Příjem"/>
+            <ComboBoxItem Content="Výdaj"/>
+        </ComboBox>
+
+        <TextBlock Grid.Row="12" Grid.Column="1" Margin="10,0,10,0" Text="Kategorie *"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <ComboBox Grid.Row="13" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="categoryComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="CategoryComboBox_SelectionChanged" 
+                  ToolTip="Kategorie, do které příjem/ výdaj spadá. Dále dle této kategorie je možné získat statistiku."
+                  >
+        </ComboBox>
+
+        <TextBlock Grid.Row="14" Grid.Column="1" Margin="10,0,10,0" Text="Zvíře"
+                   Style="{DynamicResource NadpisTextBoxu}"/>
+        <ComboBox Grid.Row="15" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="animalComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="AnimalComboBox_SelectionChanged" 
+                  ToolTip="Vztažné zvíře. Vyplňuje se pouze v případě, že chcete transakci evidovat k nějakému zvířeti"
+                  >
+        </ComboBox>
     </Grid>
 </Window>

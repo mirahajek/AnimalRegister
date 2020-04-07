@@ -8,9 +8,9 @@ namespace AnimalRegister.Pig.Logic
 {
     public class Pig
     {
-        public static int ID = 0;
+        public static int ID = 1;
         /// <summary>
-        /// Vnitřní identifikátor prase
+        /// Vnitřní identifikátor prase - začíná od 1 ** 0 rezervována pro případ žadného zvířete
         /// </summary>
         public int Id { get;  set; }
         /// <summary>

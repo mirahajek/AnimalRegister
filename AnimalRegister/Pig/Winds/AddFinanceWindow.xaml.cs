@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using log = AnimalRegister.Pig.Logic;
 
 namespace AnimalRegister.Pig.Winds
 {
@@ -19,15 +20,16 @@ namespace AnimalRegister.Pig.Winds
     /// </summary>
     public partial class AddFinanceWindow : Window
     {
-        public AddFinanceWindow()
+        private log.Validator validator;
+
+        private log.Pig relativePig;
+
+        public AddFinanceWindow(log.Validator validator)
         {
             InitializeComponent();
+            this.validator = validator;  
         }
 
-        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -36,7 +38,32 @@ namespace AnimalRegister.Pig.Winds
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                
+                validator.AddEditFinanceRecord(0,dateTextBox.Text,nameTextBox.Text,priceTextBox.Text,descriptionTextBox.Text,typeComboBox.SelectedIndex,categoryComboBox.SelectedIndex,
+                    relativePig,null);
 
+
+                Close();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Chyba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            
+        }
+
+        private void CategoryComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (categoryComboBox.SelectedItem != null)
+                relativePig = ()categoryComboBox.SelectedItem;
+        }
+
+        private void AnimalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(animalComboBox.SelectedItem != null)
+                relativePig = (log.Pig)animalComboBox.SelectedItem;
         }
     }
 }

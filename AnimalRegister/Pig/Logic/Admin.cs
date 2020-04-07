@@ -124,40 +124,41 @@ namespace AnimalRegister.Pig.Logic
                 MessageBox.Show("Nepodařilo se načíst složku pro získání dat aplikace", "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(700, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, null));
+            /*
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(700, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
 
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(800, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, null));
-
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(800, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
+            */
             LoadIDs();
             LoadPigSaws();
+            LoadFinance();
         }
 
 
 
         #region Graphic methods
-
         /// <summary>
         /// Vytvoří grafickou podobu chovných prasnic
         /// </summary>
@@ -185,6 +186,7 @@ namespace AnimalRegister.Pig.Logic
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicPigList()
         {
+            
             if (Pigs.Count > 0)
             {
                 List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
@@ -227,6 +229,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="graphicAnimals">Kolekce grafických zvířat, které se budou číslovat</param>
         private void UpdateSetPage(List<GraphicPigSawRecord> graphicAnimals, List<FinanceGraphicRecord> graphicFinance)
         {
+            // Přidání na canvas grafického vyjádření zvířete
             if (graphicAnimals != null)
             {
                 int[] pageGraphicRecord = new int[5];
@@ -244,6 +247,7 @@ namespace AnimalRegister.Pig.Logic
                     }
                 }
             }
+            // Přidání na plátno grafické podoby transakcí
             else if (graphicAnimals == null && graphicFinance != null)
             {
                 int[] pageGraphicRecord_income = new int[5];
@@ -252,7 +256,7 @@ namespace AnimalRegister.Pig.Logic
                 int j = 0;
                 foreach (FinanceGraphicRecord rec in graphicFinance)
                 {
-                    // Osm záznamy na stranu
+                    // Osm záznamy na stranu - jedná se příjmy
                     if (pageGraphicRecord_income[i] < 8 && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
                     {
                         pageGraphicRecord_income[i]++;
@@ -261,12 +265,9 @@ namespace AnimalRegister.Pig.Logic
                         if (pageGraphicRecord_income[i] % 8 == 0)
                             i++;
                     }
-                }
 
-                foreach (FinanceGraphicRecord rec in graphicFinance)
-                {
-
-                    if (pageGraphicRecord_costs[j] < 8 && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
+                    // Osm záznamů na stranu - jedná se o výdaje
+                    else if (pageGraphicRecord_costs[j] < 8 && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
                     {
                         pageGraphicRecord_costs[j]++;
                         rec.Page = j;
@@ -277,7 +278,7 @@ namespace AnimalRegister.Pig.Logic
                 }
             }
         }
-
+        
         #endregion
 
         #region Add/Edit/Remove Pig or Saw
@@ -473,6 +474,43 @@ namespace AnimalRegister.Pig.Logic
 
         #endregion
 
+        #region
+
+        /// <summary>
+        /// Metoda pro přidání nebo úpravu transakce
+        /// </summary>
+        /// <param name="operation">0 - nový záznam * 1 - úprava stávajícího</param>
+        /// <param name="date">Datum transakce</param>
+        /// <param name="name">Název transakce * MAX 50 znaků</param>
+        /// <param name="price">Částka transakce</param>
+        /// <param name="description">Popis transakce</param>
+        /// <param name="typeFinance">Příjmy / výdaje</param>
+        /// <param name="category">Pořadí kategorie transakce</param>
+        /// <param name="animalId">Pořadí zvířete, kterého se transakce týká</param>
+        /// <param name="editRecord">Záznam pro úpravu</param>
+        public void AddEditFinanceRecord(byte operation, DateTime date, string name, int price, string description, FinanceTypeRecord typeFinance, FinanceCategory category
+            , int animalId, FinanceRecord editRecord)
+        {
+            FinanceRecords.Add(new FinanceRecord(price, name, date, description, typeFinance, category, animalId));
+
+            SaveFinance();
+            SaveIDs();
+        }
+
+        /// <summary>
+        /// Metoda pro odebrání transakce
+        /// </summary>
+        /// <param name="removeRecord">Záznam k odebrání</param>
+        public void RemoveFinanceRecord(FinanceRecord removeRecord)
+        {
+            FinanceRecords.Remove(removeRecord);
+
+            SaveFinance();
+            SaveIDs();
+        }
+
+        #endregion
+
         #region Save/ Load
 
         /// <summary>
@@ -482,6 +520,7 @@ namespace AnimalRegister.Pig.Logic
         {
             SaveIDs();
             SavePigSaws();
+            SaveFinance();
         }
 
         /// <summary>
@@ -494,6 +533,7 @@ namespace AnimalRegister.Pig.Logic
                 writter.WriteLine(Pig.ID);
                 writter.WriteLine(Birth.ID);
                 writter.WriteLine(Veterinary.ID);
+                writter.WriteLine(FinanceRecord.Id);
             }
         }
 
@@ -518,6 +558,19 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
+        /// Uložení prasat a prasnic na C- appData
+        /// </summary>
+        private void SaveFinance()
+        {
+            XmlSerializer xml = new XmlSerializer(FinanceRecords.GetType());
+            // Transakce
+            using (StreamWriter writter = new StreamWriter(pathFinance))
+            {
+                xml.Serialize(writter, FinanceRecords);
+            }
+        }
+
+        /// <summary>
         /// Načtení IDs - Prase, porody a veterina
         /// </summary>
         private void LoadIDs()
@@ -527,6 +580,7 @@ namespace AnimalRegister.Pig.Logic
                 int.TryParse(reader.ReadLine(),out Pig.ID);
                 int.TryParse(reader.ReadLine(), out Birth.ID);
                 int.TryParse(reader.ReadLine(), out Veterinary.ID);
+                int.TryParse(reader.ReadLine(), out FinanceRecord.Id);
             }
         }
 
@@ -558,7 +612,24 @@ namespace AnimalRegister.Pig.Logic
             }
             else
                 Pigs = new List<Pig>();
+        }
 
+        /// <summary>
+        /// Načtení dat o PRASNICE a Ostatní prasata
+        /// </summary>
+        private void LoadFinance()
+        {
+            XmlSerializer xml = new XmlSerializer(FinanceRecords.GetType());
+            // Finance
+            if (File.Exists(pathFinance))
+            {
+                using (StreamReader reader = new StreamReader(pathFinance))
+                {
+                    FinanceRecords = (List<FinanceRecord>)xml.Deserialize(reader);
+                }
+            }
+            else
+                FinanceRecords = new List<FinanceRecord>();
         }
 
         #endregion

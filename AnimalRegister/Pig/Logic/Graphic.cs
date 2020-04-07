@@ -87,7 +87,15 @@ namespace AnimalRegister.Pig.Logic
                 recordsActualPage++;
             }
 
-            if(operation == 0)
+            // Smazání pláten + hlavička
+            canvasSaw.Children.Clear();
+            canvasPig.Children.Clear();
+            DefineHead(1);
+            // Pozadí na bílou barvu
+            canvasSaw.Background = Brushes.White;
+            canvasPig.Background = Brushes.White;
+
+            if (operation == 0)
             {
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
                 int[] top =
@@ -103,11 +111,6 @@ namespace AnimalRegister.Pig.Logic
                 };
                 int a = 0;
                 int b = 0;
-
-                canvasPig.Children.Clear();
-                canvasSaw.Children.Clear();
-                canvasSaw.Background = Brushes.White;
-                canvasPig.Background = Brushes.White;
 
                 DefineHead(0);
                 // Vykreslení prasnic
@@ -143,7 +146,7 @@ namespace AnimalRegister.Pig.Logic
                     }
                 }
             }
-
+            // Přidání finančních transakcí na plátno
             else if(operation == 1)
             {
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
@@ -158,13 +161,7 @@ namespace AnimalRegister.Pig.Logic
                 10,10,
                 15,15,300, 300
                 };
-                // Smazání pláten + hlavička
-                canvasSaw.Children.Clear();
-                canvasPig.Children.Clear();
-                DefineHead(1);
-                // Pozadí na bílou barvu
-                canvasSaw.Background = Brushes.White;
-                canvasPig.Background = Brushes.White;
+
 
                 int a = 0; int b = 0;
                 // Vykreslení financi

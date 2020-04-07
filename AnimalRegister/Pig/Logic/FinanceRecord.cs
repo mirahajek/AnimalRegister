@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída repezentující jeden finanční záznam - transakci
+    /// </summary>
     public class FinanceRecord
     {
-        public static int Id { get; set; }
+        public static int Id = 0;
 
         /// <summary>
         /// Jedinečný identifikátor každé transakce
@@ -41,7 +44,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Vztažné zvíře záznamu
         /// </summary>
-        public Pig RelativeAnimal { get; set; }
+        public int RelativeAnimalId { get; set; }
 
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="description">Detailní popis k transakci</param>
         /// <param name="type">Výdaj / příjem</param>
         /// <param name="category">Kategorie výdaje</param>
-        public FinanceRecord(int price, string name, DateTime date, string description, FinanceTypeRecord type, FinanceCategory category, Pig relativeAnimal)
+        public FinanceRecord(int price, string name, DateTime date, string description, FinanceTypeRecord type, FinanceCategory category, int relativeAnimalId)
         {
             Price = price;
             Name = name;
@@ -62,7 +65,7 @@ namespace AnimalRegister.Pig.Logic
             Description = description;
             TypeRecord = type;
             Category = category;
-            RelativeAnimal = relativeAnimal;
+            RelativeAnimalId = relativeAnimalId;
 
             ID = Id;
             Id++;
