@@ -173,7 +173,7 @@ namespace AnimalRegister.Pig.Logic
                         List<object> elements = rec.ReturnAllAtributs();
                         for(int i = 0; i < elements.Count; i++)
                         {
-                            CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + a * 63, 0, 0);
+                            CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + a * 65, 0, 0);
                         }
                         a++;
                     }
@@ -183,7 +183,7 @@ namespace AnimalRegister.Pig.Logic
                         List<object> elements = rec.ReturnAllAtributs();
                         for(int i = 0; i < elements.Count; i++)
                         { 
-                            CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + b * 63, 0, 0);
+                            CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + b * 65, 0, 0);
                         }
                         b++;
                     }

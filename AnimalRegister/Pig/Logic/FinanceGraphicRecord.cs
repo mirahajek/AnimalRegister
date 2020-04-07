@@ -79,8 +79,8 @@ namespace AnimalRegister.Pig.Logic
 
             CategoryName = new TextBlock
             {
-                FontSize = 15,
-                FontWeight = FontWeights.Bold,
+                FontSize = 14,
+                FontWeight = FontWeights.DemiBold,
                 Foreground = Brushes.Black,
                 Text = Admin.FinanceCategory_Czech[(int)record.Category]
 
@@ -114,13 +114,6 @@ namespace AnimalRegister.Pig.Logic
                 StrokeThickness = 1,
                 Stroke = Brushes.Gray
             };
-            /*
-            RectangleLeft = new Rectangle
-            {
-                Width = 15,
-                Height = 25,
-                Fill = new SolidColorBrush(Color.FromArgb(200, 69, 253, 0))
-            };*/
 
             if (record.TypeRecord == FinanceTypeRecord.Costs)
                 RectangleDown.Fill = new SolidColorBrush(Color.FromArgb(160, 255, 0, 0));//(255, 255, 108, 108));
@@ -138,7 +131,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="e"></param>
         private void RectangleDown_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            GraphicRecordClick(this, EventArgs.Empty);
+            GraphicRecordClick(FinanceRecord, EventArgs.Empty);
         }
 
         /// <summary>

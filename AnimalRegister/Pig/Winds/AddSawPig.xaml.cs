@@ -135,20 +135,28 @@ namespace AnimalRegister.Pig.Winds
         private void PigTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // Prasnice - schová se možnost zadat matku a pohlaví, protože to není relevatní v tomto případě
-            if(pigTypeComboBox.SelectedIndex == 0)
+            if(pigTypeComboBox.SelectedIndex == 0 && viewModel != null)
             {
-                birthButton.Visibility = Visibility.Visible;
+                if(!viewModel.State)
+                    birthButton.Visibility = Visibility.Hidden;
+                else
+                    birthButton.Visibility = Visibility.Visible;
 
                 motherDescTextBlock.Visibility = Visibility.Hidden;
                 motherComboBox.Visibility = Visibility.Hidden;
+                motherComboBox.SelectedIndex = -1;
 
                 sexDescTextBlock.Visibility = Visibility.Hidden;
                 sexComboBox.Visibility = Visibility.Hidden;
+                sexComboBox.SelectedIndex = -1;
             }
             // Ostatní prase, zde je již důležité uchovat informaci o pohlaví a matce
-            else
+            else if(viewModel != null)
             {
-                birthButton.Visibility = Visibility.Hidden;
+                if (!viewModel.State)
+                    birthButton.Visibility = Visibility.Hidden;
+                else
+                    birthButton.Visibility = Visibility.Visible;
 
                 motherDescTextBlock.Visibility = Visibility.Visible;
                 motherComboBox.Visibility = Visibility.Visible;

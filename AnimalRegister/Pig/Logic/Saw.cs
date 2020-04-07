@@ -79,5 +79,10 @@ namespace AnimalRegister.Pig.Logic
             Name = name;
             Description = desc;
         }
+
+        public override string ToString()
+        {
+            return RegisterNumber + " | " + Name;
+        }
     }
 }

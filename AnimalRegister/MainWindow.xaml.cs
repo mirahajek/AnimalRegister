@@ -89,7 +89,9 @@ namespace AnimalRegister
         /// <param name="e"></param>
         private void AddFinanceButton_Click(object sender, RoutedEventArgs e)
         {
-          
+
+            AddFinanceWindow window = new AddFinanceWindow(validator, validator.DefineVM_Finance(true));
+            window.Show();
         }
 
         /// <summary>
@@ -100,7 +102,6 @@ namespace AnimalRegister
         private void AddPigButton_Click(object sender, RoutedEventArgs e)
         {
             AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(true));
-            
             window.Show();
         }
 

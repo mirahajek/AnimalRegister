@@ -39,7 +39,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButton}" 
-                    Name="overviewButton" Content="Přehled" Click="OverviewButton_Click"
+                    Name="overviewButton" Content="Domů" Click="OverviewButton_Click"
                     />
             <Image Source="Pig\Img\home.png" Grid.Row="1" Height="30"
                    Width="30"/>

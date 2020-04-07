@@ -22,7 +22,8 @@ namespace AnimalRegister.Pig.Logic
 
         private Pig editPig;
 
-        private FinanceRecord editFinance;
+        private FinanceRecord editFinanceRecord;
+
         /// <summary>
         /// Nastavení canvasů pro vykreslení informací - plátno pro ostatní prasat a plátno pro prasnice
         /// </summary>
@@ -45,6 +46,7 @@ namespace AnimalRegister.Pig.Logic
             graphic = new Graphic();
         }
 
+        #region VM logic
         /// <summary>
         /// Metoda pro vytvoření View modelu Prase / Prasnice, pro jejich úpravu 
         /// </summary>
@@ -74,7 +76,10 @@ namespace AnimalRegister.Pig.Logic
                 else
                 {
                     // Nalezení id matky v kolekci PRasnic
-                    int selectMotherId = admin.Saws.FindIndex(a => a.Id == editPig.Mother.Id);
+                    int selectMotherId = -1;
+                    if (editPig.Mother != null)
+                        selectMotherId = admin.Saws.FindIndex(a => a.Id == editPig.Mother.Id);
+
                     return new VM_PigSaw(editPig, null, mothersName, selectMotherId);
                 }
             }
@@ -107,6 +112,30 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
+        /// Metoda pro vytvoření View modelu finance
+        /// </summary>
+        /// <returns>View model</returns>
+        public VM_Finance DefineVM_Finance(bool newFinanceRecord)
+        {
+            List<Pig> pigs = new List<Pig>();
+            pigs.AddRange(admin.Saws);
+            pigs.AddRange(admin.Pigs);
+            // Úprava stávajícího záznamu
+            if (!newFinanceRecord && editFinanceRecord != null)
+            {
+                // Nalezení zvířete v kolekci, a uložení jeho pořadí - aby bylo možné v ComboBoxu zobrazit odpovídající řádek
+                int pigIndex = pigs.FindIndex(a => a.Id == editFinanceRecord.RelativeAnimalId);
+                return new VM_Finance(pigs, (int)editFinanceRecord.TypeRecord, (int)editFinanceRecord.Category, pigIndex, editFinanceRecord);
+            }
+            // View model pro nový záznam - tedy data pro comboBoxy pouze
+            else
+            {
+                editFinanceRecord = null;
+                return new VM_Finance(pigs);
+            }
+        }
+
+        /// <summary>
         /// Vrátí kolekci veterinárních záznamů pro konkrétní zvíře
         /// </summary>
         /// <returns>Kolekce veterinárních záznamů - data pro ComboBox</returns>
@@ -126,9 +155,10 @@ namespace AnimalRegister.Pig.Logic
             else
                 return new List<Veterinary>();
         }
+        #endregion
 
         /// <summary>
-        /// Kliknutí na grafický záznam
+        /// Kliknutí na grafický záznam - prasata a prasnice
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -140,14 +170,14 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Kliknutí na grafický záznam
+        /// Kliknutí na grafický záznam - finance
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void GraphicFinanceRecordClick(object sender, EventArgs e)
         {
-            editFinance = sender as FinanceRecord;
-            AddFinanceWindow window = new AddFinanceWindow(this);
+            editFinanceRecord = sender as FinanceRecord;
+            AddFinanceWindow window = new AddFinanceWindow(this, DefineVM_Finance(false));
             window.Show();
         }
 
@@ -250,6 +280,11 @@ namespace AnimalRegister.Pig.Logic
             // Úprava stávajícího
             else if (operation == 1 && editPig != null)
             {
+                if (!(editPig is Saw) && type == TypePig.Saw)
+                    throw new ArgumentException("Nemůžeš změnit ostatní na chovnou prasnici. Vymaž daný záznam a vytvoř nové zvíře.");
+                else if(editPig is Saw && type == TypePig.OtherPig)
+                    throw new ArgumentException("Nemůžeš změnit chovnou prasnici na ostatní. Vymaž daný záznam a vytvoř nové zvíře.");
+
                 admin.AddEditSawPig(1, type, motherId, born, registerNumber, name, description,editPig, sex_help);
             }
             else
@@ -436,8 +471,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="categoryId">Pořadí kategorie transakce</param>
         /// <param name="animal">Pořadí zvířete, kterého se transakce týká</param>
         /// <param name="editRecord">Záznam pro úpravu</param>
-        public void AddEditFinanceRecord(byte operation, string date, string name, string price, string description, int typeFinance, int categoryId, Pig animal,
-            FinanceRecord editRecord)
+        public void AddEditFinanceRecord(byte operation, string date, string name, string price, string description, int typeFinance, int categoryId, Pig animal)
         {
             // Ošetření datumu - povinný údaj
             if (!DateTime.TryParse(date, out DateTime date_help) && date != "")
@@ -445,8 +479,8 @@ namespace AnimalRegister.Pig.Logic
             else if(date == "")
                 throw new ArgumentException("Nezadal jsi žádné datum transakce");
             // Ošetření názvu transakce - povinný údaj
-            if (name.Count() > 50 && name != "")
-                throw new ArgumentException("Zadaný název transakce přesahuje 50 znaků. Prosím zkať jej");
+            if (name.Count() > 38 && name != "")
+                throw new ArgumentException("Zadaný název transakce přesahuje 38 znaků. Prosím zkať jej");
             else if (name == "")
                 throw new ArgumentException("Nezadal jsi název transakce");
             // Ošetření částky transakce - povinný údaj
@@ -461,9 +495,11 @@ namespace AnimalRegister.Pig.Logic
             if(categoryId == -1)
                 throw new ArgumentException("Nevybral jsi žádnou kategorii. Naprav to a nějakou si zvol.");
 
-            int animalId = 0;
-            if (animal != null)
+            int animalId = -1;
+            // Uživatel si zvolil vztažné zvíře a současně kategorie je 3 - zvíře * pokud není kategorie zvíře, tak se uloží - 1, tedy nevybráno do zvířete
+            if (animal != null && categoryId == 3)
                 animalId = animal.Id;
+
             // Nový záznam
             if (operation == 0)
             {
@@ -472,21 +508,24 @@ namespace AnimalRegister.Pig.Logic
             // Úprava stávajícího záznamu
             else if(operation == 1)
             {
-                admin.AddEditFinanceRecord(1, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, editRecord);
+                admin.AddEditFinanceRecord(1, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, editFinanceRecord);
             }
+
+            ConstructGraphicFinance(true, false, false);
         }
 
 
         /// <summary>
         /// Metoda pro odebrání transakce
         /// </summary>
-        /// <param name="removeRecord">Záznam k odebrání</param>
-        public void RemoveFinanceRecord(FinanceRecord removeRecord)
+        public void RemoveFinanceRecord()
         {
-            if (removeRecord != null)
-                admin.RemoveFinanceRecord(removeRecord);
+            if (editFinanceRecord != null)
+                admin.RemoveFinanceRecord(editFinanceRecord);
             else
                 throw new ArgumentException("Nevybral jsi žádný záznam, který lze vymazat.");
+
+            ConstructGraphicFinance(true, false, false);
         }
 
         #endregion

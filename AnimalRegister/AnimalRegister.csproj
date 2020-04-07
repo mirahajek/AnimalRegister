@@ -116,6 +116,7 @@
     <Compile Include="Pig\Logic\Validator.cs" />
     <Compile Include="Pig\Logic\Veterinary.cs" />
     <Compile Include="Pig\Logic\VM_Birth.cs" />
+    <Compile Include="Pig\Logic\VM_Finance.cs" />
     <Compile Include="Pig\Logic\VM_PigSaw.cs" />
     <Compile Include="Pig\Winds\AddFinanceWindow.xaml.cs">
       <DependentUpon>AddFinanceWindow.xaml</DependentUpon>

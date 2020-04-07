@@ -124,33 +124,6 @@ namespace AnimalRegister.Pig.Logic
                 MessageBox.Show("Nepodařilo se načíst složku pro získání dat aplikace", "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
-            /*
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(700, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(100, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(110, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(120, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(130, "ahojda", DateTime.Today, "Nic", FinanceTypeRecord.Income, FinanceCategory.Feeding, 0));
-
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(800, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(200, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(210, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(220, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            FinanceRecords.Add(new FinanceRecord(230, "lolda", DateTime.Today, "Nic", FinanceTypeRecord.Costs, FinanceCategory.Feeding, 0));
-            */
             LoadIDs();
             LoadPigSaws();
             LoadFinance();
@@ -211,7 +184,8 @@ namespace AnimalRegister.Pig.Logic
             if (FinanceRecords.Count > 0)
             {
                 List<FinanceGraphicRecord> graphicRecords = new List<FinanceGraphicRecord>();
-                foreach (FinanceRecord rec in FinanceRecords)
+                var query = FinanceRecords.OrderByDescending(a => a.Date);
+                foreach (FinanceRecord rec in query)
                 {
                     graphicRecords.Add(new FinanceGraphicRecord(rec));
                 }
@@ -308,7 +282,10 @@ namespace AnimalRegister.Pig.Logic
                 // Ostatní
                 else
                 {
-                    Saw mother = Saws[motherId];
+                    Saw mother = null;
+                    if(motherId != -1)
+                        mother = Saws[motherId];
+   
                     Pigs.Add(new Pig(dateBorn, registerNumber,sex, mother, name, description));
                 }
             }
@@ -329,7 +306,9 @@ namespace AnimalRegister.Pig.Logic
                 else
                 {
                     // Vyhledání konkrétní matky v seznamu PRASNIC
-                    Saw mother = Saws[motherId];
+                    Saw mother = null;
+                    if (motherId != -1)
+                        mother = Saws[motherId];
                     // Úprava hodnot zadaného prasate
                     editPig.Name = name;
                     editPig.RegisterNumber = registerNumber;
@@ -491,7 +470,21 @@ namespace AnimalRegister.Pig.Logic
         public void AddEditFinanceRecord(byte operation, DateTime date, string name, int price, string description, FinanceTypeRecord typeFinance, FinanceCategory category
             , int animalId, FinanceRecord editRecord)
         {
-            FinanceRecords.Add(new FinanceRecord(price, name, date, description, typeFinance, category, animalId));
+            if(operation == 0)
+            {
+                FinanceRecords.Add(new FinanceRecord(price, name, date, description, typeFinance, category, animalId));
+            }
+            else if(operation == 1)
+            {
+                editRecord.Date = date;
+                editRecord.Name = name;
+                editRecord.Price = price;
+                editRecord.Description = description;
+
+                editRecord.TypeRecord = typeFinance;
+                editRecord.Category = category;
+                editRecord.RelativeAnimalId = animalId;
+            }
 
             SaveFinance();
             SaveIDs();
