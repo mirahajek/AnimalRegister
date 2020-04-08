@@ -131,5 +131,16 @@ namespace AnimalRegister
                 MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void StatisticButton_Click(object sender, RoutedEventArgs e)
+        {
+            FinanceStatisticWindow window = new FinanceStatisticWindow(validator);
+            window.Show();
+        }
     }
 }

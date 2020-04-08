@@ -1,0 +1,245 @@
+﻿<Window x:Class="AnimalRegister.Pig.Winds.FinanceStatisticWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
+        mc:Ignorable="d"
+            Title="Finanční statistika" Height="900" Width="780" WindowStartupLocation="CenterScreen"
+        Style="{DynamicResource DefaultWindow}" Icon="..\Img\pigIcon.ico"
+        >
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1" Style="{DynamicResource Light}"
+              Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="700" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Canvas Grid.Column="1" Margin="0,20,0,20" Name="statisticCanvas" 
+                    Background="White" >
+                <Rectangle Height="80" Width="700" Fill="#FF474B65" />
+                <TextBlock Text="Roční přehled" Foreground="White" FontWeight="Bold"
+                           Margin="20,15,0,5" FontSize="35" Name="xxTextBlock"/>
+
+
+                <TextBlock Text="+" Foreground="Black" FontWeight="ExtraBold"
+                           FontSize="35" 
+                           Canvas.Top="70" Canvas.Left="340"/>
+                <TextBlock Text="-" Foreground="Black" FontWeight="ExtraBold"
+                           FontSize="35" 
+                           Canvas.Top="70" Canvas.Left="575"/>
+
+                <!--Leden -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="120"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="120"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="januaryPlusTextBlock"
+                           Canvas.Top="122" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="januaryMinusTextBlock"
+                           Canvas.Top="122" Canvas.Left="530"/>
+                <TextBlock Text="Leden" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="122" Canvas.Left="125"/>
+
+                <!--Únor -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="165"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="165"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="februaryPlusTextBlock"
+                           Canvas.Top="167" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="februaryMinusTextBlock"
+                           Canvas.Top="167" Canvas.Left="530"/>
+                <TextBlock Text="Únor" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="167" Canvas.Left="125"/>
+
+                <!--Březen -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="210"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="210"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="marchPlusTextBlock"
+                           Canvas.Top="212" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="marchMinusTextBlock"
+                           Canvas.Top="212" Canvas.Left="530"/>
+                <TextBlock Text="Březen" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="212" Canvas.Left="125"/>
+
+                <!--Duben -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="255"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="255"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="aprilPlusTextBlock"
+                           Canvas.Top="257" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="aprilMinusTextBlock"
+                           Canvas.Top="257" Canvas.Left="530"/>
+                <TextBlock Text="Duben" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="257" Canvas.Left="125"/>
+
+                <!--Květen -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="300"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="300"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="mayPlusTextBlock"
+                           Canvas.Top="302" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="mayMinusTextBlock"
+                           Canvas.Top="302" Canvas.Left="530"/>
+                <TextBlock Text="Květen" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="302" Canvas.Left="125"/>
+
+                <!--Červen -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="345"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="345"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="junePlusTextBlock"
+                           Canvas.Top="347" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="juneMinusTextBlock"
+                           Canvas.Top="347" Canvas.Left="530"/>
+                <TextBlock Text="Červen" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="347" Canvas.Left="125"/>
+
+                <!--Červenec -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="390"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="390"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="julyPlusTextBlock"
+                           Canvas.Top="392" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="julyMinusTextBlock"
+                           Canvas.Top="392" Canvas.Left="530"/>
+                <TextBlock Text="Červenec" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="392" Canvas.Left="125"/>
+
+                <!--Srpen -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="435"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="435"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="augustPlusTextBlock"
+                           Canvas.Top="437" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="augustMinusTextBlock"
+                           Canvas.Top="437" Canvas.Left="530"/>
+                <TextBlock Text="Srpen" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="437" Canvas.Left="125"/>
+
+                <!--Září -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="480"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="480"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="septemberPlusTextBlock"
+                           Canvas.Top="482" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="septemberMinusTextBlock"
+                           Canvas.Top="482" Canvas.Left="530"/>
+                <TextBlock Text="Září" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="482" Canvas.Left="125"/>
+
+                <!--Říjen -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="525"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="525"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="octoberPlusTextBlock"
+                           Canvas.Top="527" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="octoberMinusTextBlock"
+                           Canvas.Top="527" Canvas.Left="530"/>
+                <TextBlock Text="Říjen" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="527" Canvas.Left="125"/>
+
+                <!--Listopad -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="570"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="570"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="novemberPlusTextBlock"
+                           Canvas.Top="572" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="novemberMinusTextBlock"
+                           Canvas.Top="572" Canvas.Left="530"/>
+                <TextBlock Text="Listopad" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="572" Canvas.Left="125"/>
+
+                <!--Prosinec -->
+                <Rectangle Height="32" Width="200" Fill="#FFBBFFBF" Canvas.Top="615"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="32" Width="200" Fill="#A5FF0000" Canvas.Top="615"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="decemberPlusTextBlock"
+                           Canvas.Top="617" Canvas.Left="310"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="DemiBold"
+                           FontSize="23" Name="decemberMinusTextBlock"
+                           Canvas.Top="617" Canvas.Left="530"/>
+                <TextBlock Text="Prosinec" Foreground="Black" FontWeight="Bold"
+                           FontSize="23" 
+                           Canvas.Top="617" Canvas.Left="125"/>
+
+
+                <!--Celkem -->
+                <Line X1="0" Y1="660" X2="700" Y2="660" Stroke="Black" StrokeThickness="3"/>
+                <Rectangle Height="45" Width="200" Fill="#FFBBFFBF" Canvas.Top="670"
+                           RadiusX="10" RadiusY="10" Canvas.Left="260"/>
+                <Rectangle Height="45" Width="200" Fill="#A5FF0000" Canvas.Top="670"
+                           RadiusX="10" RadiusY="10" Canvas.Left="480"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="Bold"
+                           FontSize="28" Name="sumPlusTextBlock"
+                           Canvas.Top="672" Canvas.Left="295"/>
+                <TextBlock Text="" Foreground="Black" FontWeight="Bold"
+                           FontSize="28" Name="sumMinusTextBlock"
+                           Canvas.Top="672" Canvas.Left="515"/>
+                <TextBlock Text="CELKEM" Foreground="Black" FontWeight="Bold"
+                           FontSize="28" 
+                           Canvas.Top="672" Canvas.Left="125"/>
+            </Canvas>
+        </Grid>
+
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="2020 Miroslav Hájek" 
+                   Foreground="LightGray" VerticalAlignment="Center"
+                   HorizontalAlignment="Right" Margin="0,0,85,0"
+                   FontSize="14"/>
+    </Grid>
+</Window>
