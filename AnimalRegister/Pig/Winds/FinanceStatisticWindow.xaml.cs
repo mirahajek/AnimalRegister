@@ -25,7 +25,7 @@ namespace AnimalRegister.Pig.Winds
         public FinanceStatisticWindow(Validator validator)
         {
             InitializeComponent();
-            validator.CalculateStatisticData(statisticCanvas);
+            TextBlock text = (TextBlock)statisticCanvas.FindName("xxTextBlock");
         }
     }
 }
