@@ -27,5 +27,3 @@ d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\VeterinaryWindow.baml
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\AddFinanceWindow.g.cs
 d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\AddFinanceWindow.baml
-d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\FinanceStatisticWindow.g.cs
-d:\Prace\Práce\Programování\C#\VlastniProjekty\AnimalRegister\AnimalRegister\AnimalRegister\obj\Debug\Pig\Winds\FinanceStatisticWindow.baml

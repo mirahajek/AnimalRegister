@@ -79,10 +79,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pig\Winds\FinanceStatisticWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pig\Winds\VeterinaryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -130,9 +126,6 @@
     </Compile>
     <Compile Include="Pig\Winds\BirthWindow.xaml.cs">
       <DependentUpon>BirthWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pig\Winds\FinanceStatisticWindow.xaml.cs">
-      <DependentUpon>FinanceStatisticWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pig\Winds\VeterinaryWindow.xaml.cs">
       <DependentUpon>VeterinaryWindow.xaml</DependentUpon>

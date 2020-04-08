@@ -5,16 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-            Title="Finanční statistika" Height="900" Width="780" WindowStartupLocation="CenterScreen"
+            Title="Finanční statistika" Height="920" Width="780" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource DefaultWindow}" Icon="..\Img\pigIcon.ico"
         >
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="70" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
         </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="1" Margin="15,2,0,0" Text="Rok" Foreground="White"
+                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
+            <ComboBox Grid.Column="1" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="yearComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="" 
+                  ToolTip="Výběr přehledu v daném roce. Zobrazí statistku za vybraný rok a v kategorii, kterou zvolíte"
+                  >
+            </ComboBox>
+
+            <TextBlock Grid.Column="2" Margin="15,2,0,0" Text="Kategorie" Foreground="White"
+                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/> 
+            <ComboBox Grid.Column="2" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="categoryComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="" 
+                  ToolTip="Výběr přehledu v dané kategorii. Zobrazí statistku za vybraný rok pro danou kategorii"
+                  >
+            </ComboBox>
+
+            <TextBlock Grid.Column="3" Margin="15,2,0,0" Text="Zvíře" Foreground="White"
+                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
+            <ComboBox Grid.Column="3" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="animalComboBox" SelectedIndex="-1" Background="White"
+                  SelectionChanged="" 
+                  ToolTip="Výběr přehledu pro konkrétní zvíře. Zobrazí statistku za vybraný rok pro vybrané zvíře"
+                  >
+            </ComboBox>
+        </Grid>
+
+
+
 
         <Grid Grid.Row="1" Style="{DynamicResource Light}"
               Margin="10">
@@ -239,7 +285,7 @@
 
         <TextBlock Grid.Row="2" Grid.Column="1" Text="2020 Miroslav Hájek" 
                    Foreground="LightGray" VerticalAlignment="Center"
-                   HorizontalAlignment="Right" Margin="0,0,85,0"
+                   HorizontalAlignment="Right" Margin="0,0,40,10"
                    FontSize="14"/>
     </Grid>
 </Window>

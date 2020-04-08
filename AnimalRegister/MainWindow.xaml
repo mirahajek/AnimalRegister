@@ -27,7 +27,6 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="60"/>
-                <RowDefinition Height="60"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
@@ -51,28 +50,22 @@
                    Width="30"/>
 
             <Button Grid.Column="1" Grid.Row="3" Style="{DynamicResource MenuButton}" 
-                    Name="statisticButton" Content="Statistika" Click="StatisticButton_Click"
-                    />
-            <Image Source="Pig\Img\add.png" Grid.Row="4" Height="30"
-                   Width="30"/>
-            
-            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource MenuButton}" 
                     Name="addButton" Content="Přidej" Focusable="False"
                     />
-            <Image Source="Pig\Img\add.png" Grid.Row="4" Height="30"
+            <Image Source="Pig\Img\add.png" Grid.Row="3" Height="30"
                    Width="30"/>
 
-            <Button Grid.Column="1" Grid.Row="5" Style="{DynamicResource MenuButton}" 
+            <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource MenuButton}" 
                     Name="addFinanceButton" Content="- Finance" Click="AddFinanceButton_Click" 
                     FontSize="17"/>
-            <Button Grid.Column="1" Grid.Row="6" Style="{DynamicResource MenuButton}" 
+            <Button Grid.Column="1" Grid.Row="5" Style="{DynamicResource MenuButton}" 
                     Name="addPigButton" Content="- Prase" Click="AddPigButton_Click" 
                     FontSize="17"/>
 
 
-            <Button Grid.Column="1" Grid.Row="78" Style="{DynamicResource MenuButton}" 
+            <Button Grid.Column="1" Grid.Row="7" Style="{DynamicResource MenuButton}" 
                     Name="saveButton" Content="Ulož" Click="SaveButton_Click"/>
-            <Image Source="Pig\Img\save.png" Grid.Row="8" Height="30"
+            <Image Source="Pig\Img\save.png" Grid.Row="7" Height="30"
                    Width="30"/>
         </Grid>
 
