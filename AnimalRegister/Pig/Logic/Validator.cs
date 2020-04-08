@@ -159,6 +159,7 @@ namespace AnimalRegister.Pig.Logic
 
 
 
+	// Pokus radek
         public void CalculateStatisticData(Canvas statCanvas)
         {
             TextBlock text = (TextBlock)statCanvas.FindName("januaryPlusTextBlock");
