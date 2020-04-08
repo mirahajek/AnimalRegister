@@ -157,6 +157,14 @@ namespace AnimalRegister.Pig.Logic
         }
         #endregion
 
+
+
+        public void CalculateStatisticData(Canvas statCanvas)
+        {
+            TextBlock text = (TextBlock)statCanvas.FindName("januaryPlusTextBlock");
+            text.Text = "50 Kc";
+        }
+
         /// <summary>
         /// Kliknutí na grafický záznam - prasata a prasnice
         /// </summary>
