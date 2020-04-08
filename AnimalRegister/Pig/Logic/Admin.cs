@@ -84,7 +84,7 @@ namespace AnimalRegister.Pig.Logic
         public List<Saw> Saws { get; private set; }
 
         /// <summary>
-        /// 
+        /// Instance finančního záznamu na který uživatel kliknul
         /// </summary>
         public List<FinanceRecord> FinanceRecords { get; private set; }
 
@@ -129,7 +129,48 @@ namespace AnimalRegister.Pig.Logic
             LoadFinance();
         }
 
+        public List<int> CalculateStatisticData(byte operation,int year, FinanceCategory? category, int? animalId)
+        {
+            List<int> result = new List<int>();
+            int[] monthSum_income = new int[12];
+            int[] monthSum_costs = new int[12];
 
+            var query_year = from rec in FinanceRecords
+                            where rec.Date.Year == year
+                            select rec;
+
+            var query_yearCategory = from rec in FinanceRecords
+                                    where rec.Date.Year == year && rec.Category == category
+                                    select rec;
+
+            var query_all = from rec in FinanceRecords
+                            where rec.Date.Year == year && rec.Category == category && rec.RelativeAnimalId == animalId
+                            select rec;
+
+            var find = query_year;
+            if (operation == 1)
+                find = query_yearCategory;
+            else if(operation == 2)
+                find = query_all;
+
+            if(find != null)
+            {
+                foreach (FinanceRecord rec in find)
+                {
+                    if (rec.TypeRecord == FinanceTypeRecord.Income)
+                        monthSum_income[rec.Date.Month - 1] += rec.Price;
+                    else
+                        monthSum_costs[rec.Date.Month - 1] += rec.Price;
+                }
+            }
+
+            result.AddRange(monthSum_income);
+            result.AddRange(monthSum_costs);
+            result.Add(monthSum_income.Sum());
+            result.Add(monthSum_costs.Sum());
+
+            return result;
+        }
 
         #region Graphic methods
         /// <summary>

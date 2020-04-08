@@ -18,10 +18,19 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         private Admin admin;
 
+        /// <summary>
+        /// Instance třídy pro vykreslení na canvas
+        /// </summary>
         private Graphic graphic;
 
+        /// <summary>
+        /// Instance prasete, na které uživatel kliknul na hlavní stránce
+        /// </summary>
         private Pig editPig;
 
+        /// <summary>
+        /// Instance finančního záznamu na který uživatel kliknul na hlavní stránce
+        /// </summary>
         private FinanceRecord editFinanceRecord;
 
         /// <summary>
@@ -155,14 +164,80 @@ namespace AnimalRegister.Pig.Logic
             else
                 return new List<Veterinary>();
         }
+
+        /// <summary>
+        /// Metoda pro získání všech prasnic + ostatních prasat, aby bylo možné je zobrazit v ComboBoxu finance - statistika
+        /// </summary>
+        /// <returns></returns>
+        public List<Pig> Define_PigsList()
+        {
+            List<Pig> pigs = new List<Pig>();
+            pigs.AddRange(admin.Saws);
+            pigs.AddRange(admin.Pigs);
+
+            return pigs;
+        }
         #endregion
 
 
-
-        public void CalculateStatisticData(Canvas statCanvas)
+        public void CalculateStatisticData(Canvas statCanvas, string year, int categoryId, Pig relativeAnimal)
         {
-            TextBlock text = (TextBlock)statCanvas.FindName("januaryPlusTextBlock");
-            text.Text = "50 Kc";
+            // Názvy textBlocků v okně statistiky, do kterých se budou vpisovat data o finančních přehledech
+            string[] statisticTextBlockNames =
+            {
+                // Příjmy prvních 6 měsíců
+                "januaryPlusTextBlock","februaryPlusTextBlock","marchPlusTextBlock","aprilPlusTextBlock","mayPlusTextBlock","junePlusTextBlock",
+                // Příjmy druhých 6 měsíců
+                "julyPlusTextBlock","augustPlusTextBlock","septemberPlusTextBlock","octoberPlusTextBlock","novemberPlusTextBlock","decemberPlusTextBlock",
+                // Výdaje prvních 6 měsíců
+                "januaryMinusTextBlock","februaryMinusTextBlock","marchMinusTextBlock","aprilMinusTextBlock","mayMinusTextBlock","juneMinusTextBlock",
+                // Výdaje druhých 6 měsíců
+                "julyMinusTextBlock","augustMinusTextBlock","septemberMinusTextBlock","octoberMinusTextBlock","novemberMinusTextBlock","decemberMinusTextBlock",
+                // Celkové příjmy a výdaje
+                "sumPlusTextBlock","sumMinusTextBlock"
+            };
+            // Uživatel má vybranou nějakou kategorii
+            if (categoryId == -1)
+                throw new ArgumentException("Nevybral jsi kategorii, pokud nechceš nějakou konkrétní zvol VŠECHNY");
+            // Ošetření že jde rok převést na číslo
+            if (!int.TryParse(year, out int year_help))
+                throw new ArgumentException("Nepodařilo se převést vámi zadaný rok! Prosím opakujte výběr");
+            // Kolekce kam se uloží data pro 12 příjmů, 12 výdajů a suma příjmu a výdajů -- celkem 26 položek
+            List<int> result;
+
+            // Uživatel nezměnil comboBox pro kategorii - volba ROK, KATEGORIE (všechny)
+            // -------------------------------------------------------------------------
+            // Rovná se sumě, protože k této kolekci se přidává ve VIEW ještě volba VŠECHNY vždy na konec této kolekce
+            if (categoryId == Admin.FinanceCategory_Czech.Count())
+            {
+                result = admin.CalculateStatisticData(0, year_help, null, null);
+            }
+            // Uživatel vybral nějakou kategorii, ale ne zvíře - volba ROK, KATEGORIE
+            else if (categoryId != 3)
+            {
+                result = admin.CalculateStatisticData(1, year_help, (FinanceCategory)categoryId, null);
+            }
+            // uživatel vybral určité zvíře - volba ROK, KATEGORIE a KONKRÉTNÍ ZVÍŘE
+            else if(categoryId == 3 && relativeAnimal != null)
+            {
+                result = admin.CalculateStatisticData(2, year_help, (FinanceCategory)categoryId, relativeAnimal.Id);
+            }
+            // uživatel vybral kategorii zvířat, ale NE konkrétní zvíře
+            else if (categoryId == 3 && relativeAnimal == null)
+            {
+                result = admin.CalculateStatisticData(1, year_help, (FinanceCategory)categoryId, null);
+            }
+            // Něco se pokazilo při výběru
+            else
+            {
+                throw new ArgumentException("Něco se nepodařilo při výpočtu parametrů. Zkus výběr prosím znovu");
+            }
+            // Vykreslení na CANVAS - pouze se změní hodnoty textBlocků 
+            for (int i = 0; i < 26; i++)
+            {
+                TextBlock text = (TextBlock)statCanvas.FindName(statisticTextBlockNames[i]);
+                text.Text = result[i].ToString() + "\tKč";
+            }
         }
 
         /// <summary>

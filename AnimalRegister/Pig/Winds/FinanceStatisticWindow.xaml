@@ -22,7 +22,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -30,30 +30,39 @@
 
             <TextBlock Grid.Column="1" Margin="15,2,0,0" Text="Rok" Foreground="White"
                    Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
-            <ComboBox Grid.Column="1" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+            <ComboBox Grid.Column="1" Grid.Row="1" Margin="10,4,10,4" FontSize="15" 
                   ItemsSource="{Binding Mode=OneWay}"
                   FontWeight="Bold" Name="yearComboBox" SelectedIndex="-1" Background="White"
-                  SelectionChanged="" 
+                  SelectionChanged="YearComboBox_SelectionChanged" 
                   ToolTip="Výběr přehledu v daném roce. Zobrazí statistku za vybraný rok a v kategorii, kterou zvolíte"
                   >
+                <ComboBoxItem Content="2018" />
+                <ComboBoxItem Content="2019" />
+                <ComboBoxItem Content="2020" />
+                <ComboBoxItem Content="2021" />
+                <ComboBoxItem Content="2022" />
+                <ComboBoxItem Content="2023" />
+                <ComboBoxItem Content="2024" />
+                <ComboBoxItem Content="2025" />
             </ComboBox>
 
             <TextBlock Grid.Column="2" Margin="15,2,0,0" Text="Kategorie" Foreground="White"
                    Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/> 
-            <ComboBox Grid.Column="2" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+            <ComboBox Grid.Column="2" Grid.Row="1" Margin="10,4,10,4" FontSize="15" 
                   ItemsSource="{Binding Mode=OneWay}"
                   FontWeight="Bold" Name="categoryComboBox" SelectedIndex="-1" Background="White"
-                  SelectionChanged="" 
+                  SelectionChanged="CategoryComboBox_SelectionChanged" 
                   ToolTip="Výběr přehledu v dané kategorii. Zobrazí statistku za vybraný rok pro danou kategorii"
                   >
             </ComboBox>
 
             <TextBlock Grid.Column="3" Margin="15,2,0,0" Text="Zvíře" Foreground="White"
-                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
-            <ComboBox Grid.Column="3" Grid.Row="1" Margin="10,4,10,4" FontSize="13" 
+                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"
+                       Name="animalTitle"/>
+            <ComboBox Grid.Column="3" Grid.Row="1" Margin="10,4,10,4" FontSize="15" 
                   ItemsSource="{Binding Mode=OneWay}"
                   FontWeight="Bold" Name="animalComboBox" SelectedIndex="-1" Background="White"
-                  SelectionChanged="" 
+                  SelectionChanged="AnimalComboBox_SelectionChanged" 
                   ToolTip="Výběr přehledu pro konkrétní zvíře. Zobrazí statistku za vybraný rok pro vybrané zvíře"
                   >
             </ComboBox>
