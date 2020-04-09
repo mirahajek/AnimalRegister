@@ -21,7 +21,7 @@ namespace AnimalRegister.Pig.Logic
         public event EventHandler GraphicRecordClick;
 
         /// <summary>
-        /// Strana zaznamu
+        /// Strana záznamu
         /// </summary>
         public int Page { get; set; }
         /// <summary>
@@ -59,6 +59,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="record"></param>
         public FinanceGraphicRecord(FinanceRecord record)
         {
+            // Částka
             Price = new TextBlock
             {
                 FontSize = 16,
@@ -67,7 +68,7 @@ namespace AnimalRegister.Pig.Logic
                 Text = record.Price.ToString() + "\tKč"
 
             };
-
+            // Datum
             Date = new TextBlock
             {
                 FontSize = 15,
@@ -76,7 +77,7 @@ namespace AnimalRegister.Pig.Logic
                 Text = record.Date.ToShortDateString()
 
             };
-
+            // Název kategorie
             CategoryName = new TextBlock
             {
                 FontSize = 14,
@@ -85,7 +86,7 @@ namespace AnimalRegister.Pig.Logic
                 Text = Admin.FinanceCategory_Czech[(int)record.Category]
 
             };
-
+            // Název transakce
             Title = new TextBlock
             {
                 FontSize = 14,
@@ -94,7 +95,7 @@ namespace AnimalRegister.Pig.Logic
                 Text = record.Name
 
             };
-
+            // HOrní obdelník
             RectangleTop = new Rectangle
             {
                 Width = 380,
@@ -117,7 +118,7 @@ namespace AnimalRegister.Pig.Logic
 
             if (record.TypeRecord == FinanceTypeRecord.Costs)
                 RectangleDown.Fill = new SolidColorBrush(Color.FromArgb(160, 255, 0, 0));//(255, 255, 108, 108));
-
+            // Přiřazení záznamu a přidání obsluhy kliknutí na spodní obdelník, název kategorie a název transakce
             FinanceRecord = record;
             RectangleDown.MouseDown += RectangleDown_MouseDown;
             Title.MouseDown += RectangleDown_MouseDown;
@@ -143,7 +144,6 @@ namespace AnimalRegister.Pig.Logic
             List<object> recordParts = new List<object>();
             recordParts.Add(RectangleTop);
             recordParts.Add(RectangleDown);
-            //recordParts.Add(RectangleLeft);
             recordParts.Add(Price);
             recordParts.Add(Title);
             recordParts.Add(Date);

@@ -9,15 +9,25 @@ namespace AnimalRegister.Pig.Logic
 {
     public class VM_Birth 
     {
+
+        private Saw saw;
         /// <summary>
         /// Základní konstruktor - vyžaduje kolekci záznamů PRASNICE
         /// </summary>
         /// <param name="sawsBirth"></param>
-        public VM_Birth(List<Birth> sawsBirth)
+        public VM_Birth(List<Birth> sawsBirth, Saw saw)
         {
             SawBirth = sawsBirth;
             SelectBirth = null;
             EditRecord = false;
+            this.saw = saw;
+            // 
+            if (saw != null)
+            {
+                TotalLive = saw.TotalLive.ToString();
+                TotalDeath = saw.TotalDeath.ToString();
+                TotalReared = saw.TotalReared.ToString();
+            }
         }
 
         /// <summary>
@@ -29,6 +39,23 @@ namespace AnimalRegister.Pig.Logic
             EditRecord = true;
             SelectBirth = record;
         }
+
+        /// <summary>
+        /// Počet živých selat při porodu CELKEM
+        /// </summary>
+        public string TotalLive { get; }
+
+        /// <summary>
+        /// Počet mrtvých selat při porodu CELKEM
+        /// </summary>
+        public string TotalDeath { get; }
+
+        /// <summary>
+        /// Počet odchovaných selat CELKEM
+        /// </summary>
+        public string TotalReared { get; }
+
+
 
         /// <summary>
         /// Úprava - TRUE * Nový - FALSE

@@ -106,7 +106,10 @@ namespace AnimalRegister.Pig.Logic
             PregnancyCheck = pregnancyCheck;
         }
 
-
+        /// <summary>
+        /// Přetížená metoda pro výpis, využíváno pro výpis do comboBoxů
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return DateRecessed.ToShortDateString();

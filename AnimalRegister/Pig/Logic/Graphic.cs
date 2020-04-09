@@ -25,7 +25,7 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         private Canvas canvasSaw;
         /// <summary>
-        /// Aktuální strana výpisu prasat a prasnic - úvodní strana
+        /// Aktuální strana výpisu Prasnic, ostatních a transakcí - úvodní strana
         /// </summary>
         private int recordsActualPage;
 
@@ -51,7 +51,7 @@ namespace AnimalRegister.Pig.Logic
 
 
         /// <summary>
-        /// Vykreslí na canvasy jak Prasnice, tak i Ostatní prasata
+        /// Vykreslí na canvasy jak Prasnice, Ostatní prasata i Finance
         /// </summary>
         /// <param name="operation">0 - zvířata * 1 - finance</param>
         /// <param name="first">Jedná se o první stranu</param>
@@ -87,14 +87,14 @@ namespace AnimalRegister.Pig.Logic
                 recordsActualPage++;
             }
 
-            // Smazání pláten + hlavička
+            // Smazání pláten
             canvasSaw.Children.Clear();
             canvasPig.Children.Clear();
-            DefineHead(1);
+
             // Pozadí na bílou barvu
             canvasSaw.Background = Brushes.White;
             canvasPig.Background = Brushes.White;
-
+            // Prasata
             if (operation == 0)
             {
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
@@ -110,45 +110,41 @@ namespace AnimalRegister.Pig.Logic
                 15,30,30,30
                 };
                 int a = 0;
-                int b = 0;
+                int sawTop = 0;
+                int pigTop = 0;
 
                 DefineHead(0);
-                // Vykreslení prasnic
-                foreach (GraphicPigSawRecord rec in graphicSaw)
-                {
-                    if (rec.Page == recordsActualPage)
-                    {
-                        List<object> elements = rec.ReturnAllAtributs();
-                        foreach (object obj in elements)
-                        {
-                            CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + b * 120, 0, 0);
-                            a++;
-                        }
-                        a = 0;
-                        b++;
-                    }
-                }
+                // Vykreslení prasnic a ostatních
+                List<GraphicPigSawRecord> pigColection = graphicSaw;
+                pigColection.AddRange(graphicPig);
 
-                a = 0; b = 0;
-                // Vykreslení prasat
-                foreach (GraphicPigSawRecord rec in graphicPig)
+                foreach (GraphicPigSawRecord rec in pigColection)
                 {
                     if (rec.Page == recordsActualPage)
                     {
                         List<object> elements = rec.ReturnAllAtributs();
                         foreach (object obj in elements)
                         {
-                            CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + b * 120, 0, 0);
+                            if (rec.Animal is Saw)
+                                CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + sawTop * 120, 0, 0); 
+                            else
+                                CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + pigTop * 120, 0, 0);
+
                             a++;
                         }
                         a = 0;
-                        b++;
+
+                        if (rec.Animal is Saw)
+                            sawTop++;
+                        else
+                            pigTop++;
                     }
                 }
             }
             // Přidání finančních transakcí na plátno
             else if(operation == 1)
             {
+                DefineHead(1);
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
                 int[] top =
                 {
@@ -161,31 +157,26 @@ namespace AnimalRegister.Pig.Logic
                 10,10,
                 15,15,300, 300
                 };
-
-
-                int a = 0; int b = 0;
-                // Vykreslení financi
+                // Vykresleni financi
+                int incomeInc = 0;
+                int costsInc = 0;
                 foreach (FinanceGraphicRecord rec in graphicFinance)
                 {
+                    List<object> elements = rec.ReturnAllAtributs();
                     // Příjmy
-                    if (rec.Page == recordsActualPage && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
+                    if (rec.Page == recordsActualPage)
                     {
-                        List<object> elements = rec.ReturnAllAtributs();
-                        for(int i = 0; i < elements.Count; i++)
+                        for (int i = 0; i < elements.Count; i++)
                         {
-                            CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + a * 65, 0, 0);
+                            if(rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
+                                CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + incomeInc * 65, 0, 0);
+                            else if(rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
+                                CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + costsInc * 65, 0, 0);
                         }
-                        a++;
-                    }
-                    // Výdaje
-                    else if (rec.Page == recordsActualPage && rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
-                    {
-                        List<object> elements = rec.ReturnAllAtributs();
-                        for(int i = 0; i < elements.Count; i++)
-                        { 
-                            CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + b * 65, 0, 0);
-                        }
-                        b++;
+                        if (rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
+                            incomeInc++;
+                        else
+                            costsInc++;
                     }
                 }
             }

@@ -30,7 +30,7 @@ namespace AnimalRegister.Pig.Logic
         /// </summary>
         public string Description { get; set; }
         /// <summary>
-        /// Výdaj / příjem
+        /// Příjem / výdaj
         /// </summary>
         public FinanceTypeRecord TypeRecord { get; set; }
         /// <summary>

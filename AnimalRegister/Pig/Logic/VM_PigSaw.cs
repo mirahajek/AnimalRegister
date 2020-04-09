@@ -24,7 +24,7 @@ namespace AnimalRegister.Pig.Logic
         public bool State { get; private set; }
 
         /// <summary>
-        /// Konstruktor View modelu
+        /// Konstruktor View modelu - zobrazení vytvořeného zvířete
         /// </summary>
         /// <param name="pig">Zobrazované prase</param>
         /// <param name="saw">Zobrazovaná prasnice</param>

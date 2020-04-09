@@ -45,7 +45,14 @@ namespace AnimalRegister.Pig.Winds
             this.viewModel = viewModel;
             this.validator = validator;
             if (!viewModel.EditRecord)
+            {
                 birthSelectComboBox.DataContext = viewModel.SawBirth;
+                liveSumTextBox.DataContext = viewModel;
+                deathSumTextBox.DataContext = viewModel;
+                rearedSumTextBox.DataContext = viewModel;
+            }
+                
+
         }
 
         /// <summary>

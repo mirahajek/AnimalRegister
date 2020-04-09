@@ -121,7 +121,7 @@ namespace AnimalRegister.Pig.Logic
                     records.Add(rec);
                 }
                 // Vytvoření VIEW modelu
-                return new VM_Birth(records);
+                return new VM_Birth(records, mother);
             }
             else
                 throw new ArgumentException("Nelze zobrazit porody pro vybrané zvíře.");
@@ -220,7 +220,7 @@ namespace AnimalRegister.Pig.Logic
             if (!int.TryParse(year, out int year_help))
                 throw new ArgumentException("Nepodařilo se převést vámi zadaný rok! Prosím opakujte výběr");
             // Ošetření kategorií, pokud by se například přidala kategorie do english a nedala do českého překladu v ADMIN, aby aplikace upozornila
-            if (categoryId >= 0 && categoryId <= Admin.FinanceCategory_Czech.Count() && categoryId <= (Enum.GetNames(typeof(FinanceCategory))).Count())
+            if (!(categoryId >= 0 && categoryId <= Admin.FinanceCategory_Czech.Count() && categoryId <= (Enum.GetNames(typeof(FinanceCategory))).Count()))
                 throw new ArgumentException("Chyba v kategorii. Kontaktujte programátora.");
 
             // Kolekce kam se uloží data pro 12 příjmů, 12 výdajů a suma příjmu a výdajů -- celkem 26 položek
@@ -297,18 +297,21 @@ namespace AnimalRegister.Pig.Logic
             // Kolekce grafických záznamů, které budou vykresleni na plátno
             List<GraphicPigSawRecord> graphicSaw = admin.ConstructGraphicSawList();
             List<GraphicPigSawRecord> graphicPig = admin.ConstructGraphicPigList();
+
             // Přidá obsluhu události při kliknutí na záznam
             foreach (GraphicPigSawRecord rec in graphicSaw)
             {
                 rec.RecordClick += GraphicRecordClick;
             }
+
             // Přidá obsluhu události při kliknutí na záznam
-            foreach(GraphicPigSawRecord rec in graphicPig)
+            foreach (GraphicPigSawRecord rec in graphicPig)
             {
                 rec.RecordClick += GraphicRecordClick;
             }
+
             // Zavolá metodu třídy graphic, která přidá všechny záznamy na plátna
-            graphic.ConstructGraphicPigSawFinanceList(0,first, rotate, rotateUp, graphicSaw, graphicPig,null);
+            graphic.ConstructGraphicPigSawFinanceList(0, first, rotate, rotateUp, graphicSaw, graphicPig, null);
         }
 
         /// <summary>
@@ -565,7 +568,6 @@ namespace AnimalRegister.Pig.Logic
 
         #endregion
 
-
         #region Add/Edit/Remove FinanceRecord
 
         /// <summary>
@@ -610,7 +612,7 @@ namespace AnimalRegister.Pig.Logic
                 animalId = animal.Id;
 
             // Ošetření kategorií, pokud by se například přidala kategorie do english a nedala do českého překladu v ADMIN, aby aplikace upozornila
-            if (categoryId >= 0 && categoryId < Admin.FinanceCategory_Czech.Count() && categoryId < (Enum.GetNames(typeof(FinanceCategory))).Count())
+            if (!(categoryId >= 0 && categoryId < Admin.FinanceCategory_Czech.Count() && categoryId < (Enum.GetNames(typeof(FinanceCategory))).Count()))
                 throw new ArgumentException("Chyba v kategorii. Kontaktujte programátora.");
 
             // Nový záznam

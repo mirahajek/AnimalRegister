@@ -81,14 +81,14 @@
         <!-- Konec leve strany -->
 
 
-        <!-- Prava strana-->
+        <!-- Prava strana a datum zapuštění-->
         <TextBlock Grid.Row="2" Grid.Column="3"  Text="Datum zapuštění"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="3" Name="dateRecessedTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateRecessed, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum zapuštění ve formátu 12.12.2020"/>
 
-
+        <!--Oblast datum narození-->
         <Grid Grid.Row="4" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -109,11 +109,11 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            <!--Plánované datum porodu prasnice. Spočítané-->
             <TextBox Name="bornPlanTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateBirth_plan, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Vypočítáné datum porodu - 115 dní od zapuštění" Focusable="False"/>
-
+            <!--Skutečné datum porodu prasnice, zadané chovatelem-->
             <TextBox Grid.Column="1" Name="bornRealTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateBirth_real, Mode=OneTime, StringFormat=dd.MM.yyyy}"
 
@@ -137,7 +137,7 @@
             <TextBlock Text="Živá" Style="{DynamicResource NadpisTextBoxu}"/>
             <TextBlock Text="Mrtvá" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
         </Grid>
-
+        <!--Řádek živá a odchovaná selata-->
         <Grid Grid.Row="9" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -160,21 +160,38 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Text="Odchovaná" Style="{DynamicResource NadpisTextBoxu}"/>
+            <TextBlock Text="Celkem za historii" Grid.Column="1" Style="{DynamicResource NadpisTextBoxu}"/>
         </Grid>
-
+        <!--Řádek odchovaná a celkem za celou dobu-->
         <Grid Grid.Row="11" Grid.Column="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="212*" />
-                <ColumnDefinition Width="50*" />
-                <ColumnDefinition Width="163*"/>
+                <ColumnDefinition Width="212" />
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="202"/>
             </Grid.ColumnDefinitions>
 
             <TextBox Name="rearedTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Reared, Mode=OneTime}"
                  ToolTip="Počet odchovaných selat - zadáno při odstavu selat od Matky" Margin="10,4,9.925,3.321"/>
 
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <TextBlock Text="Ž" FontSize="22" FontWeight="Bold" Margin="1,2,5,2"
+                           ToolTip="Počet živých selat při porodu za celou dobu"/>
+                <TextBox MinWidth="35" Margin="5" FontSize="18" FontWeight="Bold" Focusable="False"
+                         Text="{Binding TotalLive, Mode=OneWay}" Name="liveSumTextBox"
+                         ToolTip="Počet živých selat při porodu za celou dobu"/>
+                <TextBlock Text="M" FontSize="22" FontWeight="Bold" Margin="0,2,4,2"
+                           ToolTip="Počet mrtvých selat při porodu za celou dobu"/>
+                <TextBox MinWidth="35" Margin="5" FontSize="18" FontWeight="Bold" Focusable="False"
+                         Text="{Binding TotalDeath, Mode=OneWay}" Name="deathSumTextBox"
+                         ToolTip="Počet mrtvých selat při porodu za celou dobu"/>
+                <TextBlock Text="O" FontSize="22" FontWeight="Bold" Margin="0,2,0,2"
+                           ToolTip="Počet odchovaných selat při odstavu za celou dobu"/>
+                <TextBox MinWidth="35" Margin="5" FontSize="18" FontWeight="Bold" Focusable="False"
+                         Text="{Binding TotalReared, Mode=OneWay}" Name="rearedSumTextBox"
+                         ToolTip="Počet odchovaných selat při odstavu za celou dobu"/>
+            </StackPanel>
         </Grid>
-
         <!-- Konec sekce selata-->
     </Grid>
 </Window>

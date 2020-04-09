@@ -192,9 +192,9 @@ namespace AnimalRegister.Pig.Logic
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicSawList()
         {
+            List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
             if (Saws.Count > 0)
             {
-                List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
                 foreach (Saw saw in Saws)
                 {
                     graphicRecords.Add(new GraphicPigSawRecord(saw));
@@ -204,7 +204,7 @@ namespace AnimalRegister.Pig.Logic
                 return graphicRecords;
             }
             else
-                return null;
+                return graphicRecords;
         }
 
         /// <summary>
@@ -213,20 +213,19 @@ namespace AnimalRegister.Pig.Logic
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicPigList()
         {
-            
+            List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
             if (Pigs.Count > 0)
             {
-                List<GraphicPigSawRecord> graphicRecords = new List<GraphicPigSawRecord>();
                 foreach (Pig pig in Pigs)
                 {
                     graphicRecords.Add(new GraphicPigSawRecord(pig));
                 }
                 // Nastavení strany pro každý jednotlivý záznam
-                UpdateSetPage(graphicRecords,null);
+                UpdateSetPage(graphicRecords, null);
                 return graphicRecords;
             }
             else
-                return null;
+                return graphicRecords;
         }
 
         /// <summary>
@@ -235,9 +234,9 @@ namespace AnimalRegister.Pig.Logic
         /// <returns>Kolekce grafických financí</returns>
         public List<FinanceGraphicRecord> ConstructGraphicFinance()
         {
+            List<FinanceGraphicRecord> graphicRecords = new List<FinanceGraphicRecord>();
             if (FinanceRecords.Count > 0)
             {
-                List<FinanceGraphicRecord> graphicRecords = new List<FinanceGraphicRecord>();
                 var query = FinanceRecords.OrderByDescending(a => a.Date);
                 foreach (FinanceRecord rec in query)
                 {
@@ -248,7 +247,7 @@ namespace AnimalRegister.Pig.Logic
                 return graphicRecords;
             }
             else
-                return null;
+                return graphicRecords;
         }
 
         /// <summary>

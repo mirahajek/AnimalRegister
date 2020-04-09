@@ -9,38 +9,85 @@ namespace AnimalRegister.Pig.Logic
     public class Saw : Pig
     {
         /// <summary>
-        /// Počet živých selat při porodu CELKEM
-        /// </summary>
-        public int TotalLive { get; set; }
-        /// <summary>
-        /// Počet mrtvých selat při porodu CELKEM
-        /// </summary>
-        public int TotalDeath { get; set; }
-        /// <summary>
-        /// Počet odchovaných selat CELKEM
-        /// </summary>
-        public int TotalReared { get; set; }
-        private List<Birth> birthRecords;
-        /// <summary>
         /// Kolekce porodních záznamů
         /// </summary>
-        public List<Birth> BirthRecords
+        public List<Birth> BirthRecords { get; set; }
+
+        private int totalLive;
+        /// <summary>
+        /// Počet živých selat při porodu CELKEM
+        /// </summary>
+        public int TotalLive
         {
             get
             {
-                return birthRecords;
+                totalLive = 0;
+                if(BirthRecords != null)
+                {
+                    foreach (Birth rec in BirthRecords)
+                    {
+                        totalLive += rec.Live;
+                    }
+                }
+
+                return totalLive;
             }
             set
             {
-                birthRecords = value;
-                TotalLive = 0; TotalDeath = 0; TotalReared = 0;
-                foreach(Birth rec in birthRecords)
+                totalLive = value;
+            }
+        }
+
+
+
+        private int totalDeath;
+        /// <summary>
+        /// Počet mrtvých selat při porodu CELKEM
+        /// </summary>
+        public int TotalDeath
+        {
+            get
+            {
+                totalDeath = 0;
+                if (BirthRecords != null)
                 {
-                    TotalLive += rec.Live;
-                    TotalDeath += rec.Death;
-                    TotalReared += rec.Reared;
+                    foreach (Birth rec in BirthRecords)
+                    {
+                        totalDeath += rec.Death;
+                    }
+                }
+                
+                return totalDeath;
+            }
+            set
+            {
+                totalDeath = value;
+            }
+        }
+
+
+        private int totalReared;
+        /// <summary>
+        /// Počet odchovaných selat CELKEM
+        /// </summary>
+        public int TotalReared
+        {
+            get
+            {
+                totalReared = 0;
+                if (BirthRecords != null)
+                {
+                    foreach (Birth rec in BirthRecords)
+                    {
+                        totalReared += rec.Reared;
+                    }
                 }
 
+                return totalReared;
+            }
+            set
+            {
+                totalReared = value;
             }
         }
 
