@@ -11,6 +11,9 @@ using AnimalRegister.Pig.Winds;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída validující všechna vstupní data z oken a volající metody z třídy ADMIN (správce aplikace, obsahuje data) a z třídy GRAPHIC (provádí vykreslení dat na Canvas)
+    /// </summary>
     public class Validator
     {
         /// <summary>
@@ -63,6 +66,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="newPigFlag">Informace o tom, zda se jedná o nové prase nebo se upravuje stávající</param>
         public VM_PigSaw DefineVM_PigSaw(bool newPigFlag)
         {
+            // Přidání nového zvířete. Aby se nebindovali data z poslední změny, je nutné zrušit referenci
             if (newPigFlag)
             {
                 // Smazání informací o upravovaném praseti, protože uživatel si přeje přidat nové zvíře
@@ -102,18 +106,21 @@ namespace AnimalRegister.Pig.Logic
         /// <returns>View model</returns>
         public VM_Birth DefineVM_Birth()
         {
+            // Kolekce porodů pro vybrané zvíře
             List<Birth> sawBirth = new List<Birth>();
+            // Prasnice
             if (editPig is Saw)
             {
                 Saw mother = (Saw)editPig;
                 List<Birth> records = new List<Birth>();
-
+                // Získání kolekce porodů a seřazení sestupně
                 var query = mother.BirthRecords.OrderByDescending(a => a.DateRecessed);
-
+                
                 foreach(Birth rec in query)
                 {
                     records.Add(rec);
                 }
+                // Vytvoření VIEW modelu
                 return new VM_Birth(records);
             }
             else
@@ -127,12 +134,14 @@ namespace AnimalRegister.Pig.Logic
         public VM_Finance DefineVM_Finance(bool newFinanceRecord)
         {
             List<Pig> pigs = new List<Pig>();
+            // Přidání kolekcí prasnic a následně ostatních prasat
             pigs.AddRange(admin.Saws);
             pigs.AddRange(admin.Pigs);
             // Úprava stávajícího záznamu
             if (!newFinanceRecord && editFinanceRecord != null)
             {
                 // Nalezení zvířete v kolekci, a uložení jeho pořadí - aby bylo možné v ComboBoxu zobrazit odpovídající řádek
+                // - pokud nenajde vrátí -1 a tento index se uloží do vybraného prasete
                 int pigIndex = pigs.FindIndex(a => a.Id == editFinanceRecord.RelativeAnimalId);
                 return new VM_Finance(pigs, (int)editFinanceRecord.TypeRecord, (int)editFinanceRecord.Category, pigIndex, editFinanceRecord);
             }
@@ -150,9 +159,11 @@ namespace AnimalRegister.Pig.Logic
         /// <returns>Kolekce veterinárních záznamů - data pro ComboBox</returns>
         public List<Veterinary> Define_VeterinaryContext()
         {
+            // Uživatel kliknul na nějaký záznam prasete a to se uložilo do editPig
             if (editPig != null)
             {
                 List<Veterinary> records = new List<Veterinary>();
+                // Sestupné řazení
                 var query = editPig.VeterinaryRecords.OrderByDescending(a => a.Date);
                 foreach(Veterinary rec in query)
                 {
@@ -179,7 +190,13 @@ namespace AnimalRegister.Pig.Logic
         }
         #endregion
 
-
+        /// <summary>
+        /// Metoda, která spočítá statistické parametry a vloží je na canvas. Změní obsah vlastnosti TEXT u všech textBlocků
+        /// </summary>
+        /// <param name="statCanvas">Canvas, který obsahuje šablonu pro vložení spočítaných hodnot</param>
+        /// <param name="year">Číslo roku</param>
+        /// <param name="categoryId">Pořadí kategorie</param>
+        /// <param name="relativeAnimal">Vztažné zvíře, tedy pokud uživatel zadal, že chce spočítat pro konkrétní zvíře</param>
         public void CalculateStatisticData(Canvas statCanvas, string year, int categoryId, Pig relativeAnimal)
         {
             // Názvy textBlocků v okně statistiky, do kterých se budou vpisovat data o finančních přehledech
@@ -196,12 +213,16 @@ namespace AnimalRegister.Pig.Logic
                 // Celkové příjmy a výdaje
                 "sumPlusTextBlock","sumMinusTextBlock"
             };
-            // Uživatel má vybranou nějakou kategorii
+            // Uživatel nemá vybranou kategorii
             if (categoryId == -1)
-                throw new ArgumentException("Nevybral jsi kategorii, pokud nechceš nějakou konkrétní zvol VŠECHNY");
+                throw new ArgumentException("Nevybral jste kategorii, pokud nechcete nějakou konkrétní zvolte VŠECHNY");
             // Ošetření že jde rok převést na číslo
             if (!int.TryParse(year, out int year_help))
                 throw new ArgumentException("Nepodařilo se převést vámi zadaný rok! Prosím opakujte výběr");
+            // Ošetření kategorií, pokud by se například přidala kategorie do english a nedala do českého překladu v ADMIN, aby aplikace upozornila
+            if (categoryId >= 0 && categoryId <= Admin.FinanceCategory_Czech.Count() && categoryId <= (Enum.GetNames(typeof(FinanceCategory))).Count())
+                throw new ArgumentException("Chyba v kategorii. Kontaktujte programátora.");
+
             // Kolekce kam se uloží data pro 12 příjmů, 12 výdajů a suma příjmu a výdajů -- celkem 26 položek
             List<int> result;
 
@@ -241,7 +262,7 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Kliknutí na grafický záznam - prasata a prasnice
+        /// Kliknutí na grafický záznam - prasata a prasnice * uloží zakliknuté prase do proměnné editPig v této třídě
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -253,7 +274,7 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Kliknutí na grafický záznam - finance
+        /// Kliknutí na grafický záznam - finance * uloží zakliknutý záznam do proměnné editFinanceRecord v této třídě
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -290,7 +311,6 @@ namespace AnimalRegister.Pig.Logic
             graphic.ConstructGraphicPigSawFinanceList(0,first, rotate, rotateUp, graphicSaw, graphicPig,null);
         }
 
-
         /// <summary>
         /// Vykreslí na canvas finanční transakce
         /// </summary>
@@ -312,6 +332,8 @@ namespace AnimalRegister.Pig.Logic
         }
 
         #region Add/Edit/Remove PigSaw
+
+
         /// <summary>
         /// Přidání / úprava prasnice nebo prasete
         /// </summary>
@@ -322,6 +344,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="registerNumber">Registrační číslo prasete</param>
         /// <param name="name">Pojmenování prasete</param>
         /// <param name="description">Podrobný popis prasete</param>
+        /// <param name="sex">Pohlaví zvířete 0 - prasnice * 1 - kanec</param>
         public void AddEditSawPig(byte operation ,int typePig, int motherId, string dateBorn, string registerNumber, string name, string description, int sex)
         {
             //Pomocné proměnné
@@ -329,28 +352,29 @@ namespace AnimalRegister.Pig.Logic
             TypePig type = (TypePig)typePig;
             // Uživatel nevybral prasnici ani ostatní
             if (typePig == -1)
-                throw new ArgumentException("Nevybral jsi zda se jedná o prasnici / ostatní prase");
+                throw new ArgumentException("Nevybral jste zda se jedná o prasnici / ostatní prase");
             // Uživatel vybral matku pro prasnici
             if (typePig == 0 && motherId != -1)
-                throw new ArgumentException("Nemůžeš vybrat matku pro chovnou PRASNICI");
+                throw new ArgumentException("Nemůžete vybrat matku pro chovnou PRASNICI");
 
             // Ošetření datumu
             if (!DateTime.TryParse(dateBorn, out born))
-                throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020");
+                throw new ArgumentException("Zadal jste datum ve špatném formátu. Má vypadat jako 12.10.2020");
             else if (dateBorn == "")
-                throw new ArgumentException("Nezadal jsi datum narození");
+                throw new ArgumentException("Nezadal jste datum narození");
             else if (born > DateTime.Now.AddDays(10))
-                throw new ArgumentException("Zadal jsi datum do budoucnosti více jak 10 dní");
+                throw new ArgumentException("Zadal jste datum do budoucnosti více jak 10 dní");
             // Ošetření evidenčního čísla
             if (registerNumber == "")
-                throw new ArgumentException("Nezadal jsi žádné registrační číslo prasete");
-
+                throw new ArgumentException("Nezadal jste žádné registrační číslo prasete");
+            // U prasnice se pohlaví nekontroluje, protože je zjevné a defaultně definované jako ženské
             Sex sex_help = Sex.Saw;
+            // Ostatní prase
             if (typePig == 1)
             {
                 // Ošetření výběru pohlaví
                 if (sex == -1)
-                    throw new ArgumentException("Nevybral jsi pohlaví zvířete");
+                    throw new ArgumentException("Nevybral jste pohlaví zvířete");
                 else
                     sex_help = (Sex)sex;
             }
@@ -363,6 +387,7 @@ namespace AnimalRegister.Pig.Logic
             // Úprava stávajícího
             else if (operation == 1 && editPig != null)
             {
+                // Ošetření, uživatel se pokusil změnit ostatní prase na chovnou prasnici - toto aplikace neumožňuje
                 if (!(editPig is Saw) && type == TypePig.Saw)
                     throw new ArgumentException("Nemůžeš změnit ostatní na chovnou prasnici. Vymaž daný záznam a vytvoř nové zvíře.");
                 else if(editPig is Saw && type == TypePig.OtherPig)
@@ -373,6 +398,7 @@ namespace AnimalRegister.Pig.Logic
             else
                 throw new ArgumentException("Nelze provést zadanou operaci. Lze pouze 0 nebo 1 (Nový záznam / úprava)");
 
+            // Zavolaní metody pro vykreslení, která zavolá dále třídu GRAPHIC, která provede samotné vykreslení
             ConstructGraphicPigSawList(true, false, false);
         }
 
@@ -415,23 +441,23 @@ namespace AnimalRegister.Pig.Logic
 
             // Datum porodu skutečné - kontrola pouze až uživatel něco zadá
             if (!DateTime.TryParse(dateBirthReal, out DateTime dateBirthReal_help) && dateBirthReal != "")
-                throw new ArgumentException("Zadal jsi datum porodu, ve špatném formátu. Má vypadat jako 12.10.2020");
+                throw new ArgumentException("Zadal jste datum porodu, ve špatném formátu. Má vypadat jako 12.10.2020");
 
             // Datum zapuštění - povinný parametr
             if (dateRecessed == "")
-                throw new ArgumentException("Nezadal jsi datum zapuštění!");
+                throw new ArgumentException("Nezadal jste datum zapuštění!");
             else if (!DateTime.TryParse(dateRecessed, out dateRecessed_help))
-                throw new ArgumentException("Zadal jsi datum zapuštění ve špatném formátu. Má vypadat jako 12.10.2020");
+                throw new ArgumentException("Zadal jste datum zapuštění ve špatném formátu. Má vypadat jako 12.10.2020");
 
             // Ošetření situace, kdy uživatel něco zadal, ale nepodařilo se to převést - nepovinné parametry, proto jsou zkoumány až když je zapsáno
             if (!int.TryParse(live, out int live_help) && live != "")
-                throw new ArgumentException("Nezadal jsi číslo do počtu živých selat! Zkus to znovu");
+                throw new ArgumentException("Nezadal jste číslo do počtu živých selat! Zkuste to znovu");
 
             if (!int.TryParse(death, out int death_help) && death != "")
-                throw new ArgumentException("Nezadal jsi číslo do počtu mrtvých selat! Zkus to znovu");
+                throw new ArgumentException("Nezadal jste číslo do počtu mrtvých selat! Zkuste to znovu");
 
             if (!int.TryParse(reared, out int reared_help) && reared != "")
-                throw new ArgumentException("Nezadal jsi číslo do počtu odchovaných selat! Zkus to znovu");
+                throw new ArgumentException("Nezadal jste číslo do počtu odchovaných selat! Zkuste to znovu");
             //Kontrola březosti
             if(pregnancyCheck == 1)
                 pregnancyCheck_help = true;
@@ -457,7 +483,7 @@ namespace AnimalRegister.Pig.Logic
                     throw new ArgumentException("Upravované zvíře není PRASNICE, proto nelze přidat porod"); 
             }
             else
-                throw new ArgumentException("Nemůžeš přidat porod pro neexistující prace. Nejprve prase vytvoř!");
+                throw new ArgumentException("Nemůžete přidat porod pro neexistující prace. Nejprve prase vytvořte!");
 
         }
 
@@ -494,18 +520,18 @@ namespace AnimalRegister.Pig.Logic
         {
             // Ošetření datumu
             if (!DateTime.TryParse(date, out DateTime date_help) && date != "")
-                throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020"); 
+                throw new ArgumentException("Zadal jste datum ve špatném formátu. Má vypadat jako 12.10.2020"); 
             else if (date == "")
-                throw new ArgumentException("Nezadal jsi žádné datum veterinárního úkonu. Povinný parametr - označen *");
+                throw new ArgumentException("Nezadal jste žádné datum veterinárního úkonu. Povinný parametr - označen *");
             // Ošetření částky
             if (!int.TryParse(price, out int price_help) && price != "")
-                throw new ArgumentException("Zadanou částku nelze převést na číslo. Zkus ji zadat znovu");
+                throw new ArgumentException("Zadanou částku nelze převést na číslo. Zkuste ji zadat znovu");
             else if (price == "")
-                throw new ArgumentException("Nezadal jsi žádnou částku");
+                throw new ArgumentException("Nezadal jste žádnou částku");
             
             // Ošetření účelu návštěvy
             if (purpose == "")
-                throw new ArgumentException("Nezadal jsi žádný účel návštěvy veterináře");
+                throw new ArgumentException("Nezadal jste žádný účel návštěvy veterináře");
 
             // Nový záznam
             if (operation == 0 && editPig != null)
@@ -552,7 +578,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="description">Popis transakce</param>
         /// <param name="typeFinance">Příjmy / výdaje</param>
         /// <param name="categoryId">Pořadí kategorie transakce</param>
-        /// <param name="animal">Pořadí zvířete, kterého se transakce týká</param>
+        /// <param name="animal">Zvíře, kterého se transakce týká</param>
         /// <param name="editRecord">Záznam pro úpravu</param>
         public void AddEditFinanceRecord(byte operation, string date, string name, string price, string description, int typeFinance, int categoryId, Pig animal)
         {
@@ -561,7 +587,7 @@ namespace AnimalRegister.Pig.Logic
                 throw new ArgumentException("Zadal jsi datum ve špatném formátu. Má vypadat jako 12.10.2020");
             else if(date == "")
                 throw new ArgumentException("Nezadal jsi žádné datum transakce");
-            // Ošetření názvu transakce - povinný údaj
+            // Ošetření názvu transakce, maximální délka 38 znaků * jinak problém u výpisu - povinný údaj
             if (name.Count() > 38 && name != "")
                 throw new ArgumentException("Zadaný název transakce přesahuje 38 znaků. Prosím zkať jej");
             else if (name == "")
@@ -583,13 +609,17 @@ namespace AnimalRegister.Pig.Logic
             if (animal != null && categoryId == 3)
                 animalId = animal.Id;
 
+            // Ošetření kategorií, pokud by se například přidala kategorie do english a nedala do českého překladu v ADMIN, aby aplikace upozornila
+            if (categoryId >= 0 && categoryId < Admin.FinanceCategory_Czech.Count() && categoryId < (Enum.GetNames(typeof(FinanceCategory))).Count())
+                throw new ArgumentException("Chyba v kategorii. Kontaktujte programátora.");
+
             // Nový záznam
             if (operation == 0)
             {
                 admin.AddEditFinanceRecord(0, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, null);
             }
             // Úprava stávajícího záznamu
-            else if(operation == 1)
+            else if(operation == 1 && editFinanceRecord != null)
             {
                 admin.AddEditFinanceRecord(1, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, editFinanceRecord);
             }
@@ -612,6 +642,8 @@ namespace AnimalRegister.Pig.Logic
         }
 
         #endregion
+
+
         /// <summary>
         /// Uloží všechna data aplikace
         /// </summary>

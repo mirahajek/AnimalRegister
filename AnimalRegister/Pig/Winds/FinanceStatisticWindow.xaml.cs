@@ -16,7 +16,7 @@ using log = AnimalRegister.Pig.Logic;
 namespace AnimalRegister.Pig.Winds
 {
     /// <summary>
-    /// Interakční logika pro FinanceStatisticWindow.xaml
+    /// Okno pro zobrazení statistických parametrů financí - přehled příjmů/výdajů v každém měsíci, výběr v kategoriích apod
     /// </summary>
     public partial class FinanceStatisticWindow : Window
     {
@@ -57,10 +57,10 @@ namespace AnimalRegister.Pig.Winds
             categoryComboBox.SelectedIndex = categoryNames.Count - 1;
             yearComboBox.SelectedIndex = DateTime.Today.Year - 2018;
             validator.CalculateStatisticData(statisticCanvas, ((ComboBoxItem)yearComboBox.SelectedItem).Content.ToString(), categoryNames.Count - 1, null);
-            // nastavení viditelnosti u comboBoxu pro výběr konkrétního zvířete
+            // Nastavení viditelnosti u comboBoxu pro výběr konkrétního zvířete
             animalComboBox.Visibility = Visibility.Hidden;
             animalTitle.Visibility = Visibility.Hidden;
-
+            // Naplnění comboBoxu pro zvířata, kde uživatel vybírá konkrétní zvíře 
             animalComboBox.DataContext = validator.Define_PigsList();
             firstStartFlag = false;
         }

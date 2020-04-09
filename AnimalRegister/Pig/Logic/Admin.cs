@@ -11,7 +11,7 @@ using System.Xml.Serialization;
 namespace AnimalRegister.Pig.Logic
 {
     /// <summary>
-    /// Kategorie pro finance
+    /// Kategorie pro finance - pokud sem bude přidáno, je nutné český překlad doplnit také do FinanceCategory_Czech!!
     /// </summary>
     public enum FinanceCategory
     {
@@ -22,6 +22,7 @@ namespace AnimalRegister.Pig.Logic
         Plant,
         Machine,
         Pond,
+        Personal,
         Other
     }
 
@@ -64,14 +65,14 @@ namespace AnimalRegister.Pig.Logic
     }
 
     /// <summary>
-    /// Třída správce, kde bude veškerá logika
+    /// Třída správce, který obsahuje veškerou logiku a uchovává tři hlavní kolekce app
     /// </summary>
     public class Admin
     {
         /// <summary>
-        /// Kategorie pro finance - česky
+        /// Kategorie pro finance - česky - zdroj dat pro ComboBoxy. Samotná data mají uloženou anglickou podobu * ENUM
         /// </summary>
-        public static string[] FinanceCategory_Czech = { "Krmení", "Stavby", "Vybavení", "Zvířata", "Rostliny", "Stroje", "Rybník", "Ostatní" };
+        public static string[] FinanceCategory_Czech = { "Krmení", "Stavby", "Vybavení", "Zvířata", "Rostliny", "Stroje", "Rybník", "Osobní", "Ostatní" };
 
         /// <summary>
         /// Kolekce prasat v chovu
@@ -84,7 +85,7 @@ namespace AnimalRegister.Pig.Logic
         public List<Saw> Saws { get; private set; }
 
         /// <summary>
-        /// Instance finančního záznamu na který uživatel kliknul
+        /// Kolekce finančníh záznamu na který uživatel kliknul
         /// </summary>
         public List<FinanceRecord> FinanceRecords { get; private set; }
 
@@ -97,17 +98,14 @@ namespace AnimalRegister.Pig.Logic
 
 
         /// <summary>
-        /// Konstruktor
+        /// Základní konstruktor
         /// </summary>
         public Admin()
         {
-            // Takto ziskam pocet prvku v ENUM
-            int a = Enum.GetValues(typeof(FinanceCategory)).Length;
-
             Pigs = new List<Pig>();
             Saws = new List<Saw>();
             FinanceRecords = new List<FinanceRecord>();
-
+            // Získání cesty na disk C - appData
             try
             {
                 pathBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "AnimalRegister");
@@ -129,41 +127,55 @@ namespace AnimalRegister.Pig.Logic
             LoadFinance();
         }
 
+        /// <summary>
+        /// Vypočítá statistické parametry. Tedy příjmy a výdaje pro každý měsíc + celkem. Pro rok, kategorii a případně i konkrétní zvíře
+        /// </summary>
+        /// <param name="operation">0 - Výpočet pro rok a všechny kategorie, 1 - Výpočet pro rok a vybranou kategorii, 2 - Rok, kategorie a konkrétní zvíře</param>
+        /// <param name="year">Rok pro který se budou data počítat</param>
+        /// <param name="category">Kategorie pro kterou se počítá</param>
+        /// <param name="animalId">Konkrétní zvíře, tedy jeho ID</param>
+        /// <returns>Kolekci 12 příjmu, 12 výdajů a celkem příjmy a celkem výdaje</returns>
         public List<int> CalculateStatisticData(byte operation,int year, FinanceCategory? category, int? animalId)
         {
+            // Výsledná kolekce výsledků
             List<int> result = new List<int>();
+            // Příjmy a výdaje pro konkrétní měsíce ** 0 - leden až 11 - prosinec
             int[] monthSum_income = new int[12];
             int[] monthSum_costs = new int[12];
-
+            // Dotaz, kdy se transakce shoduje pouze rokem - operace 0
             var query_year = from rec in FinanceRecords
                             where rec.Date.Year == year
                             select rec;
-
+            // Dotaz, kdy se transakce shoduje rokem i kategorií - operace 1
             var query_yearCategory = from rec in FinanceRecords
                                     where rec.Date.Year == year && rec.Category == category
                                     select rec;
-
+            // Dotaz, kdy se transakce shoduje v roce, kategorii i konkrétním zvířeti - operace 2
             var query_all = from rec in FinanceRecords
                             where rec.Date.Year == year && rec.Category == category && rec.RelativeAnimalId == animalId
                             select rec;
-
+            // Pouze podle roku
             var find = query_year;
+            // Rok a kategorie
             if (operation == 1)
                 find = query_yearCategory;
+            // Vše
             else if(operation == 2)
                 find = query_all;
-
+            // Nalezené záznamy něco obsahují
             if(find != null)
             {
                 foreach (FinanceRecord rec in find)
                 {
+                    // Příjem, započítá se pro měsíc, kdy byla transakce uskutečněna
                     if (rec.TypeRecord == FinanceTypeRecord.Income)
                         monthSum_income[rec.Date.Month - 1] += rec.Price;
+                    // Výdaj
                     else
                         monthSum_costs[rec.Date.Month - 1] += rec.Price;
                 }
             }
-
+            // Přídání do výsledné kolekce 12 příjmů, 12 výdajů + 2 celkem
             result.AddRange(monthSum_income);
             result.AddRange(monthSum_costs);
             result.Add(monthSum_income.Sum());
@@ -173,8 +185,9 @@ namespace AnimalRegister.Pig.Logic
         }
 
         #region Graphic methods
+
         /// <summary>
-        /// Vytvoří grafickou podobu chovných prasnic
+        /// Vytvoří grafickou podobu chovných prasnic (instance třídy GraphicPigSawRecord)
         /// </summary>
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicSawList()
@@ -195,7 +208,7 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Vytvoří grafickou podobu ostatních prasat
+        /// Vytvoří grafickou podobu ostatních prasat (instance třídy GraphicPigSawRecord)
         /// </summary>
         /// <returns></returns>
         public List<GraphicPigSawRecord> ConstructGraphicPigList()
@@ -239,14 +252,16 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Metoda, která každé grafické podobě zvířete přidá stránku na které bude vykreslen
+        /// Metoda, která každé grafické podobě záznamu (Prase, finance) zadá stranu na které bude vykreslen
         /// </summary>
         /// <param name="graphicAnimals">Kolekce grafických zvířat, které se budou číslovat</param>
+        /// <param name="graphicFinance">Kolekce grafické podoby finančních záznamů</param>
         private void UpdateSetPage(List<GraphicPigSawRecord> graphicAnimals, List<FinanceGraphicRecord> graphicFinance)
         {
             // Přidání na canvas grafického vyjádření zvířete
             if (graphicAnimals != null)
             {
+                // Pole pěti stran - pro každou stranu se počítá počet záznamů * max 4 na jednu
                 int[] pageGraphicRecord = new int[5];
                 int i = 0;
                 foreach (GraphicPigSawRecord animal in graphicAnimals)
@@ -323,6 +338,7 @@ namespace AnimalRegister.Pig.Logic
                 // Ostatní
                 else
                 {
+                    // Ošetření, pokud by uživatel nevybral matku 
                     Saw mother = null;
                     if(motherId != -1)
                         mother = Saws[motherId];
@@ -358,7 +374,7 @@ namespace AnimalRegister.Pig.Logic
                     editPig.Mother = mother;
                 }
             }
-
+            // Uložení identifikátorů tříd a samotných záznamů prasat
             SaveIDs();
             SavePigSaws();
         }
@@ -421,9 +437,12 @@ namespace AnimalRegister.Pig.Logic
         public void AddEditBirth(byte operation, DateTime dateRecessed, int live, int death, int reared, DateTime dateBirthReal, bool pregnancyCheck, Birth editRecord
             ,Pig relationalPig)
         {
+            // Přetypování na chovnou prasnici - ostatní nemohou mít seznam porodů
             Saw saw = (Saw)relationalPig;
+            // nový záznam
             if (operation == 0)
                 saw.BirthRecords.Add(new Birth(dateRecessed, live, death, reared, dateBirthReal, pregnancyCheck));
+            // Úprava stávajícího
             else
             {
                 editRecord.DateRecessed = dateRecessed;
@@ -464,10 +483,12 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="editPig">Vztažné prase</param>
         public void AddEditVeterinary(int operation, DateTime date, int price, string purpose, string drugs, string tasks, Pig editPig, Veterinary record)
         {
+            // Nový veterinární záznam
             if(operation == 0)
             {
                 editPig.VeterinaryRecords.Add(new Veterinary(date, price, purpose, tasks, drugs));
             }
+            // Úprava stávajícího veterinárního záznamu
             else if (operation == 1)
             {
                 record.Date = date;
@@ -494,7 +515,7 @@ namespace AnimalRegister.Pig.Logic
 
         #endregion
 
-        #region
+        #region Add/Edit/Remove FinanceRecord
 
         /// <summary>
         /// Metoda pro přidání nebo úpravu transakce
@@ -511,10 +532,12 @@ namespace AnimalRegister.Pig.Logic
         public void AddEditFinanceRecord(byte operation, DateTime date, string name, int price, string description, FinanceTypeRecord typeFinance, FinanceCategory category
             , int animalId, FinanceRecord editRecord)
         {
+            // Nový záznam
             if(operation == 0)
             {
                 FinanceRecords.Add(new FinanceRecord(price, name, date, description, typeFinance, category, animalId));
             }
+            // Úprava stávajícího
             else if(operation == 1)
             {
                 editRecord.Date = date;
@@ -526,7 +549,7 @@ namespace AnimalRegister.Pig.Logic
                 editRecord.Category = category;
                 editRecord.RelativeAnimalId = animalId;
             }
-
+            // Uložení dat na disk C
             SaveFinance();
             SaveIDs();
         }
@@ -537,6 +560,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="removeRecord">Záznam k odebrání</param>
         public void RemoveFinanceRecord(FinanceRecord removeRecord)
         {
+            // Odebrání záznamu z kolekce
             FinanceRecords.Remove(removeRecord);
 
             SaveFinance();
