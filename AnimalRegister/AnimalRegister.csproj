@@ -182,5 +182,8 @@
   <ItemGroup>
     <Resource Include="Pig\Img\money.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Pig\Img\statistic.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
