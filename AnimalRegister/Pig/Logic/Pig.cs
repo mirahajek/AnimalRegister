@@ -71,6 +71,8 @@ namespace AnimalRegister.Pig.Logic
             RegisterNumber = registerNumber;
             Sex = sex;
             Mother = mother;
+
+            VeterinaryRecords = new List<Veterinary>();
         }
 
         /// <summary>
@@ -93,6 +95,8 @@ namespace AnimalRegister.Pig.Logic
             Mother = mother;
             Name = name;
             Description = despription;
+
+            VeterinaryRecords = new List<Veterinary>();
         }
 
         /// <summary>

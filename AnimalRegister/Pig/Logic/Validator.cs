@@ -361,7 +361,7 @@ namespace AnimalRegister.Pig.Logic
                 throw new ArgumentException("Nemůžete vybrat matku pro chovnou PRASNICI");
 
             // Ošetření datumu
-            if (!DateTime.TryParse(dateBorn, out born))
+            if (!DateTime.TryParse(dateBorn, out born) && dateBorn != "")
                 throw new ArgumentException("Zadal jste datum ve špatném formátu. Má vypadat jako 12.10.2020");
             else if (dateBorn == "")
                 throw new ArgumentException("Nezadal jste datum narození");

@@ -122,16 +122,14 @@ namespace AnimalRegister.Pig.Winds
         {
             try
             {
-                if (editRecord != null)
-                {
-                    validator.RemoveBirth(editRecord);
-                }
+                validator.RemoveBirth(editRecord);
                 Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
         }
     }
 }

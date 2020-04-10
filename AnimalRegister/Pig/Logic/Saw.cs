@@ -26,12 +26,9 @@ namespace AnimalRegister.Pig.Logic
             {
                 // Výpočet celkového počtu narozených selat
                 totalLive = 0;
-                if(BirthRecords != null)
+                foreach (Birth rec in BirthRecords)
                 {
-                    foreach (Birth rec in BirthRecords)
-                    {
-                        totalLive += rec.Live;
-                    }
+                    totalLive += rec.Live;
                 }
 
                 return totalLive;
@@ -52,12 +49,9 @@ namespace AnimalRegister.Pig.Logic
             {
                 // Výpočet celkového počtu mrtvých selat při porodu
                 totalDeath = 0;
-                if (BirthRecords != null)
+                foreach (Birth rec in BirthRecords)
                 {
-                    foreach (Birth rec in BirthRecords)
-                    {
-                        totalDeath += rec.Death;
-                    }
+                    totalDeath += rec.Death;
                 }
                 
                 return totalDeath;
@@ -79,12 +73,10 @@ namespace AnimalRegister.Pig.Logic
             {
                 // Výpočet celkového počtu odchovaných selat při odstavu
                 totalReared = 0;
-                if (BirthRecords != null)
+
+                foreach (Birth rec in BirthRecords)
                 {
-                    foreach (Birth rec in BirthRecords)
-                    {
-                        totalReared += rec.Reared;
-                    }
+                    totalReared += rec.Reared;
                 }
 
                 return totalReared;
@@ -113,6 +105,8 @@ namespace AnimalRegister.Pig.Logic
         {
             Born = born;
             RegisterNumber = registerNumber;
+
+            BirthRecords = new List<Birth>();
         }
 
 
@@ -129,6 +123,8 @@ namespace AnimalRegister.Pig.Logic
             RegisterNumber = registerNumber;
             Name = name;
             Description = desc;
+
+            BirthRecords = new List<Birth>();
         }
 
         /// <summary>

@@ -125,5 +125,15 @@ namespace AnimalRegister.Pig.Winds
                 validator.CalculateStatisticData(statisticCanvas, ((ComboBoxItem)yearComboBox.SelectedItem).Content.ToString(), categoryComboBox.SelectedIndex, selectPig);
             }
         }
+
+        /// <summary>
+        /// Pouze uzavře okno, nejsou tu data na ukládání
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

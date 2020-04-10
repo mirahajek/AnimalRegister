@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
-            Title="Finanční statistika" Height="930" Width="680" WindowStartupLocation="CenterScreen"
+            Title="Finanční statistika" Height="950" Width="680" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource DefaultWindow}" Icon="..\Img\pigIcon.ico"
         >
     <Grid>
@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="60" />
         </Grid.RowDefinitions>
 
         <!-- Horní panel s comboBoxy -->
@@ -302,7 +302,10 @@
         <!-- Spodní nápis o autorovi -->
         <TextBlock Grid.Row="2" Grid.Column="1" Text="2020 Miroslav Hájek" 
                    Foreground="LightGray" VerticalAlignment="Center"
-                   HorizontalAlignment="Right" Margin="0,0,40,10"
-                   FontSize="14"/>
+                   HorizontalAlignment="Right" Margin="0,12,40,10"
+                   FontSize="15"/>
+        <Button Grid.Row="2" Style="{DynamicResource SaveButton}" Background="White" 
+                Foreground="Black" Content="Zavři" Name="closeButton" Click="CloseButton_Click"
+                IsCancel="True" ToolTip="Okno lze uzavřít pomocí ESC" />
     </Grid>
 </Window>
