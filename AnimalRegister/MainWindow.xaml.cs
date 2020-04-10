@@ -18,7 +18,7 @@ using AnimalRegister.Pig.Winds;
 namespace AnimalRegister
 {
     /// <summary>
-    /// Interakční logika pro MainWindow.xaml
+    /// CodeBehind pro hlavní okno obrazovky, sloužící pro vykreslení záznamů prasat nebo financí
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -27,6 +27,9 @@ namespace AnimalRegister
         /// </summary>
         private Validator validator;
 
+        /// <summary>
+        /// Flag vyjadřující, že jsou zobrazována data pro finance ANO / NE - při rotaci kolečkem, aby při skok na další stranu byla druhá strana financí a ne PRASAT a opačně
+        /// </summary>
         private bool financeDataFlag;
 
         /// <summary>
@@ -37,7 +40,7 @@ namespace AnimalRegister
             InitializeComponent();
             validator = new Validator();
             validator.DefineCanvas(pigCanvas, sawCanvas);
-
+            // Vykreslení prasat a flag na prasata
             financeDataFlag = false;
             validator.ConstructGraphicPigSawList(true,false,false);
         }
@@ -49,6 +52,7 @@ namespace AnimalRegister
         /// <param name="e"></param>
         private void OverviewButton_Click(object sender, RoutedEventArgs e)
         {
+            // Vykreslení záznamů prasat
             validator.ConstructGraphicPigSawList(true, false, false);
             financeDataFlag = false;
         }
@@ -62,6 +66,7 @@ namespace AnimalRegister
         {
             try
             {
+                // Vykreslení záznamů financí a nastavení flagu, aby při rotaci kolečkem proběhlo vykreslení další strany také pro finance
                 validator.ConstructGraphicFinance(true,false,false);
                 financeDataFlag = true;
             }
@@ -90,6 +95,7 @@ namespace AnimalRegister
         private void AddFinanceButton_Click(object sender, RoutedEventArgs e)
         {
             financeDataFlag = true;
+            // Okno pro přidání záznamu financí
             AddFinanceWindow window = new AddFinanceWindow(validator, validator.DefineVM_Finance(true));
             window.Show();
         }
@@ -102,6 +108,7 @@ namespace AnimalRegister
         private void AddPigButton_Click(object sender, RoutedEventArgs e)
         {
             financeDataFlag = false;
+            // Okno pro přidání záznamu prasete
             AddSawPig window = new AddSawPig(validator, validator.DefineVM_PigSaw(true));
             window.Show();
         }
@@ -121,7 +128,7 @@ namespace AnimalRegister
                 //      - Kolečkem nahoru je hodnota +
                 if (e.Delta > 0)
                     rotateUpflag = true;
-
+                // Vykreslení záznamů financí - další strana
                 if (!financeDataFlag)
                     validator.ConstructGraphicPigSawList(false, true, rotateUpflag);
                 else

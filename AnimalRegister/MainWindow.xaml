@@ -11,26 +11,39 @@
     <Grid>
         
         <Grid.RowDefinitions>
+            <!-- Horní panel -->
             <RowDefinition Height="40" />
+            <!-- Řádek s tlačítky a canvasy -->
             <RowDefinition Height="*" />
+            <!-- Spodní panel pro název autora -->
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <!-- Levý panel s tlačítky -->
             <ColumnDefinition Width="200" />
+            <!-- Hlavní sloupec s plátny -->
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Panel tlačítek -->
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
+                <!-- Horní oddělení -->
+                <RowDefinition Height="20"/>
+                <!-- Domů -->
                 <RowDefinition Height="60"/>
+                <!-- Finance -->
                 <RowDefinition Height="60"/>
+                <!-- Finanční statistika -->
                 <RowDefinition Height="60"/>
+                <!-- Část přidej -->
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
+                <!-- Mezera mezi přidej a ulož -->
                 <RowDefinition Height="*"/>
+                <!-- Ulož -->
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
 
@@ -38,22 +51,24 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            <!-- Základní přehled s prasaty -->
             <Button Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButton}" 
                     Name="overviewButton" Content="Domů" Click="OverviewButton_Click"
                     />
             <Image Source="Pig\Img\home.png" Grid.Row="1" Height="30"
                    Width="30"/>
-
+            <!-- Finance -->
             <Button Grid.Column="1" Grid.Row="2" Style="{DynamicResource MenuButton}" 
                     Name="financeButton" Content="Finance" Click="FinanceButton_Click" />
             <Image Source="Pig\Img\finance.png" Grid.Row="2" Height="30"
                    Width="30"/>
-
+            <!-- Finanční statistika -->
             <Button Grid.Column="1" Grid.Row="3" Style="{DynamicResource MenuButton}" 
                     Name="statisticButton" Content="Statistika" Focusable="False"
                     Click="StatisticButton_Click"/>
-            
+            <Image Source="Pig\Img\statistic.png" Grid.Row="3" Height="30"
+                   Width="30"/>
+            <!-- Přidej oblast -->
             <Button Grid.Column="1" Grid.Row="4" Style="{DynamicResource MenuButton}" 
                     Name="addButton" Content="Přidej" Focusable="False"
                     />
@@ -67,38 +82,43 @@
                     Name="addPigButton" Content="- Prase" Click="AddPigButton_Click" 
                     FontSize="17"/>
 
-
             <Button Grid.Column="1" Grid.Row="8" Style="{DynamicResource MenuButton}" 
                     Name="saveButton" Content="Ulož" Click="SaveButton_Click"/>
             <Image Source="Pig\Img\save.png" Grid.Row="8" Height="30"
                    Width="30"/>
         </Grid>
 
+
+        <!-- Sloupec s plátny -->
         <Grid Grid.Row="1" Grid.Column="2" Style="{DynamicResource Light}">
             <Grid.ColumnDefinitions>
+                <!-- Levé oddělení u canvasu PRASNICE -->
                 <ColumnDefinition Width="*" />
+                <!-- Canvas prasnice -->
                 <ColumnDefinition Width="400" />
+                <!-- Oddělení mezi canvasi -->
                 <ColumnDefinition Width="*" />
+                <!-- Plátno OSTATNÍ -->
                 <ColumnDefinition Width="400" />
+                <!--  -->
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            <!-- Canvas PRASNICE -->
             <Canvas Grid.Column="1" Margin="0,20,0,20" Name="sawCanvas" 
                     Background="White">
                 <Rectangle Height="120" Width="400" Fill="#FF474B65" />
                 <TextBlock Text="Prasnice" Foreground="White" FontWeight="Bold"
                            Margin="20,35,0,5" FontSize="35"/>
             </Canvas>
-
+            <!-- Canvas OSTATNÍ -->
             <Canvas Grid.Column="3" Margin="0,20,0,20" Name="pigCanvas"
                     Background="White">
                 <Rectangle Height="120" Width="400" Fill="#FF474B65" />
                 <TextBlock Text="Ostatní" Foreground="White" FontWeight="Bold"
                            Margin="20,35,0,5" FontSize="35"/>
-
             </Canvas>
         </Grid>
-
+        <!-- Autor projektu -->
         <TextBlock Grid.Row="2" Grid.Column="1" Text="2020 Miroslav Hájek" 
                    Foreground="LightGray" VerticalAlignment="Center"
                    HorizontalAlignment="Right" Margin="0,0,85,0"

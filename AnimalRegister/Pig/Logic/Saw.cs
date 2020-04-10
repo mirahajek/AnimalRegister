@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída reprezentující chovnou prasnici - odděděna od prasete
+    /// </summary>
     public class Saw : Pig
     {
         /// <summary>
@@ -21,6 +24,7 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Výpočet celkového počtu narozených selat
                 totalLive = 0;
                 if(BirthRecords != null)
                 {
@@ -38,8 +42,6 @@ namespace AnimalRegister.Pig.Logic
             }
         }
 
-
-
         private int totalDeath;
         /// <summary>
         /// Počet mrtvých selat při porodu CELKEM
@@ -48,6 +50,7 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Výpočet celkového počtu mrtvých selat při porodu
                 totalDeath = 0;
                 if (BirthRecords != null)
                 {
@@ -74,6 +77,7 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Výpočet celkového počtu odchovaných selat při odstavu
                 totalReared = 0;
                 if (BirthRecords != null)
                 {
@@ -127,6 +131,10 @@ namespace AnimalRegister.Pig.Logic
             Description = desc;
         }
 
+        /// <summary>
+        /// Přetížená metoda pro výpis. Používaná v ComboBoxech
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return RegisterNumber + " | " + Name;

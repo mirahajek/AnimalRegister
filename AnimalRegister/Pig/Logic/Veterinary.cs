@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída reprezentující jeden veterinární záznam prasete
+    /// </summary>
     public class Veterinary
     {
         public static int ID = 0;

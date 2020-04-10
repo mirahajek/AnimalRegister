@@ -51,7 +51,7 @@ namespace AnimalRegister.Pig.Logic
 
 
         /// <summary>
-        /// Vykreslí na canvasy jak Prasnice, Ostatní prasata i Finance
+        /// Vykreslí na canvasy Prasnice, Ostatní prasata i Finance
         /// </summary>
         /// <param name="operation">0 - zvířata * 1 - finance</param>
         /// <param name="first">Jedná se o první stranu</param>
@@ -100,14 +100,18 @@ namespace AnimalRegister.Pig.Logic
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
                 int[] top =
                 {
-                140,170,
-                142,175,200,225
+                    // Horní obdelník (tmavý) a spodní světlejší obdelník s daty
+                    140,170,
+                    // Pojmenování zvířete na horním bloku, evidenční číslo, datum narození a věk
+                    142,175,200,225
                 };
                 // Souřadnice od leva pro všechny prvky grafického záznamu
                 int[] left =
                 {
-                10,10,
-                15,30,30,30
+                    // Horní obdelník (tmavý) a spodní světlejší obdelník s daty
+                    10,10,
+                    // Pojmenování zvířete na horním bloku, evidenční číslo, datum narození a věk
+                    15,30,30,30
                 };
                 int a = 0;
                 int sawTop = 0;
@@ -117,23 +121,27 @@ namespace AnimalRegister.Pig.Logic
                 // Vykreslení prasnic a ostatních
                 List<GraphicPigSawRecord> pigColection = graphicSaw;
                 pigColection.AddRange(graphicPig);
-
+                // Procházení grafických záznamů prasete
                 foreach (GraphicPigSawRecord rec in pigColection)
                 {
+                    // Strana uložená v záznamu odpovídá aktuální straně na které se uživatel nachází
                     if (rec.Page == recordsActualPage)
                     {
                         List<object> elements = rec.ReturnAllAtributs();
+                        // Procházení všech částí grafického záznamu - horní, spodní obdelník + pojmenování, evidenční číslo, datum narození a věk
                         foreach (object obj in elements)
                         {
+                            // Prasnice
                             if (rec.Animal is Saw)
                                 CanvasPositionAddObject(obj, canvasSaw, left[a], top[a] + sawTop * 120, 0, 0); 
+                            // Ostatní
                             else
                                 CanvasPositionAddObject(obj, canvasPig, left[a], top[a] + pigTop * 120, 0, 0);
 
                             a++;
                         }
                         a = 0;
-
+                        // Zvýšení incrementátoru, který násobí vzdálenost od horního okraje plátna
                         if (rec.Animal is Saw)
                             sawTop++;
                         else
@@ -148,31 +156,40 @@ namespace AnimalRegister.Pig.Logic
                 // Souřadnice od vrchu pro všechny prvky grafického záznamu
                 int[] top =
                 {
-                110,135,
-                112,140,112,140
+                    // Horní a spodní obdelník
+                    110,135,
+                    // Částka, název, datum a kategorie
+                    112,140,112,140
                 };
                 // Souřadnice od leva pro všechny prvky grafického záznamu
                 int[] left =
                 {
-                10,10,
-                15,15,300, 300
+                    // Horní a spodní obdelník
+                    10,10,
+                    // Částka, název, datum a kategorie
+                    15,15,300, 300
                 };
                 // Vykresleni financi
                 int incomeInc = 0;
                 int costsInc = 0;
+                // Procházení grafických záznamů transakcí
                 foreach (FinanceGraphicRecord rec in graphicFinance)
                 {
                     List<object> elements = rec.ReturnAllAtributs();
-                    // Příjmy
+                    // Strana uložená v záznamu odpovídá aktuální straně na které se uživatel nachází
                     if (rec.Page == recordsActualPage)
                     {
+                        // Procházení všech částí grafického záznamu - Horní a spodní obdelník + Částka, název, datum a kategorie
                         for (int i = 0; i < elements.Count; i++)
                         {
+                            // Příjmy - plátno vlevo
                             if(rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
                                 CanvasPositionAddObject(elements[i], canvasSaw, left[i], top[i] + incomeInc * 65, 0, 0);
+                            // Výdaje - plátno vpravo
                             else if(rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Costs)
                                 CanvasPositionAddObject(elements[i], canvasPig, left[i], top[i] + costsInc * 65, 0, 0);
                         }
+                        // Zvýšení incrementátoru udávající násobek vzdálenosti od vrchu plátna
                         if (rec.FinanceRecord.TypeRecord == FinanceTypeRecord.Income)
                             incomeInc++;
                         else
@@ -184,13 +201,15 @@ namespace AnimalRegister.Pig.Logic
         }
 
         /// <summary>
-        /// Metoda pro definice hlavičky záznamu
+        /// Metoda pro definice hlavičky záznamu - tmavě šedý blok s popisem na horní straně plátna
         /// </summary>
         /// <param name="type">0 - prasata, 1 - finance</param>
         private void DefineHead(byte type)
         {
             int height = 120;
+            // Popis na bloku prasat
             string[] titles = { "Prasnice", "Ostatní" };
+            // Finance
             if (type == 1)
             {
                 height = 100;
@@ -198,14 +217,14 @@ namespace AnimalRegister.Pig.Logic
                 titles[1] = "Výdaje";
             }
                 
-
+            // Pozadí - šedé
             Rectangle rect = new Rectangle
             {
                 Height = height,
                 Width = 400,
                 Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
             };
-
+            // Popis
             TextBlock text = new TextBlock
             {
                 Text = titles[0],
@@ -214,14 +233,14 @@ namespace AnimalRegister.Pig.Logic
                 FontWeight = FontWeights.Bold,
                 FontSize = 35
             };
-
+            // Pozadí na pravém plátně
             Rectangle rectRight = new Rectangle
             {
                 Height = height,
                 Width = 400,
                 Fill = new SolidColorBrush(Color.FromArgb(255, 71, 75, 101))
             };
-
+            // Popis na pravém plátně
             TextBlock textRight = new TextBlock
             {
                 Text = titles[1],
@@ -230,14 +249,12 @@ namespace AnimalRegister.Pig.Logic
                 FontWeight = FontWeights.Bold,
                 FontSize = 35
             };
-
+            // Umístění objektů na pláno
             CanvasPositionAddObject(rect, canvasSaw, 0, 0, 0, 0);
             CanvasPositionAddObject(text, canvasSaw, 20, 35, 0, 0);
-
+            // Umístění objektů na pláno
             CanvasPositionAddObject(rectRight, canvasPig, 0, 0, 0, 0);
             CanvasPositionAddObject(textRight, canvasPig, 20, 35, 0, 0);
-
-
         }
 
         /// <summary>
@@ -279,6 +296,5 @@ namespace AnimalRegister.Pig.Logic
                 Canvas.SetBottom(element as Button, setBottom);
             }
         }
-
     }
 }

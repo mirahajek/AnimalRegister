@@ -7,19 +7,26 @@ using System.ComponentModel;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída sloužící jako viewModel pro okno BirthWindow. Obsahuje všechny potřebné vlastnosti pro vytvoření, editaci záznamu
+    /// </summary>
     public class VM_Birth 
     {
-
+        /// <summary>
+        /// Instance prasnice, které se dané porody týkají. Využito pro získání dat o celkovém počtu narozených, mrtvých a odchovaných selatech
+        /// </summary>
         private Saw saw;
+
         /// <summary>
         /// Základní konstruktor - vyžaduje kolekci záznamů PRASNICE
         /// </summary>
-        /// <param name="sawsBirth"></param>
+        /// <param name="sawsBirth">Porodní záznamy prasnice</param>
+        /// <param name="saw">Instance prasnice</param>
         public VM_Birth(List<Birth> sawsBirth, Saw saw)
         {
             SawBirth = sawsBirth;
             SelectBirth = null;
-            EditRecord = false;
+            EditRecordFlag = false;
             this.saw = saw;
             // 
             if (saw != null)
@@ -36,7 +43,7 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="record"></param>
         public void ChangeRecord(Birth record)
         {
-            EditRecord = true;
+            EditRecordFlag = true;
             SelectBirth = record;
         }
 
@@ -60,7 +67,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// Úprava - TRUE * Nový - FALSE
         /// </summary>
-        public bool EditRecord { get; private set; }
+        public bool EditRecordFlag { get; private set; }
 
         /// <summary>
         /// Kolekce porodů prasnice

@@ -16,19 +16,26 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
+        <!-- Horní panel s comboBoxy -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <!-- Levý okraj -->
                 <ColumnDefinition Width="30"/>
+                <!-- Výběr roku -->
                 <ColumnDefinition Width="0.4*"/>
+                <!-- Výběr kategorie -->
                 <ColumnDefinition Width="0.6*" />
+                <!-- Výběr konkrétního zvířete -->
                 <ColumnDefinition Width="*" />
+                <!-- Pravý okraj -->
                 <ColumnDefinition Width="25" />
             </Grid.ColumnDefinitions>
 
+            <!-- Rok comboBox -->
             <TextBlock Grid.Column="1" Margin="15,2,0,0" Text="Rok" Foreground="White"
                    Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
             <ComboBox Grid.Column="1" Grid.Row="1" Margin="10,4,10,4" FontSize="15" 
@@ -46,9 +53,9 @@
                 <ComboBoxItem Content="2024" />
                 <ComboBoxItem Content="2025" />
             </ComboBox>
-
+            <!-- Kategorie comboBox -->
             <TextBlock Grid.Column="2" Margin="15,2,0,0" Text="Kategorie" Foreground="White"
-                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/> 
+                   Style="{DynamicResource NadpisTextBoxu}" FontSize="18"/>
             <ComboBox Grid.Column="2" Grid.Row="1" Margin="10,4,10,4" FontSize="15" 
                   ItemsSource="{Binding Mode=OneWay}"
                   FontWeight="Bold" Name="categoryComboBox" SelectedIndex="-1" Background="White"
@@ -56,7 +63,7 @@
                   ToolTip="Výběr přehledu v dané kategorii. Zobrazí statistku za vybraný rok pro danou kategorii"
                   >
             </ComboBox>
-
+            <!-- Konrkétní zvíře comboBox -->
             <TextBlock Grid.Column="3" Margin="15,2,0,0" Text="Zvíře" Foreground="White"
                    Style="{DynamicResource NadpisTextBoxu}" FontSize="18"
                        Name="animalTitle"/>
@@ -69,13 +76,12 @@
             </ComboBox>
         </Grid>
 
-
-
-
+        <!-- Grid pro hlavní plochu -->
         <Grid Grid.Row="1" Style="{DynamicResource Light}"
               Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
+                <!-- Canvas -->
                 <ColumnDefinition Width="600" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
@@ -87,8 +93,6 @@
                 <TextBlock Text="Roční přehled" Foreground="White" FontWeight="Bold"
                            FontSize="35" Name="xxTextBlock" Canvas.Left="20" Canvas.Top="15"
                            />
-
-
                 <!--Plus a minus na sloupci -->
                 <TextBlock Text="+" Foreground="Black" FontWeight="ExtraBold"
                            FontSize="35" 
@@ -295,7 +299,7 @@
                            Canvas.Top="672" Canvas.Left="25"/>
             </Canvas>
         </Grid>
-
+        <!-- Spodní nápis o autorovi -->
         <TextBlock Grid.Row="2" Grid.Column="1" Text="2020 Miroslav Hájek" 
                    Foreground="LightGray" VerticalAlignment="Center"
                    HorizontalAlignment="Right" Margin="0,0,40,10"

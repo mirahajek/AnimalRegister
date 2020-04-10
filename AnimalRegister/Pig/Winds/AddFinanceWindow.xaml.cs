@@ -16,7 +16,7 @@ using log = AnimalRegister.Pig.Logic;
 namespace AnimalRegister.Pig.Winds
 {
     /// <summary>
-    /// Interakční logika pro AddFinanceWindow.xaml
+    /// CodeBehind pro okno pro přidání / úpravu finančního záznamu
     /// </summary>
     public partial class AddFinanceWindow : Window
     {
@@ -44,17 +44,16 @@ namespace AnimalRegister.Pig.Winds
             // Nastavení atributů
             this.validator = validator;
             this.viewModel = viewModel;
-            // Schování comboBoxu a popisu pro váběr zvířete  a tlačítka odeber, protože se jedná o nový záznam
+            // Schování comboBoxu a popisu pro výběr zvířete a tlačítka odeber, protože se jedná o nový záznam
             animalTitleTextBlock.Visibility = Visibility.Hidden;
             animalComboBox.Visibility = Visibility.Hidden;
             removeButton.Visibility = Visibility.Hidden;
-            // Nastavení kontextu pro comboBoxy, aby zobrazovali seznam prasat a 
+            // Nastavení kontextu pro comboBoxy, aby zobrazovali seznam prasat a kategorii transakce
             categoryComboBox.DataContext = viewModel.CategoryNames;
             animalComboBox.DataContext = viewModel.Pigs;
-            
+            // Úprava stávajícího záznamu - nastavení dataKontextu, aby se bindovali data + zviditelnění tlačítka odeber
             if (!viewModel.NewRecordFlag)
             {
-                
                 DataContext = viewModel;
                 categoryComboBox.SelectedIndex = viewModel.SelectCategory;
                 typeComboBox.SelectedIndex = viewModel.SelectType;
@@ -72,7 +71,7 @@ namespace AnimalRegister.Pig.Winds
         {
             try
             {
-
+                // Metoda pro odebrání finančního záznamu
                 validator.RemoveFinanceRecord();
 
                 Close();
@@ -92,11 +91,13 @@ namespace AnimalRegister.Pig.Winds
         {
             try
             {
+                // Nový záznam
                 if(viewModel.NewRecordFlag)
                 {
                     validator.AddEditFinanceRecord(0, dateTextBox.Text, nameTextBox.Text, priceTextBox.Text, descriptionTextBox.Text, typeComboBox.SelectedIndex, categoryComboBox.SelectedIndex,
                     relativePig);
                 }
+                // Úprava stávajícího
                 else
                 {
                     validator.AddEditFinanceRecord(1, dateTextBox.Text, nameTextBox.Text, priceTextBox.Text, descriptionTextBox.Text, typeComboBox.SelectedIndex, categoryComboBox.SelectedIndex,
@@ -119,6 +120,7 @@ namespace AnimalRegister.Pig.Winds
         /// <param name="e"></param>
         private void AnimalComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Uživatel vybral nějaké zvíře - uložení tohoto zvířete
             if(animalComboBox.SelectedItem != null) 
                 relativePig = (log.Pig)animalComboBox.SelectedItem;
         }

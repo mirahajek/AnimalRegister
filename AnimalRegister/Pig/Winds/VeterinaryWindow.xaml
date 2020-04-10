@@ -9,27 +9,34 @@
         Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
+            <!-- Obrázek a horní okraj -->
             <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
-
+            <!-- ComboBox pro výběr veterinárního záznamu -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Datum -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!--  Náklady -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Účel návštěvy -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Prodané léčivo -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Prováděnné úkony -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="100"/>
-
+            <!-- Tlačítka a spodní okraj -->
             <RowDefinition Height="50"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <!-- Okraje a hlavní sloupec -->
             <ColumnDefinition Width="15"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="15"/>
@@ -64,35 +71,35 @@
                   >
         </ComboBox>
 
-        <!-- Datum, náklady, účel, léky a další info-->
+        <!-- Datum -->
         <TextBlock Grid.Row="4" Grid.Column="1"  Text="Datum záznamu *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="5" Grid.Column="1" Name="dateTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Date, Mode=OneWay, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum veterinárního záznamu"/>
-
+        <!-- Náklady -->
         <TextBlock Grid.Row="6" Grid.Column="1"  Text="Náklady v CZK *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="7" Grid.Column="1" Name="priceTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Price, Mode=OneTime}"
                  ToolTip="Vyplacená částka veterináři za léky a úkony" />
-        
+        <!-- Účel návštěvy -->
         <TextBlock Grid.Row="8" Grid.Column="1"  Text="Účel návštěvy *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="9" Grid.Column="1" Name="purposeTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Purpose, Mode=OneTime}"
                  ToolTip="Účel návštěvy - důvod proč byl veterinář zavolán * např. Očkování"/>
-        
+        <!-- Podané léky -->
         <TextBlock Grid.Row="10" Grid.Column="1"  Text="Podané léky"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="11" Grid.Column="1" Name="drugsTextBox" Style="{DynamicResource BasicInputTextBox}"
                  DataContext="{Binding ElementName=veterinarySelectComboBox, Path=SelectedItem}"
                  Text="{Binding Drugs, Mode=OneTime}"
                  ToolTip="Podané léčivo zvířeti"/>
-
+        <!-- Prováděné úkony -->
         <TextBlock Grid.Row="12" Grid.Column="1"  Text="Prováděné úkony"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="13" Grid.Column="1" Name="tasksTextBox" Style="{DynamicResource BasicInputTextBox}"

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída reprezentující prase
+    /// </summary>
     public class Pig
     {
         public static int ID = 0;
@@ -100,6 +103,10 @@ namespace AnimalRegister.Pig.Logic
 
         }
 
+        /// <summary>
+        /// Přetížená metoda pro výpis. Používaná v ComboBoxech
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return RegisterNumber + " | " + Name;

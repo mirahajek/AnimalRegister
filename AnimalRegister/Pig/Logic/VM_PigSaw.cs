@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// ViewModel slouží pro přidání / editaci záznamu prasete - pro okno AddSawPig
+    /// </summary>
     public class VM_PigSaw
     {
         /// <summary>
@@ -21,7 +24,7 @@ namespace AnimalRegister.Pig.Logic
         /// <summary>
         /// True - uprava * False - novy
         /// </summary>
-        public bool State { get; private set; }
+        public bool EditRecordFlag { get; private set; }
 
         /// <summary>
         /// Konstruktor View modelu - zobrazení vytvořeného zvířete
@@ -36,7 +39,7 @@ namespace AnimalRegister.Pig.Logic
 
             Mothers = mothers;
             SelectMother = selectMotherId;
-            State = true;
+            EditRecordFlag = true;
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace AnimalRegister.Pig.Logic
         public VM_PigSaw(List<string> mothers)
         {
             Mothers = mothers;
-            State = false;
+            EditRecordFlag = false;
             
         }
 
@@ -78,12 +81,12 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
-                // Zobrazované zvíře je ostatní PRASE
+                // Ostatní prase v chovu
                 if (ViewPig != null)
                 {
                     return 1;
                 }
-                // Prasnice
+                // Chovná prasnice
                 else
                 {
                     return 0;
@@ -98,6 +101,7 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Ostatní prase v chovu
                 if (ViewPig != null)
                 {
                     // Ostatní zvíře je prasnice
@@ -107,6 +111,7 @@ namespace AnimalRegister.Pig.Logic
                     else
                         return 1;
                 }
+                // Chovná prasnice
                 else
                 {
                     return 0;
@@ -121,10 +126,12 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
-                if(ViewPig != null)
+                // Ostatní prase v chovu
+                if (ViewPig != null)
                 {
                     return ViewPig.Born.ToShortDateString();
                 }
+                // Chovná prasnice
                 else
                 {
                     return ViewSaw.Born.ToShortDateString();
@@ -139,10 +146,12 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Ostatní prase v chovu
                 if (ViewPig != null)
                 {
                     return ViewPig.RegisterNumber;
                 }
+                // Chovná prasnice
                 else
                 {
                     return ViewSaw.RegisterNumber;
@@ -158,10 +167,12 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Ostatní prase v chovu
                 if (ViewPig != null)
                 {
                     return ViewPig.Name;
                 }
+                // Chovná prasnice
                 else
                 {
                     return ViewSaw.Name;
@@ -177,10 +188,12 @@ namespace AnimalRegister.Pig.Logic
         {
             get
             {
+                // Ostatní prase v chovu
                 if (ViewPig != null)
                 {
                     return ViewPig.Description;
                 }
+                // Chovná prasnice
                 else
                 {
                     return ViewSaw.Description;

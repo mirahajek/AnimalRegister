@@ -16,7 +16,7 @@ using AnimalRegister.Pig.Logic;
 namespace AnimalRegister.Pig.Winds
 {
     /// <summary>
-    /// Interakční logika pro VeterinaryWindow.xaml
+    /// CodeBehind pro okno pro přidání / úpravu veterinárního záznamu záznamu
     /// </summary>
     public partial class VeterinaryWindow : Window
     {
@@ -25,12 +25,15 @@ namespace AnimalRegister.Pig.Winds
         /// </summary>
         private Validator validator;
 
+        /// <summary>
+        /// Upravovaný veterinární záznam
+        /// </summary>
         private Veterinary editRecord;
 
         /// <summary>
         /// Základní konstruktor
         /// </summary>
-        /// <param name="validator"></param>
+        /// <param name="validator">Validátor aplikace</param>
         public VeterinaryWindow(Validator validator)
         {
             InitializeComponent();
@@ -47,10 +50,12 @@ namespace AnimalRegister.Pig.Winds
         {
             try
             {
+                // Nový záznam
                 if(editRecord == null)
                 {
                     validator.AddEditVeterinary(0, dateTextBox.Text, priceTextBox.Text, purposeTextBox.Text, drugsTextBox.Text, tasksTextBox.Text, null);
                 }
+                // Úprava stávajícího záznamu
                 else
                 {
                     validator.AddEditVeterinary(1, dateTextBox.Text, priceTextBox.Text, purposeTextBox.Text, drugsTextBox.Text, tasksTextBox.Text, editRecord);
@@ -62,9 +67,6 @@ namespace AnimalRegister.Pig.Winds
             {
                 MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-
-            
-
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace AnimalRegister.Pig.Winds
         }
 
         /// <summary>
-        /// 
+        /// Změna vybrané položky v comboBoxu veterinárních záznamů
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

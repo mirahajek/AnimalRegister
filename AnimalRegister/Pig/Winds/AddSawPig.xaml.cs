@@ -16,26 +16,31 @@ using AnimalRegister.Pig.Logic;
 namespace AnimalRegister.Pig.Winds
 {
     /// <summary>
-    /// Interakční logika pro AddSawPig.xaml
+    /// CodeBehind pro okno pro přidání / úpravu záznamu prasete
     /// </summary>
     public partial class AddSawPig : Window
     {
+        /// <summary>
+        /// Validátor aplikace - kontroluje vstupní data a volá metody ze správce
+        /// </summary>
         private Validator validator;
-
+        /// <summary>
+        /// View model pro přidání / editaci záznamu prasete
+        /// </summary>
         private VM_PigSaw viewModel;
 
         /// <summary>
         /// Konstruktor pro úpravu prasete / prasnice
         /// </summary>
-        /// <param name="validator"></param>
-        /// <param name="viewModel"></param>
+        /// <param name="validator">Validátor aplikace - konstroluje vstupní data a volá metody ze správce</param>
+        /// <param name="viewModel">View model pro přidání / editaci záznamu prasete</param>
         public AddSawPig(Validator validator, VM_PigSaw viewModel)
         {
             InitializeComponent();
             // Zdroj dat pro ComboBoxy
             pigTypeComboBox.ItemsSource = viewModel.PigType;
             motherComboBox.ItemsSource = viewModel.Mothers;
-            // Nastavení počítku ComboBoxů, tak aby bylo vybráno ostatní, jelikož se bude častěji přidávat prase 
+            // Nastavení počátku ComboBoxů, tak aby bylo vybráno ostatní, jelikož se bude častěji přidávat prase 
             // do chovu než prasnice
             pigTypeComboBox.SelectedIndex = 1;
             motherComboBox.SelectedIndex = -1;
@@ -47,7 +52,7 @@ namespace AnimalRegister.Pig.Winds
             veterinaryButton.Visibility = Visibility.Hidden;
 
             // Úprava stávajícího prasete
-            if (viewModel.State)
+            if (viewModel.EditRecordFlag)
             {
                 pigTypeComboBox.SelectedIndex = viewModel.SelectType;            
                 motherComboBox.SelectedIndex = viewModel.SelectMother;
@@ -76,7 +81,7 @@ namespace AnimalRegister.Pig.Winds
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             // Nové zvíře
-            if(!viewModel.State)
+            if(!viewModel.EditRecordFlag)
             {
                 try
                 {
@@ -137,15 +142,17 @@ namespace AnimalRegister.Pig.Winds
             // Prasnice - schová se možnost zadat matku a pohlaví, protože to není relevatní v tomto případě
             if(pigTypeComboBox.SelectedIndex == 0 && viewModel != null)
             {
-                if(!viewModel.State)
+                // Skrytí tlačítka porodů u nově vytvářené prasnice
+                if(!viewModel.EditRecordFlag)
                     birthButton.Visibility = Visibility.Hidden;
+                // Zobrazení tlačítka porodu při editaci prasnice
                 else
                     birthButton.Visibility = Visibility.Visible;
-
+                // Skrytí výběru matky - u chovné prasnice nelze zadat matku, jelikož se neočekává, že bude z chovu
                 motherDescTextBlock.Visibility = Visibility.Hidden;
                 motherComboBox.Visibility = Visibility.Hidden;
                 motherComboBox.SelectedIndex = -1;
-
+                // Skrytí výběru pohlaví, jelikož u prasnice bude neměnné
                 sexDescTextBlock.Visibility = Visibility.Hidden;
                 sexComboBox.Visibility = Visibility.Hidden;
                 sexComboBox.SelectedIndex = -1;
@@ -153,11 +160,11 @@ namespace AnimalRegister.Pig.Winds
             // Ostatní prase, zde je již důležité uchovat informaci o pohlaví a matce
             else if(viewModel != null)
             {
-                if (!viewModel.State)
+                if (!viewModel.EditRecordFlag)
                     birthButton.Visibility = Visibility.Hidden;
                 else
                     birthButton.Visibility = Visibility.Visible;
-
+                // Zobrazení výběru matky a pohlaví
                 motherDescTextBlock.Visibility = Visibility.Visible;
                 motherComboBox.Visibility = Visibility.Visible;
 

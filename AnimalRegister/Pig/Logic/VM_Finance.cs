@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AnimalRegister.Pig.Logic
 {
     /// <summary>
-    /// View model pro Nový / úpravu finančního záznamu
+    /// View model pro Nový / úpravu finančního záznamu - pro okno AddFinanceWindow
     /// </summary>
     public class VM_Finance
     {
@@ -97,17 +97,19 @@ namespace AnimalRegister.Pig.Logic
         /// Vybraný typ transakce - příjem / výdaj
         /// </summary>
         public int SelectType {get;}
+
         /// <summary>
         /// Kolekce prasat pro comboBox
         /// </summary>
         public List<Pig> Pigs { get; }
+
         /// <summary>
-        /// Vybrané zvíře
+        /// Vybrané zvíře v comboBoxu
         /// </summary>
         public int SelectPig { get; }
 
         /// <summary>
-        /// Seznam jmen kategorií pro comboBox
+        /// Kolekce českých jmen kategorií pro comboBox
         /// </summary>
         public string[] CategoryNames
         {
@@ -121,8 +123,5 @@ namespace AnimalRegister.Pig.Logic
         /// Vybraná kategorie
         /// </summary>
         public int SelectCategory { get; }
-
-
-
     }
 }

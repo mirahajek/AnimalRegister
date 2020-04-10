@@ -9,30 +9,37 @@
         Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
+            <!-- Obrázek a horní okraj -->
             <RowDefinition Height="5"/>
             <RowDefinition Height="*"/>
-
+            <!-- Datum -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Název -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Částka -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Popis -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="80"/>
-
+            <!-- ComboBox příjmy / výdaje -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- ComboBox kategorie -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- ComboBox konkrétní zvíře -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
-
+            <!-- Tlačítka + spodní okraj -->
             <RowDefinition Height="50"/>
             <RowDefinition Height="5"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <!-- Okraj, hlavní sloupec, okraj -->
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="10"/>
@@ -57,32 +64,32 @@
                />
 
 
-        <!-- Datum, náklady, účel, léky a další info-->
+        <!-- Datum -->
         <TextBlock Grid.Row="2" Grid.Column="1"  Text="Datum *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="1" Name="dateTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Date, Mode=OneWay, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum ve formátu 12.10.2020"/>
-
+        <!-- Náklady -->
         <TextBlock Grid.Row="4" Grid.Column="1"  Text="Název *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="5" Grid.Column="1" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Name, Mode=OneTime}"
                  ToolTip="Krátký název charakterizující transakci" />
-
+        <!-- Částka -->
         <TextBlock Grid.Row="6" Grid.Column="1"  Text="Částka *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="7" Grid.Column="1" Name="priceTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Price, Mode=OneTime}"
                  ToolTip="Hodnota transakce - celé číslo"/>
-
+        <!-- Popis -->
         <TextBlock Grid.Row="8" Grid.Column="1"  Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="9" Grid.Column="1" Name="descriptionTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Description, Mode=OneTime}" AcceptsReturn="True" TextWrapping="Wrap"
                  ToolTip="Detailnější popis k transakci"/>
 
-        <!-- ComboBoxy - typ transakce, kategorie, zvíře-->
+        <!-- ComboBoxy - typ transakce-->
         <TextBlock Grid.Row="10" Grid.Column="1" Margin="10,0,10,0" Text="Příjmy / výdaje *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <ComboBox Grid.Row="11" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
@@ -92,7 +99,7 @@
             <ComboBoxItem Content="Příjem"/>
             <ComboBoxItem Content="Výdaj"/>
         </ComboBox>
-
+        <!-- Kategorie -->
         <TextBlock Grid.Row="12" Grid.Column="1" Margin="10,0,10,0" Text="Kategorie *"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <ComboBox Grid.Row="13" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 
@@ -102,7 +109,7 @@
                   ToolTip="Kategorie, do které příjem/ výdaj spadá. Dále dle této kategorie je možné získat statistiku."
                   >
         </ComboBox>
-
+        <!-- Konkrétní zvíře -->
         <TextBlock Grid.Row="14" Grid.Column="1" Margin="10,0,10,0" Text="Zvíře"
                    Style="{DynamicResource NadpisTextBoxu}" Name="animalTitleTextBlock"/>
         <ComboBox Grid.Row="15" Grid.Column="1" Margin="10,4,10,4" FontSize="13" 

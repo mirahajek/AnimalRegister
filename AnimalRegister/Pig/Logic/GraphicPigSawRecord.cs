@@ -10,21 +10,52 @@ using System.Windows.Shapes;
 
 namespace AnimalRegister.Pig.Logic
 {
+    /// <summary>
+    /// Třída reprezentující grafickou podobu jednoho záznamu o praseti
+    /// </summary>
     public class GraphicPigSawRecord
     {
+        /// <summary>
+        /// Událost informující o kliknutí na grafický záznam
+        /// </summary>
         public event EventHandler RecordClick;
-
+        /// <summary>
+        /// Horní tmavý obdelník
+        /// </summary>
         private Rectangle top;
+        /// <summary>
+        /// Spodní světlý obdelník
+        /// </summary>
         private Rectangle down;
-        private Image leftImage;
+        /// <summary>
+        /// Název prasete - nahoře vlevo
+        /// </summary>
         private TextBlock name;
+        /// <summary>
+        /// Registrační číslo prasete - první na světlém bloku
+        /// </summary>
         private TextBlock registerNumber;
+        /// <summary>
+        /// Datum narození prasete - druhý na světlém bloku
+        /// </summary>
         private TextBlock born;
+        /// <summary>
+        /// Věk ve dnech - třetí údaj na světlém bloku
+        /// </summary>
         private TextBlock age;
-
+        /// <summary>
+        /// Instance zvířete, kterého se daná grafická podoba týká
+        /// </summary>
         public Pig Animal { get; private set; }
+        /// <summary>
+        /// Strana na které bude záznam vykreslen
+        /// </summary>
         public int Page { get; set; }
 
+        /// <summary>
+        /// Základní konstruktor - vytvoří vše potřebné pro tuto třídu
+        /// </summary>
+        /// <param name="animal">Instance zvířete, které se bude zobrazovat</param>
         public GraphicPigSawRecord(Pig animal)
         {
             Animal = animal;
@@ -86,9 +117,8 @@ namespace AnimalRegister.Pig.Logic
                 Text = "Věk:\t\t\t" + Animal.Age.ToString() + " dni"
 
             };
-
+            // Kliknutí na spodní obdelník
             down.MouseDown += Down_MouseDown;
-
         }
 
         /// <summary>

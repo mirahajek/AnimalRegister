@@ -17,7 +17,7 @@ using AnimalRegister.Pig.Logic;
 namespace AnimalRegister.Pig.Winds
 {
     /// <summary>
-    /// Interakční logika pro BirthWindow.xaml
+    /// CodeBehind pro okno pro přidání / úpravu porodního záznamu
     /// </summary>
     public partial class BirthWindow : Window
     {
@@ -44,15 +44,15 @@ namespace AnimalRegister.Pig.Winds
             InitializeComponent();
             this.viewModel = viewModel;
             this.validator = validator;
-            if (!viewModel.EditRecord)
+            // Nový záznam
+            if (!viewModel.EditRecordFlag)
             {
+                // Nastavení kontextu pro comboBox výběru porodu a text boxů pro zobrazení historie prasnice - živá, mrtvá a odchovaná za celou historii
                 birthSelectComboBox.DataContext = viewModel.SawBirth;
                 liveSumTextBox.DataContext = viewModel;
                 deathSumTextBox.DataContext = viewModel;
                 rearedSumTextBox.DataContext = viewModel;
             }
-                
-
         }
 
         /// <summary>
@@ -65,6 +65,7 @@ namespace AnimalRegister.Pig.Winds
             // Podmínka pro první spuštění, kdy ještě není vybráná žádná instance
             if (birthSelectComboBox.SelectedItem != null)
             {
+                // Nastavení upravovaného záznamu, který uživatel vybral v ComboBoxu
                 editRecord = (Birth)birthSelectComboBox.SelectedItem;
                 viewModel.ChangeRecord(editRecord);
 

@@ -10,31 +10,41 @@
         Icon="..\Img\pigIcon.ico">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
+            <!-- Horní okraj -->
             <RowDefinition Height="20"/>
-            
+            <!-- Bloky povinné a nepovinné údaje -->
             <RowDefinition Height="*"/>
-            
+            <!-- Výběr prasnice / ostatní a pojmenování -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Matka a začátek popisu -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Pohlaví -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Datum narození a začátek tlačítek -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
+            <!-- Evidenční číslo a zbytek tlačítek a popisu -->
             <RowDefinition Height="25"/>
             <RowDefinition Height="35"/>
-
+            <!-- Spodní okraj -->
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <!-- Levý okraj -->
             <ColumnDefinition Width="20"/>
+            <!-- Sloupec s obrázkem -->
             <ColumnDefinition Width="1.15*"/>
+            <!-- Oddělení obrázku a povinné části -->
             <ColumnDefinition Width="20"/>
+            <!-- Povinné údaje -->
             <ColumnDefinition Width="*"/>
+            <!-- Nepovinné údaje -->
             <ColumnDefinition Width="*"/>
+            <!-- Pravý okraj -->
             <ColumnDefinition Width="20"/>
-
         </Grid.ColumnDefinitions>
         
         <!-- Horní tlačítka pro Porod a Veterinu -->
@@ -53,7 +63,7 @@
             />
 
             </StackPanel>
-
+            <!-- Tlačítka uložit a odeber -->
             <StackPanel Orientation="Horizontal">
                 <StackPanel Grid.Row="11" Orientation="Horizontal" HorizontalAlignment="Center"
                     Grid.Column="2">
@@ -71,13 +81,13 @@
             </StackPanel>
 
         </StackPanel>
-
+        <!-- Povinné údaje -->
         <Grid Grid.Column="3" Grid.Row="1" Style="{DynamicResource Medium}" Margin="10,5,10,5">
             <TextBlock Text="Povinné údaje" FontSize="25" FontWeight="Bold"
                        HorizontalAlignment="Center" Foreground="White"/>
         </Grid>
 
-
+        <!-- Nepovinné údaje -->
         <Grid Grid.Column="4" Grid.Row="1"  Style="{DynamicResource Medium}" Margin="10,5,10,5">
             <TextBlock Text="Nepovinné údaje" FontSize="25" FontWeight="Bold"
                        HorizontalAlignment="Center" Foreground="White"/>
@@ -88,7 +98,7 @@
                Margin="45,10,10,10" MinWidth="170" MinHeight="170" Grid.ColumnSpan="2"
                Grid.RowSpan="8"/>
 
-        <!---->
+        <!-- Výběr prasnice / ostatní -->
         <TextBlock Grid.Row="2" Grid.Column="3" Margin="10,0,10,0" Text="Prasnice / ostatní"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <ComboBox Grid.Row="3" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
@@ -96,14 +106,14 @@
                   SelectionChanged="PigTypeComboBox_SelectionChanged"
                   ToolTip="První volba - chovná prasnice, Druhá - ostatní prase v chovu (prasnice nebo kanec)">
         </ComboBox>
-
+        <!-- Matka -->
         <TextBlock Grid.Row="4" Grid.Column="3" Margin="10,0,10,0" Text="Matka" Name="motherDescTextBlock"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <ComboBox Grid.Row="5" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
                   FontWeight="Bold" Name="motherComboBox" SelectedIndex="0" Background="White"
                   ToolTip="Matka zadávaného prasete (jedna z chovných prasnic)">
         </ComboBox>
-        
+        <!-- Pohlaví -->
         <TextBlock Grid.Row="6" Grid.Column="3" Margin="10,0,10,0" Text="Pohlaví" Name="sexDescTextBlock"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <ComboBox Grid.Row="7" Grid.Column="3" Margin="10,4,10,4" FontSize="13" ItemsSource="{Binding}"
@@ -112,25 +122,25 @@
             <ComboBoxItem Content="Prasnice" />
             <ComboBoxItem Content="Kanec" />
         </ComboBox>
-
+        <!-- Datum narození -->
         <TextBlock Grid.Row="8" Grid.Column="3"  Text="Datum narození"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="9" Grid.Column="3" Name="bornTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding DateBorn, Mode=OneTime, StringFormat=dd.MM.yyyy}"
                  ToolTip="Datum narození ve formátu 12.12.2020"/>
-
+        <!-- Evidenční číslo -->
         <TextBlock Grid.Row="10" Grid.Column="3"  Text="Evidenční číslo"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="11" Grid.Column="3" Name="registerNumberTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding RegisterNumber, Mode=OneTime}"
-                 ToolTip="Čísla nebo písmena či kombinace obojího"/>
-
+                 ToolTip="Čísla nebo písmena či kombinace obojího. Maximálně na délku řádku"/>
+        <!-- Pojmenování žvířete od chovatele -->
         <TextBlock Grid.Row="2" Grid.Column="4" Text="Pojmenování"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="3" Grid.Column="4" Name="nameTextBox" Style="{DynamicResource BasicInputTextBox}"
                  Text="{Binding Name, Mode=OneTime}"
                  ToolTip="Pojmenování zvířete dle chovatele"/>
-
+        <!-- Popis -->
         <TextBlock Grid.Row="4" Grid.Column="4" Text="Popis"
                    Style="{DynamicResource NadpisTextBoxu}"/>
         <TextBox Grid.Row="5" Grid.Column="4" Grid.RowSpan="7" Name="descriptionTextBox" 
