@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Přidej / uprav prase" Height="440" Width="950"
         WindowStartupLocation="CenterScreen" Style="{DynamicResource DefaultWindow}"
-        Icon="..\Img\pigIcon.ico">
+        Icon="..\Img\pigIcon.ico" Closing="Window_Closing">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
             <!-- Horní okraj -->

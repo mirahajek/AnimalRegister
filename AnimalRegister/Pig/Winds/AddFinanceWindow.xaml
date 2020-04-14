@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AnimalRegister.Pig.Winds"
         mc:Ignorable="d"
         Title="Přidání / úprava transakcí" Height="780" Width="420" WindowStartupLocation="CenterScreen"
-        Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}">
+        Icon="..\Img\pigIcon.ico" Style="{DynamicResource DefaultWindow}" Closing="Window_Closing">
     <Grid Style="{DynamicResource Light}" Margin="10">
         <Grid.RowDefinitions>
             <!-- Obrázek a horní okraj -->

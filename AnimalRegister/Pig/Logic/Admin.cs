@@ -232,13 +232,30 @@ namespace AnimalRegister.Pig.Logic
         /// Metoda vytvoří grafickou podobu všech transakcí uložených v kolekci
         /// </summary>
         /// <returns>Kolekce grafických financí</returns>
-        public List<FinanceGraphicRecord> ConstructGraphicFinance()
+        public List<FinanceGraphicRecord> ConstructGraphicFinance(byte operation, int year, FinanceCategory? category)
         {
             List<FinanceGraphicRecord> graphicRecords = new List<FinanceGraphicRecord>();
             if (FinanceRecords.Count > 0)
             {
-                var query = FinanceRecords.OrderByDescending(a => a.Date);
-                foreach (FinanceRecord rec in query)
+                // Dotaz, kdy se transakce shoduje pouze rokem - operace 0 + sestupně řazení
+                var query_year = from rec in FinanceRecords
+                                 where rec.Date.Year == year
+                                 orderby rec.Date descending
+                                 select rec;
+
+
+                // Dotaz, kdy se transakce shoduje rokem i kategorií - operace 1 + sestupně řazení
+                var query_yearCategory = from rec in FinanceRecords
+                                         where rec.Date.Year == year && rec.Category == category
+                                         orderby rec.Date descending
+                                         select rec;
+                // Pouze podle roku
+                var find = query_year;
+                // Rok a kategorie
+                if (operation == 1)
+                    find = query_yearCategory;
+                // Vytvoření grafické reprezentace nalezených záznamů financí
+                foreach (FinanceRecord rec in find)
                 {
                     graphicRecords.Add(new FinanceGraphicRecord(rec));
                 }

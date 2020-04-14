@@ -34,6 +34,11 @@ namespace AnimalRegister.Pig.Winds
         private log.VM_Finance viewModel;
 
         /// <summary>
+        /// Flag informující zda bylo okno zavřeno regulérně, tedy pomocí tlačítka ULOŽ
+        /// </summary>
+        private bool correctClose;
+
+        /// <summary>
         /// Základní konstruktor - pro přidání nového záznamu
         /// </summary>
         /// <param name="validator">Validátor aplikace</param>
@@ -73,7 +78,7 @@ namespace AnimalRegister.Pig.Winds
             {
                 // Metoda pro odebrání finančního záznamu
                 validator.RemoveFinanceRecord();
-
+                correctClose = true;
                 Close();
             }
             catch (Exception ex)
@@ -96,12 +101,14 @@ namespace AnimalRegister.Pig.Winds
                 {
                     validator.AddEditFinanceRecord(0, dateTextBox.Text, nameTextBox.Text, priceTextBox.Text, descriptionTextBox.Text, typeComboBox.SelectedIndex, categoryComboBox.SelectedIndex,
                     relativePig);
+                    correctClose = true;
                 }
                 // Úprava stávajícího
                 else
                 {
                     validator.AddEditFinanceRecord(1, dateTextBox.Text, nameTextBox.Text, priceTextBox.Text, descriptionTextBox.Text, typeComboBox.SelectedIndex, categoryComboBox.SelectedIndex,
                     relativePig);
+                    correctClose = true;
                 }
 
                 Close();
@@ -144,6 +151,41 @@ namespace AnimalRegister.Pig.Winds
                 animalTitleTextBlock.Visibility = Visibility.Hidden;
                 animalComboBox.Visibility = Visibility.Hidden;
             }
+        }
+
+        /// <summary>
+        /// Obsluha, která informuje o zavírání okna
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Ochrana před nechtěným uzavřením okna a ztrátou dat
+
+            // Okno uzavřeno pomocí křížku
+            if (!correctClose)
+            {
+                // Dotaz uživatele, zda si opravdu přeje uzavřít okno bez uložení
+                MessageBoxResult result = MessageBox.Show("Opravdu si přejete uzavřít okno bez uložení ? ", "Pozor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        validator.ConstructGraphicFinance(true, false, false, true,0, 0);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+                e.Cancel = false;
         }
     }
 }

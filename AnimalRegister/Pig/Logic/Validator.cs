@@ -320,10 +320,51 @@ namespace AnimalRegister.Pig.Logic
         /// <param name="first">Jedná se o první stranu</param>
         /// <param name="rotate">Uživatel rotoval kolečkem</param>
         /// <param name="rotateUp">Rotoval nahoru</param>
-        public void ConstructGraphicFinance(bool first, bool rotate, bool rotateUp)
+        public void ConstructGraphicFinance(bool first, bool rotate, bool rotateUp, bool defaultData, int yearId, int categoryId)
         {
+            // Pomocná hodnota roku - comboBox začíná na roku 2018
+            int year_help = 2018;
+            // Vykreslí data podle aktuálního roku a všechny kategorie, aby nebylo nutné pro první stranu a toto nastavení všude získávat rok a počet kategorií
+            if (defaultData)
+            {
+                year_help = DateTime.Now.Year;
+                categoryId = Admin.FinanceCategory_Czech.Count();
+            }
+            else
+            {
+                // Ošetření, že uživatel skutečně vybral nějaký rok
+                if (yearId != -1)
+                    year_help += yearId;
+                else
+                    throw new ArgumentException("Musíte vybrat nějaký rok.");
+
+                // Uživatel nemá vybranou kategorii
+                if (categoryId == -1)
+                    throw new ArgumentException("Nevybral jste kategorii, pokud nechcete nějakou konkrétní zvolte VŠECHNY");
+
+                // Ošetření kategorií, pokud by se například přidala kategorie do english a nedala do českého překladu v ADMIN, aby aplikace upozornila
+                if (!(categoryId >= 0 && categoryId <= Admin.FinanceCategory_Czech.Count() && categoryId <= (Enum.GetNames(typeof(FinanceCategory))).Count()))
+                    throw new ArgumentException("Chyba v kategorii. Kontaktujte programátora.");
+            }
+            
+            // Kolekce obsahující grafické finanční záznamy
+            List<FinanceGraphicRecord> graphicFinance = new List<FinanceGraphicRecord>();
+            
+
+            // Uživatel nezměnil comboBox pro kategorii - volba ROK, KATEGORIE (všechny)
+            // -------------------------------------------------------------------------
+            // Rovná se sumě, protože k této kolekci se přidává ve VIEW ještě volba VŠECHNY vždy na konec této kolekce
+            if (categoryId == Admin.FinanceCategory_Czech.Count())
+                graphicFinance = admin.ConstructGraphicFinance(0, year_help, null);
+            // Uživatel vybral nějakou kategorii, ale ne zvíře - volba ROK, KATEGORIE
+            else if (categoryId != Admin.FinanceCategory_Czech.Count())
+                graphicFinance = admin.ConstructGraphicFinance(1, year_help, (FinanceCategory)categoryId);
+            // Něco se pokazilo při výběru
+            else
+                throw new ArgumentException("Něco se nepodařilo při výpočtu parametrů. Zkus výběr prosím znovu");
+
             // Kolekce grafických záznamů, které budou vykresleni na plátno
-            List<FinanceGraphicRecord> graphicFinance = admin.ConstructGraphicFinance();
+            //List<FinanceGraphicRecord> graphicFinance = admin.ConstructGraphicFinance();
             // Přidá obsluhu události při kliknutí na záznam
             foreach (FinanceGraphicRecord rec in graphicFinance)
             {
@@ -626,7 +667,7 @@ namespace AnimalRegister.Pig.Logic
                 admin.AddEditFinanceRecord(1, date_help, name, price_help, description, (FinanceTypeRecord)typeFinance, (FinanceCategory)categoryId, animalId, editFinanceRecord);
             }
 
-            ConstructGraphicFinance(true, false, false);
+            ConstructGraphicFinance(true, false, false, true, 0,0);
         }
 
 
@@ -640,7 +681,7 @@ namespace AnimalRegister.Pig.Logic
             else
                 throw new ArgumentException("Nevybral jsi žádný záznam, který lze vymazat.");
 
-            ConstructGraphicFinance(true, false, false);
+            ConstructGraphicFinance(true, false, false, true, 0, 0);
         }
 
         #endregion

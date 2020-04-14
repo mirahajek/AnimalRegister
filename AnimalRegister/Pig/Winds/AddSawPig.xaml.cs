@@ -29,6 +29,8 @@ namespace AnimalRegister.Pig.Winds
         /// </summary>
         private VM_PigSaw viewModel;
 
+        private bool correctClose;
+
         /// <summary>
         /// Konstruktor pro úpravu prasete / prasnice
         /// </summary>
@@ -87,6 +89,7 @@ namespace AnimalRegister.Pig.Winds
                 {
                     validator.AddEditSawPig(0, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
                         nameTextBox.Text, descriptionTextBox.Text,sexComboBox.SelectedIndex);
+                    correctClose = true;
                     Close();
                 }
                 catch (Exception ex)
@@ -101,6 +104,7 @@ namespace AnimalRegister.Pig.Winds
                 {
                     validator.AddEditSawPig(1, pigTypeComboBox.SelectedIndex, motherComboBox.SelectedIndex, bornTextBox.Text, registerNumberTextBox.Text,
                         nameTextBox.Text, descriptionTextBox.Text, sexComboBox.SelectedIndex);
+                    correctClose = true;
                     Close();
                 }
                 catch (Exception ex)
@@ -122,6 +126,7 @@ namespace AnimalRegister.Pig.Winds
             try
             {
                 validator.RemoveSawPig();
+                correctClose = true;
                 Close();
             }
             catch (Exception ex)
@@ -193,6 +198,41 @@ namespace AnimalRegister.Pig.Winds
         {
             BirthWindow window = new BirthWindow(validator, validator.DefineVM_Birth());
             window.Show();
+        }
+
+        /// <summary>
+        /// Obsluha, která informuje o zavírání okna
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Ochrana před nechtěným uzavřením okna a ztrátou dat
+
+            // Okno uzavřeno pomocí křížku
+            if (!correctClose)
+            {
+                // Dotaz uživatele, zda si opravdu přeje uzavřít okno bez uložení
+                MessageBoxResult result = MessageBox.Show("Opravdu si přejete uzavřít okno bez uložení ? ", "Pozor", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if(result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        validator.ConstructGraphicPigSawList(true, false, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Pozor", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                else
+                {
+                    e.Cancel = true;
+                }
+            }
+            else
+                e.Cancel = false;
         }
     }
 }

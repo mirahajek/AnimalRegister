@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="Evidence prasat" Height="800" Width="1200" WindowStartupLocation="CenterScreen"
         Style="{DynamicResource DefaultWindow}" Icon="Pig\Img\pigIcon.ico"
-        MouseWheel="Window_MouseWheel">
+        MouseWheel="Window_MouseWheel" >
     <Grid>
         
         <Grid.RowDefinitions>
             <!-- Horní panel -->
-            <RowDefinition Height="40" />
+            <RowDefinition Height="50" />
             <!-- Řádek s tlačítky a canvasy -->
             <RowDefinition Height="*" />
             <!-- Spodní panel pro název autora -->
@@ -25,6 +25,52 @@
             <!-- Hlavní sloupec s plátny -->
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65" />
+                <!-- Rok comboBox -->
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="180" />
+
+                <ColumnDefinition Width="165" />
+                <!-- Kategorie comboBox -->
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="180" />
+
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Rok comboBox -->
+            <TextBlock Grid.Column="1" Margin="20,10,0,0" Text="Rok" Foreground="White"
+                       Style="{DynamicResource NadpisTextBoxu}" FontSize="20"
+                       Name="yearTitleTextBlock"/>
+            <ComboBox Grid.Column="2" Grid.Row="0" Margin="10,8,10,8" FontSize="15" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="yearComboBox" Background="White"
+                  SelectionChanged="YearComboBox_SelectionChanged" 
+                  ToolTip="Zobrazí záznamy za vybraný rok a v kategorii, kterou zvolíte">
+                <ComboBoxItem Content="2018" />
+                <ComboBoxItem Content="2019" />
+                <ComboBoxItem Content="2020" />
+                <ComboBoxItem Content="2021" />
+                <ComboBoxItem Content="2022" />
+                <ComboBoxItem Content="2023" />
+                <ComboBoxItem Content="2024" />
+                <ComboBoxItem Content="2025" />
+            </ComboBox>
+            <!-- Kategorie comboBox -->
+            <TextBlock Grid.Column="4" Margin="20,10,0,0" Text="Kategorie" Foreground="White"
+                       Style="{DynamicResource NadpisTextBoxu}" FontSize="20"
+                       Name="categoryTitleTextBlock"/>
+            <ComboBox Grid.Column="5" Grid.Row="1" Margin="10,8,10,8" FontSize="15" 
+                  ItemsSource="{Binding Mode=OneWay}"
+                  FontWeight="Bold" Name="categoryComboBox" Background="White"
+                  SelectionChanged="CategoryComboBox_SelectionChanged" 
+                  ToolTip="Výběr záznamů v dané kategorii. Zobrazí záznamy za vybraný rok pro danou kategorii"
+                  >
+            </ComboBox>
+        </Grid>
 
         <!-- Panel tlačítek -->
         <Grid Grid.Row="1">
@@ -51,6 +97,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <!-- Základní přehled s prasaty -->
             <Button Grid.Column="1" Grid.Row="1" Style="{DynamicResource MenuButton}" 
                     Name="overviewButton" Content="Domů" Click="OverviewButton_Click"
